@@ -2,6 +2,7 @@
 <html xml:lang="en" lang="en">
 <head>
   <title>CSE442 | Final Project</title>
+  <link rel="stylesheet" href="overview.css">
   <style media="all">
 * { padding: 0; margin: 0; }
  body {
@@ -79,11 +80,18 @@ p { margin: 0 0 10px 0; }
     <p><em>[Feel free to replace anything in this HTML file with your own content!]</em></p>
   </section>
 
+  <section id="overview">
+    <div id="overview-chart"></div>
+  </section>
+
   <div class="footer">
     <a href="https://courses.cs.washington.edu/courses/cse442/20au/">CSE 442 Data Visualization</a>
     <a href="http://www.washington.edu">University of Washington</a>
   </div>
  </div>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="overview.js"></script>
 </body>
 </html> 
 
