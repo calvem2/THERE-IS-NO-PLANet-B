@@ -52,11 +52,14 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .data(graph.links)
         .enter().append("path")
         .attr("class", "link")
+        .attr("id", d => "link-" + d.index)
         .attr("d", d3.sankeyLinkHorizontal())
         .attr("fill", "none")
-        .attr("stroke-opacity", .2)
+        .attr("stroke-opacity", .4)
         .attr("stroke", d => color(d.target))
-        .attr("stroke-width", d => Math.max(1, d.width));
+        // .attr("stroke", "#000")
+        .attr("stroke-width", d => Math.max(1, d.width))
+        .sort(function(a, b) { return b.dy - a.dy; });
 
     // Add link titles
     links.append("title")
@@ -68,7 +71,28 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
     var nodes = svg.append("g").selectAll(".node")
         .data(graph.nodes)
         .enter().append("g")
-        .attr("class", "node");
+        .attr("class", "node")
+        .attr("id", d => "node" + d.node)
+        .on("mouseover", highlightPath)
+        .on("mouseout", function() {
+            d3.selectAll(".link")
+                .transition()
+                .duration(500)
+                // .attr("stroke", "#000")
+                // .attr("stroke", d => color(d.target))
+                .attr("stroke-opacity", .4)
+            d3.select("#" + this.id + " .label")
+                .attr("font-weight", "normal");
+        });
+
+    // Add extra rectangle to expand hover zone for small nodes
+    nodes.append("rect")
+        .attr("x", d => d.x0)
+        .attr("y", d => d.y0 - 5)
+        .attr("height", 12)
+        .attr("width", sankey.nodeWidth())
+        .style("opacity", 0)
+        .attr("stroke", "none");
 
     // Add the rectangles for the nodes
     nodes.append("rect")
@@ -78,6 +102,8 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("width", sankey.nodeWidth())
         .style("fill", d => color(d))
         .attr("stroke", d => color(d))
+        // .attr("id", d => "node" + d.node)
+
         .append("title")
         .text(function(d) {
             return d.name + "\n" + format(d.value); });
@@ -88,8 +114,57 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("y", d => (d.y1 + d.y0) / 2)
         .attr("dy", "0.35em")
         .attr("text-anchor", "start")
+        .attr("class", "label")
+        .style("cursor", "default")
         .text(d => d.name)
         // .filter(d => d.x0 < width / 2)
         // .attr("x", d => d.x1 + 6)
         // .attr("text-anchor", "start");
+
+    // Add mouseover functionality
+    function highlightPath() {
+        // Get node hovered over
+        var nodeIndex = this.id.substring(4);
+        var currNode = _.filter(graph.nodes, function(node) {
+            return (node["node"].toString() === nodeIndex);
+        })[0];
+
+        // Transition all links to be more transparent
+        d3.selectAll(".link")
+            .transition()
+            .duration(500)
+            .attr("stroke-opacity", .05)
+            // .attr("stroke", "#000");
+
+        // Highlight label if not total emission node
+        if (this.id !== "node35") {
+            d3.select("#" + this.id + " .label")
+                .attr("font-weight", "bold");
+        }
+
+        // Highlight all links for this node
+        highlightLinks(currNode.sourceLinks, "sourceLinks");
+        highlightLinks(currNode.targetLinks, "targetLinks");
+    }
+
+    // Helper function to recursively highlight all parent/child links on mouseover
+    function highlightLinks(links, type) {
+        if (links === undefined) {
+            return;
+        }
+        // Highlight each link and the links of all its parent or child links
+        for (var i = 0; i < links.length; i++) {
+            d3.selectAll("#link-" + links[i].index)
+                .transition()
+                .duration(500)
+                .attr("stroke-opacity", .4)
+                // .attr("stroke", d => color(d.target));
+            if (type === "sourceLinks") {
+                highlightLinks(links[i].target.sourceLinks, "sourceLinks");
+            } else {
+                highlightLinks(links[i].source.targetLinks, "targetLinks")
+            }
+        }
+    }
+
 });
