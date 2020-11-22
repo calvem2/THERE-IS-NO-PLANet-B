@@ -98,7 +98,14 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("height", d => d.y1 - d.y0)
         .attr("width", sankey.nodeWidth())
         .style("fill", d => color(d))
-        .attr("stroke", d => color(d));
+        .attr("stroke", d => color(d))
+        .on("click", function(event, d) {
+            if (_.some(sections, function(sections) { return sections.name === d.name; })) {
+                    var sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
+                    document.location.href = "http://localhost:8888/IdeaProjects/FP-THERE-IS-NO-PLANet-B/docs/" + sectionId;
+
+            }
+        });
         // .attr("id", d => "node" + d.node)
 
     // Add title for the nodes
@@ -201,7 +208,6 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
 
         // Add more info section to text if appropriate
         if (_.some(sections, function(sections) { return sections.name === d.name; })) {
-            var sectionId = _.find(sections, function(sections) { return sections.name === d.name});
             tooltipText += "<p class='more-details'>for more details, click on the node</p>";
         }
 
