@@ -3,3 +3,66 @@
 /*    !*stroke: #000;*!*/
 /*    stroke-opacity: .2;*/
 /*}*/
+
+text {
+    /*font-weight: bold;*/
+}
+
+/*#overview-chart {*/
+/*    position: relative;*/
+/*}*/
+
+/* Tooltip container */
+div.tooltip {
+    position: absolute;
+    /*text-align: center;*/
+    /*width: 60px;*/
+    /*height: 28px;*/
+    /*padding: 2px;*/
+    background: white;
+    border: 3px solid;
+    border-radius: 5px;
+    /*pointer-events: none;*/
+
+    width: 250px;
+    /*margin: 50px auto;*/
+    /*background: white;*/
+    padding: 10px 20px;
+    text-align: left;
+    font-size: 12pt;
+    /*text-align: center;*/
+    /*font-weight: 900;*/
+    /*color: #fff;*/
+    /*font-family: arial;*/
+}
+
+/* Tooltip text */
+div.tooltip p {
+    /*color: black;*/
+    /*text-align: left;*/
+}
+
+
+/* Tooltip title */
+div.tooltip .tooltip-title {
+    font-weight: bold;
+}
+
+/* Tooltip percentage value */
+div.tooltip .tooltip-value {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Tooltip percentage value label */
+div.tooltip .tooltip-value-subtitle {
+    margin-top: 0;
+    font-size: 10pt;
+}
+
+/* Tooltip more details subtitle */
+div.tooltip .more-details {
+    font-style: oblique;
+    text-decoration: underline;
+}
