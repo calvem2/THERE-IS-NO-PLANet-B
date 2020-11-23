@@ -3,28 +3,41 @@
 /*    !*stroke: #000;*!*/
 /*    stroke-opacity: .2;*/
 /*}*/
-
-text {
-    /*font-weight: bold;*/
+#overview-chart {
+    /*border: 1px solid blue;*/
+    /*height: 900px;*/
+}
+svg {
+    /*border: 1px solid pink;*/
 }
 
-/*#overview-chart {*/
-/*    position: relative;*/
-/*}*/
+/* Chart title */
+.chart-title {
+    text-align: center;
+    font-size: 22pt;
+}
+
+/* Chart subtitles */
+.subtitle {
+    font-style: oblique;
+    text-align: center;
+    margin-top: 10px;
+    /*color: lightgrey;*/
+}
 
 /* Tooltip container */
 div.tooltip {
-    position: absolute;
+    position: fixed;
     /*text-align: center;*/
     /*width: 60px;*/
-    /*height: 28px;*/
+    /*max-height: 125px;*/
     /*padding: 2px;*/
     background: white;
     border: 3px solid;
     border-radius: 5px;
     /*pointer-events: none;*/
-
-    width: 250px;
+    /*overflow-y:auto;*/
+    max-width: 380px;
     /*margin: 50px auto;*/
     /*background: white;*/
     padding: 10px 20px;

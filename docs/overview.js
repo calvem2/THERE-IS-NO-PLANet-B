@@ -35,7 +35,6 @@ var svg = d3.select("#overview-chart").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
 // Set the sankey diagram properties
 var sankey = d3.sankey()
     .nodeWidth(nodeWidth)
@@ -49,6 +48,17 @@ var div = d3.select("#overview-chart").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+// Append subtitle
+d3.selectAll("#overview")
+    .append("p")
+    .attr("class", "subtitle")
+    .text("Explore emission sectors by hovering over them. Click sector nodes with ** to explore more in depth.");
+
+// Append subtitle for data info
+d3.selectAll("#overview")
+    .append("p")
+    .attr("class", "subtitle")
+    .text("Source: Climate Watch and the World Resources Institute's  latest breakdown of global emissions by sector.");
 
 // Load data and draw diagram
 d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
@@ -101,9 +111,8 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("stroke", d => color(d))
         .on("click", function(event, d) {
             if (_.some(sections, function(sections) { return sections.name === d.name; })) {
-                    var sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
-                    document.location.href = "http://localhost:8888/IdeaProjects/FP-THERE-IS-NO-PLANet-B/docs/" + sectionId;
-
+                var sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
+                document.location.href = document.location.href.toString().split("#")[0] + sectionId;
             }
         });
         // .attr("id", d => "node" + d.node)
@@ -116,7 +125,11 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("text-anchor", "start")
         .attr("class", "label")
         .style("cursor", "default")
-        .text(d => d.name)
+        .text(function(d) {
+            return _.some(sections, function(sections) { return sections.name === d.name; }) ? d.name + "**" : d.name;
+        })
+        // .append("tspan")
+        // .text('**')
         // .filter(d => d.x0 < width / 2)
         // .attr("x", d => d.x1 + 6)
         // .attr("text-anchor", "start");
@@ -127,7 +140,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         var node = event["path"][1]["__data__"];
         // var node = event["path"][1];
 
-        showTooltip(event, d);
+        updateTooltip(event, d);
 
         // Transition all links to be more transparent
         d3.selectAll(".link")
@@ -187,9 +200,10 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             .attr("font-weight", "normal");
     }
 
-    function showTooltip(event, d) {
-        // get node container for positioning
-        var container = event["path"][0].getBoundingClientRect();
+    function updateTooltip(event, d) {
+        // get svg container for positioning
+        // var container = event["path"][0].getBoundingClientRect();
+        var container = document.querySelector("#overview-chart svg").getBoundingClientRect();
 
         // Add tooltip
         var tooltipColor = color(d);
@@ -213,8 +227,10 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
 
         // Set tooltip text and location
         div.html(tooltipText)
-            .style("left", (container.x + nodeWidth + 5) + "px")
-            .style("top", event.pageY + "px");
+            .style("left", container.left + "px")
+            .style("top", container.top + container.height - 150 + "px");
+            // .style("left", (container.x + nodeWidth + 5) + "px")
+            // .style("top", event.pageY + "px");
     }
 
 });
