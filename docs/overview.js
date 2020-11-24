@@ -33,7 +33,8 @@ let svg = d3.select("#overview-chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .on("click", function() {d3.selectAll(".tooltip").style("display", "none")});
 
 // Set the sankey diagram properties
 let sankey = d3.sankey()
@@ -211,6 +212,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             .style("display", "none");
         // toggle display of tooltip
         event.path[3].children[2].children[parseInt(node)].style.display = (display === "none") ? "block" : "none";
+        event.stopPropagation();
     }
 
 });
