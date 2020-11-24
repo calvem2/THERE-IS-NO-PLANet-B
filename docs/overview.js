@@ -1,22 +1,22 @@
 // Set the dimensions and margins of the graph
-var margin = {top: 0, right: 200, bottom: 10, left: 0},
+let margin = {top: 0, right: 200, bottom: 10, left: 0},
     width = 1200 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom,
     nodeWidth = 45;
 
 // Format variables
-var formatNumber = d3.format(",.1f"); // zero decimal places
-var format = function(d) { return formatNumber(d); };
-var sectorColor = d3.scaleOrdinal(["#C25067", "#48AD92", "#4D6D8F", "#946D69"]);
-var subSectorColor = d3.scaleOrdinal(["#000", "#cd6476", "#d87885", "#e28c94", "#ec9fa4", "#f6b3b4", "#ffc6c4",
+let formatNumber = d3.format(",.1f"); // zero decimal places
+let format = function(d) { return formatNumber(d); };
+let sectorColor = d3.scaleOrdinal(["#C25067", "#48AD92", "#4D6D8F", "#946D69"]);
+let subSectorColor = d3.scaleOrdinal(["#000", "#cd6476", "#d87885", "#e28c94", "#ec9fa4", "#f6b3b4", "#ffc6c4",
                                         "#61b795", "#76c097", "#8aca9a", "#9dd49c", "#afde9e", "#c1e8a1", "#d3f2a3",
                                         "#89a8cd", "#caeaff",
                                         "#b38476", "#d39c83"]);
 
 // Sections for sector details
-var sections = [{name: "Agriculture, Forestry & Land Use", id:"#agriculture"},
+let sections = [{name: "Agriculture, Forestry & Land Use", id:"#agriculture"},
                 {name: "Transport", id:"#transportation"},
-                {name: "Buildings", id:"#building-energy"}]
+                {name: "Buildings", id:"#building-energy"}];
 
 // function to color nodes based on sector/sub-sector
 function color(node) {
@@ -29,30 +29,25 @@ function color(node) {
 }
 
 // Append the svg object to the body of the page
-var svg = d3.select("#overview-chart").append("svg")
+let svg = d3.select("#overview-chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Set the sankey diagram properties
-var sankey = d3.sankey()
+let sankey = d3.sankey()
     .nodeWidth(nodeWidth)
     .nodePadding(15)
     .nodeAlign(d3.sankeyLeft)
     .size([width, height])
     .nodeSort(null);
 
-// Append tooltip
-var div = d3.select("#overview-chart").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
 // Append subtitle
 d3.selectAll("#overview")
     .append("p")
     .attr("class", "subtitle")
-    .text("Explore emission sectors by hovering over them. Click sector nodes with ** to explore more in depth.");
+    .text("Explore emission sectors by hovering over them. Click sector nodes to view (and hide) more information.");
 
 // Append subtitle for data info
 d3.selectAll("#overview")
@@ -67,10 +62,10 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
     subSectorColor.domain(_.keys(_.countBy(ghgData.nodes, function(nodes) { return nodes["sub-sector"]})));
 
     // Load nodes and links from data into sankey diagram
-    var graph = sankey(ghgData);
+    let graph = sankey(ghgData);
 
     // Add the links
-    var links = svg.append("g").selectAll("link")
+    let links = svg.append("g").selectAll("link")
         .data(graph.links)
         .enter().append("path")
         .attr("class", "link")
@@ -79,12 +74,11 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("fill", "none")
         .attr("stroke-opacity", .4)
         .attr("stroke", d => color(d.target))
-        // .attr("stroke", "#000")
         .attr("stroke-width", d => Math.max(1, d.width))
         .sort(function(a, b) { return b.dy - a.dy; });
 
     // Add nodes
-    var nodes = svg.append("g").selectAll(".node")
+    let nodes = svg.append("g").selectAll(".node")
         .data(graph.nodes)
         .enter().append("g")
         .attr("class", "node")
@@ -97,7 +91,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("x", d => d.x0)
         .attr("y", d => d.y0 - 5)
         .attr("height", 12)
-        .attr("width", sankey.nodeWidth())
+        .attr("width", nodeWidth)
         .style("opacity", 0)
         .attr("stroke", "none");
 
@@ -106,16 +100,10 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("x", d => d.x0)
         .attr("y", d => d.y0)
         .attr("height", d => d.y1 - d.y0)
-        .attr("width", sankey.nodeWidth())
+        .attr("width", nodeWidth)
         .style("fill", d => color(d))
         .attr("stroke", d => color(d))
-        .on("click", function(event, d) {
-            if (_.some(sections, function(sections) { return sections.name === d.name; })) {
-                var sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
-                document.location.href = document.location.href.toString().split("#")[0] + sectionId;
-            }
-        });
-        // .attr("id", d => "node" + d.node)
+        .on("click", clickNode);
 
     // Add title for the nodes
     nodes.append("text")
@@ -125,22 +113,43 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("text-anchor", "start")
         .attr("class", "label")
         .style("cursor", "default")
-        .text(function(d) {
-            return _.some(sections, function(sections) { return sections.name === d.name; }) ? d.name + "**" : d.name;
+        .text(d => d.name)
+        .on("click", clickNode);
+
+    // Add tooltips
+    svg.append("g").selectAll(".tooltip")
+        .data(graph.nodes)
+        .enter()
+        .append("foreignObject")
+        .attr("x", d => Math.min(d.x1 + 6, 925))
+        .attr("y", function(d) {
+            return d.x1 + 6 > 925 ? d.y1 + 5 : (d.y1 + d.y0) / 2;
         })
-        // .append("tspan")
-        // .text('**')
-        // .filter(d => d.x0 < width / 2)
-        // .attr("x", d => d.x1 + 6)
-        // .attr("text-anchor", "start");
+        .attr("class", "tooltip")
+        .attr("height", "150px")
+        .attr("width", "275px")
+        .style("border-color", d => color(d))
+        .style("display", "none")
+        .html(function(d) {
+            let tooltipText = "";
+            // Add link to corresponding section if it exists
+            if (_.some(sections, function(sections) { return sections.name === d.name; })) {
+                let sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
+                tooltipText += `<a class='tooltip-title more-details' href='${document.location.href.toString().split("#")[0] + sectionId}'>${d.name.toUpperCase()}</a>`;
+            } else {
+                tooltipText += "<p class='tooltip-title'>" + d.name.toUpperCase() + "</p>";
+            }
+
+            tooltipText += `<p class='tooltip-value' style='color:${color(d)}'>`+ format(d.value) + "%</p>" +
+                            "<p class='tooltip-value-subtitle'>of Total Global GHG Emissions</p>" +
+                            "<p class='tooltip-info'>"+ d.info + "</p>";
+            return tooltipText;
+        });
 
     // Add mouseover functionality to nodes
     function mouseoverNode(event, d) {
         // get this node
-        var node = event["path"][1]["__data__"];
-        // var node = event["path"][1];
-
-        updateTooltip(event, d);
+        let node = event["path"][1]["__data__"];
 
         // Transition all links to be more transparent
         d3.selectAll(".link")
@@ -166,12 +175,11 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             return;
         }
         // Highlight each link and the links of all its parent or child links
-        for (var i = 0; i < links.length; i++) {
+        for (let i = 0; i < links.length; i++) {
             d3.selectAll("#link-" + links[i].index)
                 .transition()
                 .duration(500)
-                .attr("stroke-opacity", .4)
-                // .attr("stroke", d => color(d.target));
+                .attr("stroke-opacity", .4);
             if (type === "sourceLinks") {
                 highlightLinks(links[i].target.sourceLinks, "sourceLinks");
             } else {
@@ -182,17 +190,10 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
 
     // Reset diagram on node mouseout
     function mouseoutNode() {
-        // Fade tooltip
-        div.transition()
-            .duration(200)
-            .style("opacity", 0);
-
         // Reset link opacity
         d3.selectAll(".link")
             .transition()
             .duration(300)
-            // .attr("stroke", "#000")
-            // .attr("stroke", d => color(d.target))
             .attr("stroke-opacity", .4)
 
         // Reset font weight
@@ -200,37 +201,13 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             .attr("font-weight", "normal");
     }
 
-    function updateTooltip(event, d) {
-        // get svg container for positioning
-        // var container = event["path"][0].getBoundingClientRect();
-        var container = document.querySelector("#overview-chart svg").getBoundingClientRect();
-
-        // Add tooltip
-        var tooltipColor = color(d);
-        div.transition()
-            .duration(200)
-            .style("opacity", 1)
-            // .style("border", "5px")
-            .style("border-color", tooltipColor)
-            // .attr("stroke-width", 5);
-
-        // Create tooltip text
-        var tooltipText = "<p class='tooltip-title'>" + d.name.toUpperCase() + "</p>" +
-            `<p class='tooltip-value' style='color:${tooltipColor}'>`+ format(d.value) + "%</p>" +
-            "<p class='tooltip-value-subtitle'>of Total Global GHG Emissions</p>" +
-            "<p class='tooltip-info'>"+ d.info + "</p>";
-
-        // Add more info section to text if appropriate
-        if (_.some(sections, function(sections) { return sections.name === d.name; })) {
-            tooltipText += "<p class='more-details'>for more details, click on the node</p>";
-        }
-
-        // Set tooltip text and location
-        div.html(tooltipText)
-            .style("left", container.left + "px")
-            .style("top", container.top + container.height - 150 + "px");
-            // .style("left", (container.x + nodeWidth + 5) + "px")
-            // .style("top", event.pageY + "px");
+    // Show and hide tooltip on click
+    function clickNode(event, d) {
+        // get correct tooltip object
+        let node = event.path[1].id.slice(4);
+        let display = event.path[3].children[2].children[parseInt(node)].style.display;
+        // toggle display of tooltip
+        event.path[3].children[2].children[parseInt(node)].style.display = (display === "none") ? "block" : "none";
     }
 
 });
