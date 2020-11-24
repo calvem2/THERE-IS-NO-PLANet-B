@@ -27,14 +27,16 @@ function color(node) {
     }
     return "#a9a9a9";
 }
+// Clear tooltips on click for chart
+d3.select("#overview-chart")
+    .on("click", function() {d3.selectAll(".tooltip").style("display", "none")});
 
 // Append the svg object to the body of the page
 let svg = d3.select("#overview-chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .on("click", function() {d3.selectAll(".tooltip").style("display", "none")});
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Set the sankey diagram properties
 let sankey = d3.sankey()
