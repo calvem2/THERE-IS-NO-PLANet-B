@@ -47,7 +47,7 @@ let sankey = d3.sankey()
 d3.selectAll("#overview")
     .append("p")
     .attr("class", "subtitle")
-    .text("Explore emission sectors by hovering over them. Click sector nodes to view (and hide) more information.");
+    .text("Explore the breakdown of emission by hovering over sectors. Click sectors to view (and hide) more information.");
 
 // Append subtitle for data info
 d3.selectAll("#overview")
@@ -117,13 +117,13 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .on("click", clickNode);
 
     // Add tooltips
-    svg.append("g").selectAll(".tooltip")
+    let tooltips = svg.append("g").selectAll(".tooltip")
         .data(graph.nodes)
         .enter()
         .append("foreignObject")
         .attr("x", d => Math.min(d.x1 + 6, 925))
         .attr("y", function(d) {
-            return d.x1 + 6 > 925 ? d.y1 + 5 : (d.y1 + d.y0) / 2;
+            return d.x1 + 6 > 925 ? Math.min(d.y1 + 5, 650) : Math.min((d.y1 + d.y0) / 2, 650);
         })
         .attr("class", "tooltip")
         .attr("height", "150px")
@@ -206,6 +206,9 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         // get correct tooltip object
         let node = event.path[1].id.slice(4);
         let display = event.path[3].children[2].children[parseInt(node)].style.display;
+        // hide all other tooltips
+        d3.selectAll(".tooltip")
+            .style("display", "none");
         // toggle display of tooltip
         event.path[3].children[2].children[parseInt(node)].style.display = (display === "none") ? "block" : "none";
     }
