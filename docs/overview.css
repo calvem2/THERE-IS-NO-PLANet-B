@@ -1,0 +1,50 @@
+/* Chart title */
+.chart-title {
+    text-align: center;
+    font-size: 22pt;
+}
+
+/* Chart subtitles */
+.subtitle {
+    font-style: oblique;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Tooltip container */
+.tooltip {
+    cursor: default;
+    background: white;
+    border: 3px solid;
+    border-radius: 5px;
+    overflow-y:auto;
+    padding: 10px 20px;
+    text-align: left;
+    font-size: 12pt;
+}
+
+/* Tooltip title */
+.tooltip .tooltip-title {
+    font-weight: bold;
+}
+
+/* Tooltip percentage value */
+.tooltip .tooltip-value {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Tooltip percentage value label */
+.tooltip .tooltip-value-subtitle {
+    margin-top: 0;
+    font-size: 10pt;
+}
+
+/* Tooltip more details hyperlink */
+.tooltip .more-details {
+    font-size: 13pt;
+    margin-bottom: 12px;
+    display: block;
+    color: black;
+}
