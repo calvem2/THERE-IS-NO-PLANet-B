@@ -23,8 +23,8 @@ d3.csv("foodData.csv").then(function(data) {
     d3.select("#agriculture_graph .agriculture-title")
         .text("Food Group Supply Chain Emissions");
 
-    // List of subgroups = header of the csv files = soil condition here
-    var subgroups = data.columns.slice(1);
+    // Only get the subgroups needed
+    var subgroups = data.columns.slice(1, 8);
   
     // List of food groups
     var groups = d3.map(data, function(d){
