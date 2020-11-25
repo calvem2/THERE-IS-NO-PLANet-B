@@ -22,6 +22,8 @@ http://www.templatemo.com/tm-518-sentra
         <link rel="stylesheet" href="css/light-box.css">
         <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
+<!---->
+        <link rel="stylesheet" href="overview.css">
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -114,7 +116,10 @@ http://www.templatemo.com/tm-518-sentra
   <div class="slider">
       <!-- Overview -->
       <div class="content-section" id="top">
-          <h1> MEGAN'S SECTION</h1>
+          <section id="overview">
+              <p class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</p>
+              <div id="overview-chart"></div>
+          </section>
       </div>
   </div>
 
@@ -242,6 +247,11 @@ http://www.templatemo.com/tm-518-sentra
   </script>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+  <script src="overview.js"></script>
 
 </body>
 </html>
