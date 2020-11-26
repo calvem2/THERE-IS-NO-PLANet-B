@@ -104,8 +104,6 @@ d3.csv("foodData.csv").then(function(data) {
     // TODO: change the colors to bucket into
     var colors = ['#0d3b66','#faf0ca','#f4d35e', '#ee964b', '#f95738', '#7b886b', '#a41623'];
 
-   
-
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
       .keys(subgroups)
