@@ -3,7 +3,7 @@
 // const height = 610;
 
 // set the dimensions and margins of the graph
-var margin = {top: 60, right: 100, bottom: 120, left: 50},
+var margin = {top: 30, right: 100, bottom: 120, left: 50},
     width = 860 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -19,9 +19,10 @@ var svg = d3.select("#agriculture_graph")
 // Parse the Data
 d3.csv("foodData.csv").then(function(data) {
   d3.csv("subCategories.csv").then(function(subCategories) {
+    // TODO: load this in later?
     // Graph title
-    d3.select("#agriculture_graph .agriculture-title")
-        .text("Food Group Supply Chain Emissions");
+    // d3.select("#agriculture_graph .agriculture-title")
+    //     .text("Food Group Supply Chain Emissions");
 
     // Only get the subgroups needed
     var subgroups = data.columns.slice(1, 8);
@@ -75,27 +76,32 @@ d3.csv("foodData.csv").then(function(data) {
   
     // Add X axis
     var x = d3.scaleBand()
-        //.domain(groups)
-        .domain(data.map(function(d) {
-          return d.Food_Product;
-        }))
+        .domain(data.sort(function(a, b) { 
+            return parseInt(b.Total) - parseInt(a.Total);
+          }).map(function(d) {
+            return d.Food_Product;
+          }))
         .range([0, width])
-        .padding([0.2])
-    svg.append("g")
+        //.padding([0.2])
+    var xAxis = svg.append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickSizeOuter(10))
-    .selectAll("text")
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
-      .attr("transform", "rotate(-65)");
+      .call(d3.axisBottom(x));
+
+    // Redraw the titles at a an angle
+    xAxis.transition().duration(1000).call(d3.axisBottom(x))
+      .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
   
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, 60])
+      //.domain([0, 60])
+      .domain([0, d3.max(data, function(d) { return parseInt(d.Total); })])
       .range([ height, 0 ]);
-    svg.append("g")
+    var yAxis = svg.append("g")
       .call(d3.axisLeft(y));
   
     // color palette = one color per subgroup
@@ -123,21 +129,20 @@ d3.csv("foodData.csv").then(function(data) {
       .style("border-radius", "5px")
         .style("padding", "10px")
     
-    // TODO: Update the tool tip
+    // TODO: Update the tool tip on mouse move
     // Three function that change the tooltip when user hover / move / leave a cell
     var mouseover = function(d) {
-      // TODO: put name of food here too
+      // Get name of current food hovered over
+      var foodName = d3.select(this).datum().data["Food_Product"];
       // Get the name of the hovered sub category of the bar
       var subgroupName = d3.select(this.parentNode).datum().key;
       // Get the value of the hovered category of the bar
       var subgroupValue = d3.select(this).datum().data[subgroupName];
-      // Get name of current food hovered over
-      var foodName = d3.select(this).datum().data["Food_Product"];
       tooltip
           .html(foodName + "<br>Subgroup: " + subgroupName + "<br>" + "Value: " + subgroupValue)
           .style("opacity", 1)
     }
-    // TODO: place this where the mouse is
+    // // TODO: place this where the mouse is
     // var mousemove = function(d) {
     //   tooltip
     //     .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
@@ -148,30 +153,112 @@ d3.csv("foodData.csv").then(function(data) {
         .style("opacity", 0)
     }
 
-    // Show the bars
-    svg.append("g")
-      .selectAll("g")
-      // Enter in the stack data = loop key per key = group per group
-      .data(stackedData)
-      .enter().append("g")
+    // Starting graph
+    updateBarGraph("No_Diet");
+
+    // Updates the bar graph based on the diet filter
+    // and selected sorting method
+    function updateBarGraph(dietName) {
+      // Get the category to sort on
+      var sortCategory = d3.select("#dropdown-select").property("value");
+      
+      // Sort the data based on the category to sort on 
+      // and filter the data based on the diet name
+      var filteredDietData = data.sort(function(a, b) { 
+        return parseFloat(b[sortCategory]) - parseFloat(a[sortCategory])
+      }).filter(d => d[dietName] == 1);
+
+      // Update the domain of the x axis
+      x.domain(filteredDietData.map(function(d) {
+        return d.Food_Product;
+      })).range([0, width])
+      .padding([0.2]);
+
+      xAxis.transition().duration(1000).call(d3.axisBottom(x))
+      .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
+
+       // Update the y axis
+       // TODO: Sort based on the name not the total
+       y.domain([0, d3.max(filteredDietData, function(d) { return Math.ceil(parseFloat(d.Total)); })]);
+       yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+      // Create the stacked data based on the given
+      // filtered data
+      var stackedDietData = d3.stack()
+        .keys(subgroups)
+        (filteredDietData)
+
+      // Create the group
+      var barGroup = svg.selectAll("g.layer")
+        // Enter in the stack data = loop key per key = group per group
+        .data(stackedDietData);
+    
+      barGroup.exit().remove();
+
+      barGroup.enter().append("g")
+        .classed("layer", true)
         .attr("fill", function(d) { 
           // Color the subsections of the bars
           return(colors[d.index])
-        })
-        .selectAll("rect")
+        });
+
+      // Show the bars
+      var bars = svg.selectAll("g.layer").selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(function(d) { return d; })
-        .enter().append("rect")
-          .attr("x", function(d) {
-              return x(d.data.Food_Product); })
+        .data(d => d, e => e.data.Food_Product);//function(d) { console.log(d); return d.data.Food_Product; });
+
+      bars.exit().remove();
+
+      // TODO: fix this animation
+      bars.enter().append("rect")
+        .attr("width", x.bandwidth())
+        .merge(bars)
+        .attr("class", "bar")
+        .attr("x", function(d) {
+          return x(d.data.Food_Product); })
+        .transition()
+        .duration(1000)  
           .attr("y", function(d) { return y(d[1]); })
           .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-          .attr("width", x.bandwidth())
-          .attr("stroke", "grey")
-        .on("mouseover", mouseover)
-        // TODO: implement this
-        //.on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
+          .attr("stroke", "grey");
+
+      // Create tool tip for the bar graph
+      svg.selectAll("g.layer").selectAll("rect")
+        .on('mouseover', mouseover)
+        //.on('mousemove', mousemove)
+        .on('mouseleave', mouseleave);
+    }
+
+    // // Show the bars
+    // var bars = svg.append("g")
+    //   .selectAll("g")
+    //   // Enter in the stack data = loop key per key = group per group
+    //   .data(stackedData) // filters the data
+    //       //.sort((a, b) => b.Total - a.Total)
+    //   .enter().append("g")
+    //     .attr("fill", function(d) { 
+    //       // Color the subsections of the bars
+    //       return(colors[d.index])
+    //     })
+    //     .selectAll(".bar")
+    //     // enter a second time = loop subgroup per subgroup to add all rectangles
+    //     .data(function(d) { return d; })
+    //     .enter().append("rect")
+    //       .attr("class", "bar")
+    //       .attr("x", function(d) {
+    //           return x(d.data.Food_Product); })
+    //       .attr("y", function(d) { return y(d[1]); })
+    //       .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+    //       .attr("width", x.bandwidth())
+    //       .attr("stroke", "grey")
+    //     .on("mouseover", mouseover)
+    //     // TODO: implement this
+    //     //.on("mousemove", mousemove)
+    //     .on("mouseleave", mouseleave);
 
      // Create the legend for the graph
      // TODO: add titles to these
@@ -186,36 +273,50 @@ d3.csv("foodData.csv").then(function(data) {
          .attr("height", size)
          .style("fill", function(d){ return(colors[d.index]) })//return color(d)})
       
-      // TODO: fix this
-      // // Resort the graph
-      // function updateChartSorting(selectedGroup) {
-      //   //console.log(selectedGroup);
-      //   // TODO: implement sorting here
-      //   //d3.selectAll("rect")
-      //    // Sort the data
-      //   // TODO: make this based on totals 
-      //   data.sort(function(d) {
-      //     //console.log(a);
-      //     //console.log(b);
-      //     return d3.ascending(parseInt(d.Farm));
-      //   });
-      //   // Update the x axis
-      //   x.domain(data.map(function(d) {
-      //     return parseInt(d.Farm);
-      //   }));
-      //   svg.selectAll("rect")
-      //     .transition()
-      //     .duration(500)
-      //     .attr("x", function(d){
 
-      //     })
-      // }
+      /////////////////////////////////////////
+      // On change event for dropdown sorting//
+      /////////////////////////////////////////
 
       // Listen for when the dropdown is updated
       d3.select("#dropdown-select").on("change", function(d) {
-        var selectedOption = d3.select(this).property("value");
-        updateChartSorting(selectedOption);
+        // See if there is a selected radio button
+        var selectedDiet = "No_Diet";
+        if (d3.select("#pescatarian").checked) {
+          selectedDiet = "Pescatarian";
+        } else if (d3.select("#vegetarian").checked) {
+          selectedDiet = "Vegetarian";
+        } else if (d3.select("#vegan").checked) {
+          selectedDiet = "Vegan";
+        }
+
+        // Update the graph based on filter and sorting
+        updateBarGraph(selectedDiet);
       })
-      
+
+
+      ////////////////////////////////
+      // On change events for diets //
+      ////////////////////////////////
+
+      // Filter the graph to show omnivorous foods only
+      d3.select("#no-diet").on("change", function(d) {
+        updateBarGraph("No_Diet");
+      })
+
+      // Filter the graph to show pescatarian foods only
+      d3.select("#pescatarian").on("change", function(d) {
+          updateBarGraph("Pescatarian");
+      })
+
+      // Filter the graph to show vegetarian foods only
+      d3.select("#vegetarian").on("change", function(d) {
+        updateBarGraph("Vegetarian");
+      })
+
+      // Filter the graph to show vegan foods only
+      d3.select("#vegan").on("change", function(d) {
+       updateBarGraph("Vegan");
+      })
    })
 })

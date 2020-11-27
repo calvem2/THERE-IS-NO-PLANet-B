@@ -52,6 +52,13 @@ p { margin: 0 0 10px 0; }
 .footer a:hover {
   color: #ce3333;
 }
+
+input[name="diet"] {  
+  margin-left: 20px;
+}
+/* #dropdown-select {
+  float: right;
+} */
   </style>
 </head>
 <body>
@@ -81,19 +88,22 @@ p { margin: 0 0 10px 0; }
 
   <section>
     <div id="agriculture_graph">
-      <select id="dropdown-select"></select>
+      <h3 class="agriculture-title">Food Group Supply Chain Emissions</h3>
       <div id="select-diet">
         <h3>Select diet:</h3>
-        <input type="radio" id="no-diet" name="diet" value="no-diet">
-        <label for="no-diet">No Diet</label><br>
-        <input type="radio" id="pescatarian" name="diet" value="pescatarian">
-        <label for="pescatarian">Pescatarian</label><br>
-        <input type="radio" id="vegetarian" name="diet" value="vegetarian">
-        <label for="vegetarian">Vegetarian</label><br>
-        <input type="radio" id="vegan" name="diet" value="vegan">
-        <label for="vegan">Vegan</label><br>
+        <input type="radio" id="no-diet" name="diet" value="No_Diet" checked>
+        <label for="no-diet">No Diet</label>
+        <input type="radio" id="pescatarian" name="diet" value="Pescatarian">
+        <label for="pescatarian">Pescatarian</label>
+        <input type="radio" id="vegetarian" name="diet" value="Vegetarian">
+        <label for="vegetarian">Vegetarian</label>
+        <input type="radio" id="vegan" name="diet" value="Vegan">
+        <label for="vegan">Vegan</label>
       </div>
-      <h3 class="agriculture-title"></h3>
+      <div id="sort-dropdown">
+        <h3>Sort by category:</h3>
+        <select id="dropdown-select"></select>
+      </div>
     </div>
   </section>
 
