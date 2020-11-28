@@ -56,7 +56,7 @@ d3.csv("foodData.csv").then(function(data) {
     svg.append("text")
         .attr("class", "x label")
         .attr("text-anchor", "middle")
-        .attr("font-size", 15)
+        .attr("font-size", 16)
         .attr("x", 350)    // moves the text left and right from the x-axis
         .attr("y",  550)    // moves the text up and down from the x-axis
         .style("fill", "black") // color of title
@@ -66,7 +66,7 @@ d3.csv("foodData.csv").then(function(data) {
     svg.append("text")
         .attr("class", "y label")
         .attr("text-anchor", "middle")
-        .attr("font-size", 15)
+        .attr("font-size", 16)
         .attr("y", -50)     // moves the text left and right from the y-axis
         .attr("x", -200)    // moves the text up and down from the y-axis
         .attr("dy", ".75em")
@@ -119,7 +119,7 @@ d3.csv("foodData.csv").then(function(data) {
     // ----------------
     // Create a tooltip
     // ----------------
-    var tooltip = d3.select("#agriculture_graph")
+    var tooltip = d3.select("#agriculture_graph")//.select("svg")
       .append("div")
       .style("opacity", 0)
       .attr("class", "tooltip")
@@ -127,27 +127,35 @@ d3.csv("foodData.csv").then(function(data) {
       .style("border", "solid")
       .style("border-width", "1px")
       .style("border-radius", "5px")
-        .style("padding", "10px")
+      .style("padding", "10px");
     
-    // TODO: Update the tool tip on mouse move
-    // Three function that change the tooltip when user hover / move / leave a cell
+    // Show the tooltip on mouse over
     var mouseover = function(d) {
       // Get name of current food hovered over
       var foodName = d3.select(this).datum().data["Food_Product"];
       // Get the name of the hovered sub category of the bar
-      var subgroupName = d3.select(this.parentNode).datum().key;
+      var subgroupName = d3.select(this.parentNode).datum().key.replaceAll("_", " ");
       // Get the value of the hovered category of the bar
       var subgroupValue = d3.select(this).datum().data[subgroupName];
+      // Get the total for the bar graph
+      var totalValue = d3.select(this).datum().data["Total"];
       tooltip
-          .html(foodName + "<br>Subgroup: " + subgroupName + "<br>" + "Value: " + subgroupValue)
+          .html("<b>" + foodName 
+            + "</b><br>Subgroup: " + subgroupName 
+            + "<br>Value: " + subgroupValue + " kgCo2"
+            + "<br><br>Total: " + totalValue + " kgCo2")
           .style("opacity", 1)
+          .style("left", (d.clientX + 30) + "px")
+          .style("top", (d.clientY + 200) + "px");
     }
-    // // TODO: place this where the mouse is
-    // var mousemove = function(d) {
-    //   tooltip
-    //     .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-    //     .style("top", (d3.mouse(this)[1]) + "px")
-    // }
+
+    // Place tooltip on mouse move
+    var mousemove = function(d) {
+      tooltip
+        .style("left", (d.clientX + 30) + "px")
+        .style("top", (d.clientY + 200) + "px")
+    }
+    // Make the tooltip disappear when mouse leaves
     var mouseleave = function(d) {
       tooltip
         .style("opacity", 0)
@@ -229,7 +237,7 @@ d3.csv("foodData.csv").then(function(data) {
       // Create tool tip for the bar graph
       svg.selectAll("g.layer").selectAll("rect")
         .on('mouseover', mouseover)
-        //.on('mousemove', mousemove)
+        .on('mousemove', mousemove)
         .on('mouseleave', mouseleave);
     }
 
@@ -284,7 +292,7 @@ d3.csv("foodData.csv").then(function(data) {
       .attr("x", 720)
       .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)+ 1}) // move up and down
       .style("fill", "black")
-      .text(function(d){ console.log(d); return d.key.replaceAll("_", " ")})
+      .text(function(d){ return d.key.replaceAll("_", " ") })
       .attr("text-anchor", "left")
       .style("alignment-baseline", "middle")
     
