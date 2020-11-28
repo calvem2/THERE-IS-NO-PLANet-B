@@ -167,7 +167,7 @@ d3.csv("foodData.csv").then(function(data) {
 
     // Draw the initial graph
     updateBarGraph("No_Diet");
-    
+
     // Updates the bar graph based on the diet filter
     // and selected sorting method
     function updateBarGraph(dietName) {
@@ -225,7 +225,8 @@ d3.csv("foodData.csv").then(function(data) {
 
       bars.exit().remove();
 
-      // TODO: fix this animation
+      // TODO: fix this animation so it grows on change of
+      // radio button
       bars.enter().append("rect")
         .attr("width", x.bandwidth())
         .merge(bars)
@@ -278,6 +279,15 @@ d3.csv("foodData.csv").then(function(data) {
     ////////////
     // Legend //
     ////////////
+     // X axis title
+     svg.append("text")
+     .attr("class", "legend_title")
+      .attr("text-anchor", "left")
+      .attr("font-size", 18)
+      .attr("x", 700)    // moves the text left and right from the x-axis
+      .attr("y",  40)    // moves the text up and down from the x-axis
+      .style("fill", "black") // color of title
+      .text("Subcategories");
     
     // Create the color blocks for the legend
     var size = 15;
@@ -292,33 +302,32 @@ d3.csv("foodData.csv").then(function(data) {
         .style("fill", function(d){ return(colors[d.index]) })//return color(d)})
     // Add the text to the legend
     svg.selectAll("mylabels")
-    .data(stackedData)
-    .enter()
-    .append("text")
-      .attr("x", 720)
-      .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)+ 1}) // move up and down
-      .style("fill", "black")
-      .text(function(d){ return d.key.replaceAll("_", " ") })
-      .attr("text-anchor", "left")
-      .style("alignment-baseline", "middle")
+      .data(stackedData)
+      .enter()
+      .append("text")
+        .attr("x", 720)
+        .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)+ 1}) // move up and down
+        .style("fill", "black")
+        .text(function(d){ return d.key.replaceAll("_", " ") })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
     
 
       /////////////////////////////////////////
       // On change event for dropdown sorting//
       /////////////////////////////////////////
 
+      // TODO: checked is not working
       // Listen for when the dropdown is updated
       d3.select("#dropdown-select").on("change", function(d) {
         // See if there is a selected radio button
-        var selectedDiet = "";
-        if (d3.select("#pescatarian").checked) {
+        var selectedDiet = "No_Diet";
+        if (document.getElementById("pescatarian").checked) {
           selectedDiet = "Pescatarian";
-        } else if (d3.select("#vegetarian").checked) {
+        } else if (document.getElementById("vegetarian").checked) {
           selectedDiet = "Vegetarian";
-        } else if (d3.select("#vegan").checked) {
+        } else if (document.getElementById("vegan").checked) {
           selectedDiet = "Vegan";
-        } else {
-          selectedDiet = "No_Diet";
         }
 
         // Update the graph based on filter and sorting
