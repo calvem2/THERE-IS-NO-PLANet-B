@@ -3,8 +3,8 @@
 // const height = 610;
 
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 100, bottom: 120, left: 50},
-    width = 860 - margin.left - margin.right,
+var margin = {top: 30, right: 160, bottom: 120, left: 50},
+    width = 900 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 // Append the svg to the body of the page
@@ -57,8 +57,8 @@ d3.csv("foodData.csv").then(function(data) {
         .attr("class", "x label")
         .attr("text-anchor", "middle")
         .attr("font-size", 15)
-        .attr("x", 375)    // moves the text left and right from the x-axis
-        .attr("y",  530)    // moves the text up and down from the x-axis
+        .attr("x", 350)    // moves the text left and right from the x-axis
+        .attr("y",  550)    // moves the text up and down from the x-axis
         .style("fill", "black") // color of title
         .text("Food Groups");
 
@@ -260,19 +260,34 @@ d3.csv("foodData.csv").then(function(data) {
     //     //.on("mousemove", mousemove)
     //     .on("mouseleave", mouseleave);
 
-     // Create the legend for the graph
-     // TODO: add titles to these
-     var size = 15;
-     svg.selectAll("mydots")
-       .data(stackedData)
-       .enter()
-       .append("rect")
-         .attr("x", 750)
-         .attr("y", function(d,i){ return 100 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
-         .attr("width", size)
-         .attr("height", size)
-         .style("fill", function(d){ return(colors[d.index]) })//return color(d)})
-      
+
+    ////////////
+    // Legend //
+    ////////////
+    
+    // Create the color blocks for the legend
+    var size = 15;
+    svg.selectAll("mydots")
+      .data(stackedData)
+      .enter()
+      .append("rect")
+        .attr("x", 700) // move left and right
+        .attr("y", function(d,i){ return 50 + i*(size+5)}) // move up and down
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function(d){ return(colors[d.index]) })//return color(d)})
+    // Add the text to the legend
+    svg.selectAll("mylabels")
+    .data(stackedData)
+    .enter()
+    .append("text")
+      .attr("x", 720)
+      .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)+ 1}) // move up and down
+      .style("fill", "black")
+      .text(function(d){ console.log(d); return d.key.replaceAll("_", " ")})
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
+    
 
       /////////////////////////////////////////
       // On change event for dropdown sorting//
