@@ -161,9 +161,13 @@ d3.csv("foodData.csv").then(function(data) {
         .style("opacity", 0)
     }
 
-    // Starting graph
-    updateBarGraph("No_Diet");
+    // ////////////////////////
+    // // Draw the bar chart //
+    // ////////////////////////
 
+    // Draw the initial graph
+    updateBarGraph("No_Diet");
+    
     // Updates the bar graph based on the diet filter
     // and selected sorting method
     function updateBarGraph(dietName) {
@@ -217,7 +221,7 @@ d3.csv("foodData.csv").then(function(data) {
       // Show the bars
       var bars = svg.selectAll("g.layer").selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(d => d, e => e.data.Food_Product);//function(d) { console.log(d); return d.data.Food_Product; });
+        .data(d => d, e => e.data.Food_Product);
 
       bars.exit().remove();
 
@@ -226,12 +230,12 @@ d3.csv("foodData.csv").then(function(data) {
         .attr("width", x.bandwidth())
         .merge(bars)
         .attr("class", "bar")
-        .attr("x", function(d) {
-          return x(d.data.Food_Product); })
+        .attr("y", function(d) { return y(d[1]); })
+        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
         .transition()
         .duration(1000)  
-          .attr("y", function(d) { return y(d[1]); })
-          .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        .attr("x", function(d) {
+          return x(d.data.Food_Product); })
           .attr("stroke", "grey");
 
       // Create tool tip for the bar graph
@@ -240,6 +244,8 @@ d3.csv("foodData.csv").then(function(data) {
         .on('mousemove', mousemove)
         .on('mouseleave', mouseleave);
     }
+
+
 
     // // Show the bars
     // var bars = svg.append("g")
@@ -304,13 +310,15 @@ d3.csv("foodData.csv").then(function(data) {
       // Listen for when the dropdown is updated
       d3.select("#dropdown-select").on("change", function(d) {
         // See if there is a selected radio button
-        var selectedDiet = "No_Diet";
+        var selectedDiet = "";
         if (d3.select("#pescatarian").checked) {
           selectedDiet = "Pescatarian";
         } else if (d3.select("#vegetarian").checked) {
           selectedDiet = "Vegetarian";
         } else if (d3.select("#vegan").checked) {
           selectedDiet = "Vegan";
+        } else {
+          selectedDiet = "No_Diet";
         }
 
         // Update the graph based on filter and sorting
