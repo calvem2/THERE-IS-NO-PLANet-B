@@ -14,10 +14,10 @@ let subSectorColor = d3.scaleOrdinal(["#000", "#cd6476", "#d87885", "#e28c94", "
                                         "#b38476", "#d39c83"]);
 
 // Sections for sector details
-// TODO: change to correct ids/nodes
-let sections = [{name: "Agriculture, Forestry & Land Use", id:"#agriculture"},
-                {name: "Transport", id:"#transportation"},
-                {name: "Buildings", id:"#building-energy"}];
+// TODO: change to correct ids/nodes (idk what to link for agriculture -- link transport, agriculture, food production?)
+let sections = [{name: "Agriculture, Forestry & Land Use", id:"#featured"},
+                {name: "Transport", id:"#video"}];
+                // {name: "Buildings", id:"#projects"}];
 
 // function to color nodes based on sector/sub-sector
 function color(node) {
