@@ -1,17 +1,17 @@
 // Set the dimensions and margins of the graph
-var margin = {top: 30, right: 160, bottom: 120, left: 50},
-    width = 900 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+var agMargin = {top: 30, right: 160, bottom: 120, left: 50},
+    agWidth = 900 - agMargin.left - agMargin.right,
+    agHeight = 600 - agMargin.top - agMargin.bottom;
 
 // Parse the Data
-d3.csv("foodData.csv").then(function(data) {
+d3.csv("data/foodData.csv").then(function(data) {
   d3.csv("subCategories.csv").then(function(subCategories) {
 
     // Append the svg to the body of the page
     var svg = d3.select("#agriculture_graph")
       .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", agWidth + agMargin.left + agMargin.right)
+        .attr("height", agHeight + agMargin.top + agMargin.bottom)
         // .call(d3.zoom()
         //   .scaleExtent([1, 10])
         //   .translateExtent([[margin.left, margin.top], [width - margin.right, height - margin.top]])
@@ -19,16 +19,10 @@ d3.csv("foodData.csv").then(function(data) {
         //   .on("zoom", zoom))
       .append("g")
         .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");      
-    
-    // TODO: load this in later?
-    // Graph title
-    // d3.select("#agriculture_graph .agriculture-title")
-    //     .text("Food Group Supply Chain Emissions");
+              "translate(" + agMargin.left + "," + agMargin.top + ")");      
 
     // Only get the subgroups needed
     var subgroups = data.columns.slice(1, 8);
-    //var subgroups = ["Farm", "Land_Use_Change", "Animal_Feed", "Processing", "Transport", "Packaging", "Retail"];//data.columns.slice(1, 8);//8);
     // Initialize the subgroup map to be used with the subgroup list
     var subgroupMap = new Map();
     subgroupMap.set("Farm", 1);
@@ -74,7 +68,7 @@ d3.csv("foodData.csv").then(function(data) {
     svg.append("text")
         .attr("class", "x label")
         .attr("text-anchor", "middle")
-        .attr("font-size", 16)
+        .attr("font-size", 18)
         .attr("x", 350)    // moves the text left and right from the x-axis
         .attr("y",  550)    // moves the text up and down from the x-axis
         .style("fill", "black") // color of title
@@ -99,11 +93,11 @@ d3.csv("foodData.csv").then(function(data) {
           }).map(function(d) {
             return d.Food_Product;
           }))
-        .range([0, width])
+        .range([0, agWidth])
         //.padding([0.2])
     var xAxis = svg.append("g")
       .attr("class", "axis")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + agHeight + ")")
       .call(d3.axisBottom(x));
 
     // Redraw the titles at a an angle
@@ -118,7 +112,7 @@ d3.csv("foodData.csv").then(function(data) {
     var y = d3.scaleLinear()
       //.domain([0, 60])
       .domain([0, d3.max(data, function(d) { return parseInt(d.Total); })])
-      .range([ height, 0 ]);
+      .range([ agHeight, 0 ]);
     var yAxis = svg.append("g")
       .call(d3.axisLeft(y));
   
@@ -210,7 +204,7 @@ d3.csv("foodData.csv").then(function(data) {
       // Update the domain of the x axis
       x.domain(filteredDietData.map(function(d) {
         return d.Food_Product;
-      })).range([0, width])
+      })).range([0, agWidth])
       .padding([0.2]);
 
       xAxis.transition().duration(1000).call(d3.axisBottom(x))
@@ -483,7 +477,6 @@ d3.csv("foodData.csv").then(function(data) {
       d3.select("#vegan").on("change", function(d) {
        updateBarGraph("Vegan", true);
       })
-
 
       // TODO: attempt to implement a zooming function for the bar graph
       // function zoom(eventTest) { 

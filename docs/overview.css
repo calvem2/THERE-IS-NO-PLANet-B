@@ -1,0 +1,57 @@
+#overview {
+    font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
+    /*margin-top: 50px;*/
+    /*margin-left: 100px;*/
+}
+
+/* Chart title */
+.chart-title {
+    text-align: center;
+    font-size: 22pt;
+}
+
+/* Chart subtitles */
+.subtitle {
+    font-style: oblique;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Tooltip container */
+.node-tooltip {
+    cursor: default;
+    background: white;
+    border: 3px solid;
+    border-radius: 5px;
+    overflow-y:auto;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+/* Tooltip title */
+.node-tooltip .tooltip-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+    display: block;
+    font-size: 13px;
+    color: #7a7a7a;
+}
+
+/* Tooltip titles (regular) */
+.node-tooltip .no-hover:hover {
+    text-decoration: none;
+}
+
+/* Tooltip percentage value */
+.node-tooltip .tooltip-value {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Tooltip percentage value label */
+.node-tooltip .tooltip-value-subtitle {
+    margin-top: 0;
+    font-size: 12px;
+}
+
