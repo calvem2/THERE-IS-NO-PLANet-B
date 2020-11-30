@@ -15,7 +15,7 @@ http://www.templatemo.com/tm-518-sentra
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
+        <link rel="stylesheet" href="css/elizabeth.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/fontAwesome.css">
@@ -28,6 +28,13 @@ http://www.templatemo.com/tm-518-sentra
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+ 
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<style>
+
+</style>
     </head>
 
 <body>
@@ -104,16 +111,9 @@ http://www.templatemo.com/tm-518-sentra
               </li>
           </ul>
       </nav>
-      <!-- <ul class="social-icons">
-          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-          <li><a href="#"><i class="fa fa-rss"></i></a></li>
-          <li><a href="#"><i class="fa fa-behance"></i></a></li>
-      </ul> -->
   </div>
 
-  <div class="page-content">
+  <div class="slider">
       <!-- Overview -->
       <div class="content-section" id="top">
           <section id="overview">
@@ -144,8 +144,8 @@ http://www.templatemo.com/tm-518-sentra
               <p> ELIZABETH'S SECTION </p>
           </div>
           <div class="section-content">
-            <h3> put your caption/pre-bio in the "elizabeth's section", and then everything else in this little div!</h3>
-            <!-- DELETE THESE LINE BREAKS, JUST A PLACEHOLDER RN -->
+            <div id="slider"></div>
+            <svg id="my_dataviz" width="1000" height="600"></svg>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
           </div>
       </section>
@@ -195,16 +195,12 @@ http://www.templatemo.com/tm-518-sentra
       </section>
   </div>
 
-
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
   <script src="js/vendor/bootstrap.min.js"></script>
-
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
-
   <script>
       // Hide Header on on scroll down
       var didScroll;
@@ -252,6 +248,7 @@ http://www.templatemo.com/tm-518-sentra
   <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
   <script src="overview.js"></script>
+  <script src="js/elizabeth.js"></script>
 
 </body>
 </html>

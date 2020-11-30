@@ -4,11 +4,6 @@
     /*margin-left: 100px;*/
 }
 
-/* Chart title padding */
-#overview .chart-title {
-    margin-bottom: 50px;
-}
-
 /* Chart title */
 .chart-title {
     text-align: center;
@@ -20,7 +15,6 @@
     font-style: oblique;
     text-align: center;
     margin-top: 10px;
-    font-size: 14px;
 }
 
 /* Tooltip container */
