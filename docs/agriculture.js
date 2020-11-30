@@ -128,11 +128,11 @@ d3.csv("foodData.csv").then(function(data) {
     // TODO: change the colors to bucket into
     // Create the color map
     var color = d3.scaleOrdinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+      .range(["#ff4747", "#659b5e", "#ffb140", "#8cb1ab", "#37515f", "#8c5383", "#ad7b5c"])
       .domain(subgroups);
 
     var barColor = d3.scaleOrdinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+      .range(["#ff4747", "#659b5e", "#ffb140", "#8cb1ab", "#37515f", "#8c5383", "#ad7b5c"])
       .domain(subgroups);
 
     //stack the data? --> stack per subgroup
@@ -285,7 +285,6 @@ d3.csv("foodData.csv").then(function(data) {
       barGroup.enter().append("g")
         .classed("layer", true)
         .attr("fill", function(d) { 
-          //console.log(d);
           // Color the subsections of the bars
           //return(colorMap.get(d.key))
           return barColor(d.index);
@@ -351,7 +350,7 @@ d3.csv("foodData.csv").then(function(data) {
         .attr("y", function(d,i){ return 50 + i*(size+5)}) // move up and down
         .attr("width", size)
         .attr("height", size)
-        .style("fill", function(d) { console.log(d); return color(d); })//colorMap.get(d.key); })
+        .style("fill", function(d) { return color(d); })//colorMap.get(d.key); })
         //.on("click", function(e, d) { legendClicked(d); })
     // Add the text to the legend
     var legendTitles = svg.selectAll("mylabels")
