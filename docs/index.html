@@ -24,6 +24,7 @@ http://www.templatemo.com/tm-518-sentra
         <link rel="stylesheet" href="css/templatemo-style.css">
 <!---->
         <link rel="stylesheet" href="overview.css">
+        <link rel="stylesheet" href="agriculture.css">
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -33,7 +34,6 @@ http://www.templatemo.com/tm-518-sentra
         <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 <style>
-
 </style>
     </head>
 
@@ -113,7 +113,7 @@ http://www.templatemo.com/tm-518-sentra
       </nav>
   </div>
 
-  <div class="slider">
+    <div class="page-content">
       <!-- Overview -->
       <div class="content-section" id="top">
           <section id="overview">
@@ -129,12 +129,29 @@ http://www.templatemo.com/tm-518-sentra
       <section id="featured" class="content-section">
           <div class="section-heading">
               <h1>Agriculture's<br><em>Effect</em></h1>
-              <p> CLAIRE'S SECTION </p>
           </div>
           <div class="section-content">
-            <h3> put your caption/pre-bio in the "claire's section", and then everything else in this little div!</h3>
-            <!-- DELETE THESE LINE BREAKS, JUST A PLACEHOLDER RN -->
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div id="agriculture_graph">
+              <h3 class="agriculture-title">Food Group Supply Chain Emissions</h3>
+              <div class="ag-option-container">
+                <div id="sort-dropdown" class="ag-child ag-one">
+                  <h4>Sort by category:</h4>
+                  <select id="dropdown-select"></select>
+                </div>
+                <div id="select-diet" class="ag-child ag-two">
+                  <h4>Select diet:</h4>
+                  <input type="radio" id="no-diet" name="diet" value="No_Diet" checked>
+                  <label for="no-diet">No Diet</label>
+                  <input type="radio" id="pescatarian" name="diet" value="Pescatarian">
+                  <label for="pescatarian">Pescatarian</label>
+                  <input type="radio" id="vegetarian" name="diet" value="Vegetarian">
+                  <label for="vegetarian">Vegetarian</label>
+                  <input type="radio" id="vegan" name="diet" value="Vegan">
+                  <label for="vegan">Vegan</label>
+                </div>
+              </div>
+            </div>
+            <p class="subtitle">TODO: Add subtitle for map here</p>
           </div>
       </section>
       <!-- Building Energy Use -->
@@ -248,6 +265,7 @@ http://www.templatemo.com/tm-518-sentra
   <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
   <script src="overview.js"></script>
+  <script src="agriculture.js"></script>
   <script src="js/elizabeth.js"></script>
 
 </body>
