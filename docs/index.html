@@ -53,15 +53,27 @@ p { margin: 0 0 10px 0; }
   color: #ce3333;
 }
 
+/* Space out the diet buttons */
 input[name="diet"] {  
   margin-left: 20px;
 }
-.tooltip {
+/* Position the agriculture tooltip */
+.ag-bar-tooltip {
   position: absolute;
 }
-/* #dropdown-select {
-  float: right;
-} */
+
+.ag-option-container {
+  display: flex;
+}
+
+.ag-child {
+  flex: 1;
+}
+
+.ag-child:first-child {
+  margin-right: 10px;
+}
+
   </style>
 </head>
 <body>
@@ -92,20 +104,22 @@ input[name="diet"] {
   <section>
     <div id="agriculture_graph">
       <h3 class="agriculture-title">Food Group Supply Chain Emissions</h3>
-      <div id="select-diet">
-        <h3>Select diet:</h3>
-        <input type="radio" id="no-diet" name="diet" value="No_Diet" checked>
-        <label for="no-diet">No Diet</label>
-        <input type="radio" id="pescatarian" name="diet" value="Pescatarian">
-        <label for="pescatarian">Pescatarian</label>
-        <input type="radio" id="vegetarian" name="diet" value="Vegetarian">
-        <label for="vegetarian">Vegetarian</label>
-        <input type="radio" id="vegan" name="diet" value="Vegan">
-        <label for="vegan">Vegan</label>
-      </div>
-      <div id="sort-dropdown">
-        <h3>Sort by category:</h3>
-        <select id="dropdown-select"></select>
+      <div class="ag-option-container">
+        <div id="sort-dropdown" class="ag-child ag-one">
+          <h3>Sort by category:</h3>
+          <select id="dropdown-select"></select>
+        </div>
+        <div id="select-diet" class="ag-child ag-two">
+          <h3>Select diet:</h3>
+          <input type="radio" id="no-diet" name="diet" value="No_Diet" checked>
+          <label for="no-diet">No Diet</label>
+          <input type="radio" id="pescatarian" name="diet" value="Pescatarian">
+          <label for="pescatarian">Pescatarian</label>
+          <input type="radio" id="vegetarian" name="diet" value="Vegetarian">
+          <label for="vegetarian">Vegetarian</label>
+          <input type="radio" id="vegan" name="diet" value="Vegan">
+          <label for="vegan">Vegan</label>
+        </div>
       </div>
     </div>
   </section>
