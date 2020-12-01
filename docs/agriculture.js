@@ -153,14 +153,14 @@ d3.csv("data/foodData.csv").then(function(data) {
       // Get name of current food hovered over
       var foodName = d3.select(this).datum().data["Food_Product"];
       // Get the name of the hovered sub category of the bar
-      var subgroupName = d3.select(this.parentNode).datum().key.replaceAll("_", " ");
+      var subgroupName = d3.select(this.parentNode).datum().key;
       // Get the value of the hovered category of the bar
       var subgroupValue = d3.select(this).datum().data[subgroupName];
       // Get the total for the bar graph
       var totalValue = d3.select(this).datum().data["Total"];
       tooltip
           .html("<b>" + foodName 
-            + "</b><br>Subgroup: " + subgroupName 
+            + "</b><br>Subgroup: " + subgroupName.replaceAll("_", " ") 
             + "<br>Value: " + subgroupValue + " kgCo2"
             + "<br><br>Total: " + totalValue + " kgCo2")
           .style("opacity", 1)
@@ -171,8 +171,8 @@ d3.csv("data/foodData.csv").then(function(data) {
     // Place tooltip on mouse move
     var mousemove = function(d) {
       tooltip
-        .style("left", (d.clientX - 350) + "px")
-        .style("top", (d.clientY + 100) + "px")
+        .style("left", (d.clientX - 250) + "px")
+        .style("top", (d.clientY + 150) + "px")
     }
     // Make the tooltip disappear when mouse leaves
     var mouseleave = function(d) {
