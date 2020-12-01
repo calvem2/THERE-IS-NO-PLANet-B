@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>442 Final Project</title>
-        
-<!-- 
+
+<!--
 
 Sentra Template
 
@@ -15,17 +15,26 @@ http://www.templatemo.com/tm-518-sentra
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
+        <link rel="stylesheet" href="css/elizabeth.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/fontAwesome.css">
         <link rel="stylesheet" href="css/light-box.css">
         <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
+<!---->
+        <link rel="stylesheet" href="overview.css">
+        <link rel="stylesheet" href="agriculture.css">
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+ 
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<style>
+</style>
     </head>
 
 <body>
@@ -102,19 +111,15 @@ http://www.templatemo.com/tm-518-sentra
               </li>
           </ul>
       </nav>
-      <!-- <ul class="social-icons">
-          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-          <li><a href="#"><i class="fa fa-rss"></i></a></li>
-          <li><a href="#"><i class="fa fa-behance"></i></a></li>
-      </ul> -->
   </div>
 
-  <div class="slider">
+    <div class="page-content">
       <!-- Overview -->
       <div class="content-section" id="top">
-          <h1> MEGAN'S SECTION</h1> 
+          <section id="overview">
+              <p class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</p>
+              <div id="overview-chart"></div>
+          </section>
       </div>
   </div>
 
@@ -124,12 +129,29 @@ http://www.templatemo.com/tm-518-sentra
       <section id="featured" class="content-section">
           <div class="section-heading">
               <h1>Agriculture's<br><em>Effect</em></h1>
-              <p> CLAIRE'S SECTION </p>
           </div>
           <div class="section-content">
-            <h3> put your caption/pre-bio in the "claire's section", and then everything else in this little div!</h3>
-            <!-- DELETE THESE LINE BREAKS, JUST A PLACEHOLDER RN -->
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div id="agriculture_graph">
+              <h3 class="agriculture-title">Food Group Supply Chain Emissions</h3>
+              <div class="ag-option-container">
+                <div id="sort-dropdown" class="ag-child ag-one">
+                  <h4>Sort by category:</h4>
+                  <select id="dropdown-select"></select>
+                </div>
+                <div id="select-diet" class="ag-child ag-two">
+                  <h4>Select diet:</h4>
+                  <input type="radio" id="no-diet" name="diet" value="No_Diet" checked>
+                  <label for="no-diet">No Diet</label>
+                  <input type="radio" id="pescatarian" name="diet" value="Pescatarian">
+                  <label for="pescatarian">Pescatarian</label>
+                  <input type="radio" id="vegetarian" name="diet" value="Vegetarian">
+                  <label for="vegetarian">Vegetarian</label>
+                  <input type="radio" id="vegan" name="diet" value="Vegan">
+                  <label for="vegan">Vegan</label>
+                </div>
+              </div>
+            </div>
+            <p class="subtitle">TODO: Add subtitle for map here</p>
           </div>
       </section>
       <!-- Building Energy Use -->
@@ -139,10 +161,10 @@ http://www.templatemo.com/tm-518-sentra
               <p> ELIZABETH'S SECTION </p>
           </div>
           <div class="section-content">
-            <h3> put your caption/pre-bio in the "elizabeth's section", and then everything else in this little div!</h3>
-            <!-- DELETE THESE LINE BREAKS, JUST A PLACEHOLDER RN -->
+            <div id="slider"></div>
+            <svg id="my_dataviz" width="1000" height="600"></svg>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          </div>            
+          </div>
       </section>
       <!-- Transportation -->
       <section id="video" class="content-section">
@@ -177,7 +199,7 @@ http://www.templatemo.com/tm-518-sentra
           <div id="contact-content">
               <div class="section-heading">
                   <h1>About<br><em>Us</em></h1>
-                  <p> Team Members:  
+                  <p> Team Members:
                   <br>Claire Beard, Megan Calvery, Elizabeth Lin, Anne Pham</p>
               </div>
               <div class="section-content">
@@ -219,16 +241,12 @@ http://www.templatemo.com/tm-518-sentra
       </section>
   </div>
 
-
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
   <script src="js/vendor/bootstrap.min.js"></script>
-
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
-
   <script>
       // Hide Header on on scroll down
       var didScroll;
@@ -249,11 +267,11 @@ http://www.templatemo.com/tm-518-sentra
 
       function hasScrolled() {
           var st = $(this).scrollTop();
-          
+
           // Make sure they scroll more than delta
           if(Math.abs(lastScrollTop - st) <= delta)
               return;
-          
+
           // If they scrolled down and are past the navbar, add class .nav-up.
           // This is necessary so you never see what is "behind" the navbar.
           if (st > lastScrollTop && st > navbarHeight){
@@ -265,7 +283,7 @@ http://www.templatemo.com/tm-518-sentra
                   $('header').removeClass('nav-up').addClass('nav-down');
               }
           }
-          
+
           lastScrollTop = st;
       }
   </script>
@@ -274,6 +292,13 @@ http://www.templatemo.com/tm-518-sentra
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="transportation.js"></script>
+
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+  <script src="overview.js"></script>
+  <script src="agriculture.js"></script>
+  <script src="js/elizabeth.js"></script>
 
 </body>
 </html>

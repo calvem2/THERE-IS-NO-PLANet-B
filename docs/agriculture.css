@@ -1,0 +1,21 @@
+/* Space out the diet buttons */
+input[name="diet"] {  
+  margin-left: 20px;
+}
+/* Position the agriculture tooltip */
+.ag-bar-tooltip {
+  position: absolute;
+}
+/* Position the agriculture drop down and radio 
+   buttons side by side */
+.ag-option-container {
+  display: flex;
+}
+
+.ag-child {
+  flex: 1;
+}
+
+.ag-child:first-child {
+  margin-right: 10px;
+}
