@@ -171,8 +171,8 @@ d3.csv("data/foodData.csv").then(function(data) {
     // Place tooltip on mouse move
     var mousemove = function(d) {
       tooltip
-        .style("left", (d.clientX + 30) + "px")
-        .style("top", (d.clientY + 200) + "px")
+        .style("left", (d.clientX - 350) + "px")
+        .style("top", (d.clientY + 100) + "px")
     }
     // Make the tooltip disappear when mouse leaves
     var mouseleave = function(d) {
