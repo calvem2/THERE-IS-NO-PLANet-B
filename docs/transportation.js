@@ -7,22 +7,22 @@ d3.csv("transportation.csv", function(data) {
 
 
 // start drawing the line
-var margin = {
+var t_margin = {
     top: 10, 
     right: 30, 
     bottom: 30, 
     left: 60
 },
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    t_width = 460 - t_margin.left - t_margin.right,
+    t_height = 400 - t_margin.top - t_margin.bottom;
 
 // parse Dates
 var parseTime = d3.timeParse("%Y");
 var formatTime = d3.timeFormat("%Y");
 
 // create axes
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+var x = d3.scaleTime().range([0, t_width]);
+var y = d3.scaleLinear().range([t_height, 0]);
 
 // color scale
 var color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -37,12 +37,12 @@ var line = d3.line()
     .y(d => y(d.Passenger_road_vehicles))
 
 // create the svg element that the line chart will attach to
-var svg = d3.select("#t_line_chart")
+var t_svg = d3.select("#t_line_chart")
     .append('svg')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", t_width + t_margin.left + t_margin.right)
+    .attr("height", t_height + t_margin.top + t_margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + t_margin.left + "," + t_margin.top + ")");
 
 // read the CSV
 d3.csv("transportation.csv", 
@@ -67,9 +67,9 @@ d3.csv("transportation.csv",
         // add x axis
         var x = d3.scaleTime()
             .domain(d3.extent(data, function(d) { return d.Year; }))
-            .range([0, width]);
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
+            .range([0, t_width]);
+        t_svg.append("g")
+            .attr("transform", "translate(0," + t_height + ")")
             .call(d3.axisBottom(x));
 
 
@@ -84,8 +84,8 @@ d3.csv("transportation.csv",
         // add y axis
         var y = d3.scaleLinear()
             .domain([0, dataMax])
-            .range([height, 0]);
-        svg.append("g")
+            .range([t_height, 0]);
+        t_svg.append("g")
             .call(d3.axisLeft(y));
 
         // color palette
@@ -96,7 +96,7 @@ d3.csv("transportation.csv",
             .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']);
 
         // draw line
-        svg.append("path")
+        t_svg.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "red")
@@ -106,7 +106,7 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Passenger_road_vehicles) })
             )  
             
-        svg.append("path")
+        t_svg.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "orange")
@@ -116,7 +116,7 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Aviation) })
             )  
 
-        svg.append("path")
+        t_svg.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "steelblue")
@@ -126,7 +126,7 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Road_freight_vehicles) })
             )   
             
-        svg.append("path")
+        t_svg.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "green")
@@ -136,7 +136,7 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Shipping) })
             )  
 
-        svg.append("path")
+        t_svg.append("path")
             .datum(data)
             .attr("fill", "none")
             .attr("stroke", "purple")
@@ -151,7 +151,7 @@ d3.csv("transportation.csv",
         .text("Transport sector CO2 emissions by mode in the Sustainable Development Scenario, 2000-2030");
 
         // draw legend
-        var legend = svg.selectAll('g.legend')
+        var legend = t_svg.selectAll('g.legend')
             .append('g')
             .attr('class', 'legend');
 
@@ -159,7 +159,7 @@ d3.csv("transportation.csv",
         // mouseover tooltip
 
         // append a g for all the mouse over 
-        var mouseG = svg.append("g")
+        var mouseG = t_svg.append("g")
         .attr("class", "mouse-over-effects");
 
         // this is the vertical line
@@ -193,8 +193,8 @@ d3.csv("transportation.csv",
 
         // rect to capture mouse movements
         mouseG.append('svg:rect')
-            .attr('width', width)
-            .attr('height', height)
+            .attr('width', t_width)
+            .attr('height', t_height)
             .attr('fill', 'none')
             .attr('pointer-events', 'all')
             .on('mouseout', function() { // on mouse out hide line, circles and text
@@ -219,7 +219,7 @@ d3.csv("transportation.csv",
         // move the vertical line
         d3.select(".mouse-line")
             .attr("d", function() {
-            var d = "M" + mouse[0] + "," + height;
+            var d = "M" + mouse[0] + "," + t_height;
             d += " " + mouse[0] + "," + 0;
             return d;
             });
@@ -227,7 +227,7 @@ d3.csv("transportation.csv",
         // position the circle and text
         d3.selectAll(".mouse-per-line")
             .attr("transform", function(d, i) {
-            console.log(width/mouse[0])
+            console.log(t_width/mouse[0])
             var xDate = x.invert(mouse[0]),
                 bisect = d3.bisector(function(d) { return d.Other; }).right;
                 idx = bisect(d.values, xDate);
