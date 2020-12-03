@@ -32,6 +32,38 @@ http://www.templatemo.com/tm-518-sentra
  
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+        <style>
+
+body {
+  background-color:#f0f8ff;
+}
+.sidebar-navigation {
+    width: 22.5%;
+    float: left;
+    height: 100%;
+    position: fixed;
+    background-color:rgba(12,12,12,0.9);
+    z-index: 10;
+}
+
+.sidebar-navigation .logo {
+    position: absolute;
+    width: 100%;
+    height: 140px;
+    line-height: 100px;
+    background-color:#45489a;
+    padding: 20px;
+    text-align: center;
+}
+.footer {
+    background-color: #f0f8ff;
+    height: 80px;
+    line-height: 80px;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+        </style>
 
 <style>
 </style>
@@ -62,9 +94,10 @@ http://www.templatemo.com/tm-518-sentra
 
   <!-- SIDE BAR PANEL NAV TITLE STUFF -->
   <div class="sidebar-navigation hidde-sm hidden-xs">
-      <div class="logo">
-          <a href="#">NO PLAN<em>et</em> B</a>
-      </div>
+    <div class="logo">
+        <a href="#">NO PLAN<em>et</em> B</a>
+        <br><br><br><br>
+    </div>
       <nav>
           <ul>
               <li>
@@ -116,8 +149,11 @@ http://www.templatemo.com/tm-518-sentra
     <div class="page-content">
       <!-- Overview -->
       <div class="content-section" id="top">
+
+        
           <section id="overview">
-              <p class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</p>
+            <h2>Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
+              <br><br><br>
               <div id="overview-chart"></div>
           </section>
       </div>
@@ -170,11 +206,23 @@ http://www.templatemo.com/tm-518-sentra
       <!-- Building Energy Use -->
       <section id="projects" class="content-section">
           <div class="section-heading">
-              <h1>Building<br><em>Energy Use</em></h1>
-              <p> ELIZABETH'S SECTION </p>
+            <h1><em>Building Energy Usage</em></h1>
+            <h2>How much energy do we consume every year?</h2>
           </div>
           <div class="section-content">
+            <img src="kwh.png" width="30%" style="float:left; margin: 1.5em; border: 2px solid black;"/>
+            <p>Breaking down global energy consumption between countries, we investigate that the average US resdient consumes 10 more times energy than a resident in India
+                and 4-5 times more than a person in Brazil and 3 times of that of a person living in China. Seeing the disparity between low-income, less developed countries, 
+                we investigate to understand a year-by-year comparison. 
+
+                Through our heat map, we see that each year global average per capita energy consumption increases in various magnitude in varying countries. For example, China's
+                energy use per capita has increased by 250% since the beginning of this century and developing countries like India has increased by over 50% in the past 20 years.
+            </p>
             <div id="slider"></div>
+            <h5>Explore country energy consumption by hovering over map</h5>
+            <h7 style="color:#45489a;"><b>Energy consumption per capita (kWh)</b></h7>
+            <br><br>
+            
             <svg id="my_dataviz" width="1000" height="600"></svg>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
           </div>
@@ -197,11 +245,15 @@ http://www.templatemo.com/tm-518-sentra
           <div class="col-md-12">
               <div class="section-heading">
                   <h1>This is <em>our</em> planet.</h1>
+                  <br><br><br><br>
+                  <img src="blue.png" width="40%"/>
                   <p>We need to make changes now.</p>
               </div>
               <div class="text-content">
-                <h3> TODO: add write up</h3>
-                <!-- DELETE THESE LINE BREAKS, JUST A PLACEHOLDER RN -->
+
+
+
+                <!-- write up -->
                 <br><br>
               </div>
           </div>
@@ -218,7 +270,7 @@ http://www.templatemo.com/tm-518-sentra
               <div class="section-content">
                 <div id="profilePics">
                   <div class="info"> 
-                    <img src="img/claire.jpg" class="claire"> 
+                    <img src="img/claire.jpg" class="claire">
                     <!-- Claire Beard
                     Major: Computer Science
                     Year:
@@ -250,7 +302,12 @@ http://www.templatemo.com/tm-518-sentra
           </div>
       </section>
       <section class="footer">
-          <p>Copyright &copy; 2018. Design: <a href="http://templatemo.com/tm-518-sentra" target="_blank">Sentra</a> | Distribution: <a href="https://themewagon.com" target="_blank">ThemeWagon</a></p>
+        <br>
+          <p><a href="https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B">FP-THERE-IS-NO-PLANet-B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://courses.cs.washington.edu/courses/cse442/20au/">CSE 442 Data Visualization</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="http://www.washington.edu/">University of Washington</a></p>
+            <br>
+            <!-- Copyright &copy; 2018. Design: <a href="http://templatemo.com/tm-518-sentra" target="_blank">Sentra</a> | Distribution: <a href="https://themewagon.com" target="_blank">ThemeWagon</a></p> -->
       </section>
   </div>
 

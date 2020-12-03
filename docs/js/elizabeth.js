@@ -5,7 +5,7 @@ var formatDate = d3.timeFormat("%Y");
 
 var startDate = new Date("1965-01-01"),
     endDate = new Date("2019-12-30");
-var liz_margin = {top:0, right:50, bottom:0, left:50},
+var liz_margin = {top:0, right:100, bottom:0, left:50},
     w = 960 - liz_margin.left - liz_margin.right,
     h = 200 - liz_margin.top - liz_margin.bottom;
 
@@ -38,9 +38,9 @@ slider.append("line")
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
-    .attr("transform", "translate(0," + 18 + ")")
+    .attr("transform", "translate(0," + 10 + ")")
   .selectAll("text")
-    .data(x.ticks(10))
+    .data(x.ticks(15))
     .enter()
     .append("text")
     .attr("x", x)
@@ -50,7 +50,7 @@ slider.insert("g", ".track-overlay")
 
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
-    .attr("r", 9);
+    .attr("r", 10);
 
 var label = slider.append("text")  
     .attr("class", "label")
@@ -77,8 +77,11 @@ var s_svg = d3.select("#my_dataviz"),
 
   // Data and color scale
   var colorScale = d3.scaleThreshold()
-    .domain([1000.0, 5000.0, 10000.0, 15000.0, 20000.0, 30000.0, 40000.0])
+    .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
     .range(d3.schemeBlues[7]);
+
+
+
   
 var topo = [];
 function drawMap() {
@@ -87,7 +90,6 @@ function drawMap() {
     return response.json();
   }).then(data => {
     // Work with JSON data here
-    // var topo = [];
     topo = data;
     // Draw the map
     s_svg.append("g")
@@ -100,13 +102,12 @@ function drawMap() {
         .attr("d", d3.geoPath()
             .projection(projection)
         )
-    // ready(topo, year);
   }).catch(err => {
     // Do something for an error here
     console.log("Error Reading data " + err);
   });
 }
-// formatDateIntoYear("")
+
 drawMap();
 var country_map = new Map();
 
@@ -117,17 +118,12 @@ function update(h) {
     label
         .attr("x", x(h))
         .text(formatDate(h));
-
-    // filter data set and redraw plot
-    // var newData = dataset.filter(function(d) {
-    //     return d.date < h;
-    // })
     ready(topo, formatDateIntoYear(h));
 }
 
 
 function ready(topo, year) {
-    //console.log(topo.features);
+    console.log(year);
     d3.csv("energy.csv").then(function(d) {
         for (var i = 0; i < d.length; i++) {
             if (d[i].year == year) 
@@ -173,7 +169,7 @@ function ready(topo, year) {
                 div.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                div	.html(d.properties.name + "<br>" + Math.floor(parseInt(country_map.get(d.id))))	
+                div	.html("<b>" + d.properties.name + "</b><br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
                     .style("left", (event.pageX) + "px")		
                     .style("top", (event.pageY - 28) + "px");	
                 })					
