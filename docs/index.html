@@ -64,7 +64,45 @@ body {
     text-align: center;
     width: 100%;
 }
-        </style>
+
+/* Style for the custom diet drop down */
+.multiselect {
+  width: 200px;
+  position: absolute;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+  background-color: white;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+</style>
 
 <style>
 </style>
@@ -165,9 +203,18 @@ body {
       <!-- Food Production -->
       <section id="featured" class="content-section">
           <div class="section-heading">
-              <h1><em>You are what you eat..</em></h1><h2>How does your everyday diet affect the planet?</h2>
+              <h1><em>You are what you eat..</em></h1>
+              <h2>How does your everyday diet affect the planet?</h2>
           </div>
-          <div class="section-content">
+          <p>
+            Whether you are a vegan, carnivore, or anything in between, we all have a substantial
+            carbon footprint from the food supply chain.
+            <br><br> Food does not magically appear in your local grocery store or farmers market, there
+            are many processes in which the food you eat everyday from farm to table.
+            <br><br> In the graph below, you can explore the amount of emissions produced by different foods 
+            and diet choices based on the supply chain processes that get the food to your table.</p>
+            <br><br>
+          <div class="section-content" id="ag-graph-outer">
             <div id="agriculture_graph">
               <h3 class="agriculture-title"><b>Food Group Supply Chain Emissions</b></h3>
               <div class="ag-option-container">
@@ -185,23 +232,24 @@ body {
                   <label for="vegetarian">Vegetarian</label>
                   <input type="radio" id="vegan" name="diet" value="Vegan">
                   <label for="vegan">Vegan</label>
+                  <input type="radio" id="custom" name="diet" value="Custom">
+                  <label for="custom">Custom</label>
+                  <!-- Create the custom diet dropdown -->
+                  <form>
+                    <div class="multiselect">
+                      <div class="selectBox" onclick="showCheckboxes()">
+                        <select id="custom-select" disabled> 
+                            <option>Select Foods</option> 
+                        </select>
+                        <div class="overSelect"></div>
+                      </div>
+                      <div id="checkboxes">
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-            <p class="subtitle">
-                Explore the amount of emissions produced by different foods and diet choices based 
-                on the supply chain processes to get the food to your table.
-                <br><br>
-                Retail – emissions from retail processes (e.g. energy used in refrigeration of food products)<br>
-                Packaging – emissions from production of packaging materials, transport of packaging, and disposal of packaging <br>
-                Transport – emissions from energy use in the transport of food<br>
-                Processing – emissions from energy use in the process of converting 
-                    raw agricultural products into final food products <br>
-                Animal Feed – emissions from crop production and its processing into 
-                    feed for livestock (the Vegan diet does not contain this category) <br>
-                Land use change – emissions from deforestation and underground changes in soil carbon<br>
-                Farm – emissions from farm machinery, fertilizers, cows, manure, and rice
-            </p>
           </div>
       </section>
       <!-- Building Energy Use -->
@@ -356,6 +404,22 @@ body {
           }
 
           lastScrollTop = st;
+      }
+
+      var expanded = false;
+
+      function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        // Only allow expanding if enabled
+        if (!document.getElementById("custom-select").disabled) {
+            if (!expanded) {
+                checkboxes.style.display = "block";
+                expanded = true;
+            } else {
+                checkboxes.style.display = "none";
+                expanded = false;
+            }
+        }
       }
   </script>
 
