@@ -139,6 +139,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .style("display", "none")
         .html(function(d) {
             return "<div>" +
+                    "<p class='tooltip-title'>" + d.name.toUpperCase() + "</p>" +
                     `<p class='tooltip-value' style='color:${color(d)}'>`+ format(d.value) + "%</p>" +
                     "<p class='tooltip-value-subtitle'>of Total Global GHG Emissions</p>"  +
                     "</div>";
