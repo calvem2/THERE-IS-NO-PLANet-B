@@ -246,13 +246,6 @@ d3.csv("data/foodData.csv").then(function(data) {
     // Updates the bar graph based on the diet filter
     // and selected sorting method
     function updateBarGraph(dietName, doTransition, sortCategory) {
-      // var sortCategory;
-      // // Get the category to sort on
-      // if (legendClicked) {
-      //   sortCategory = "Total";
-      // } else {
-      //   sortCategory = d3.select("#dropdown-select").property("value");
-      // }
       // Update the subtitle beneath the graph based on what we are sorting
       for (var i = 1; i < allSubGroups.length; i++) {
         // Display everything if total is selected
@@ -474,6 +467,9 @@ d3.csv("data/foodData.csv").then(function(data) {
           }
         }
       }
+      
+      // Update the .csv files with the new total values
+      updateCSVTotals(subgroups);
 
       // Change the dropdown selected to be Total
       if (selectedSortIsFilteredOut) {
@@ -483,8 +479,22 @@ d3.csv("data/foodData.csv").then(function(data) {
         // Sort the graph based on the total
         onchangeUpdateGraph(true, "Total");
       } else { // Keep the same sort
-        onchangeUpdateGraph(false, d3.select("#dropdown-select").property("value"));
-      }      
+        onchangeUpdateGraph(true, d3.select("#dropdown-select").property("value"));
+      }    
+    }
+
+    // Update the csv Total column with the new totals
+    // based on the current sub groups filtered
+    function updateCSVTotals(currSubGroups) { 
+      data.forEach(function(d) {
+        var newTotal = 0;
+        // Get the total based on what is filtered in the legend
+        for (var i = 0; i < currSubGroups.length; i++) {
+          newTotal += parseFloat(d[currSubGroups[i]]); 
+        }
+        // Make update the total in the data
+        d.Total = Math.round(newTotal * 100) / 100;
+      });
     }
     
 
