@@ -1,7 +1,7 @@
 // Set the dimensions and margins of the graph
 let margin = {top: 0, right: 200, bottom: 10, left: 0},
     width = 1100 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom,
+    height = 600 - margin.top - margin.bottom,
     nodeWidth = 45;
 
 // Format variables
@@ -12,12 +12,6 @@ let subSectorColor = d3.scaleOrdinal(["#000", "#cd6476", "#d87885", "#e28c94", "
                                         "#61b795", "#76c097", "#8aca9a", "#9dd49c", "#afde9e", "#c1e8a1", "#d3f2a3",
                                         "#89a8cd", "#caeaff",
                                         "#b38476", "#d39c83"]);
-
-// Sections for sector details
-// TODO: change to correct ids/nodes (idk what to link for agriculture -- link transport, agriculture, food production?)
-let sections = [{name: "Agriculture, Forestry & Land Use", id:"#featured"},
-                {name: "Transport", id:"#video"}];
-                // {name: "Buildings", id:"#projects"}];
 
 // function to color nodes based on sector/sub-sector
 function color(node) {
@@ -30,7 +24,10 @@ function color(node) {
 }
 // Clear tooltips on click for chart
 d3.select("#overview-chart")
-    .on("click", function() {d3.selectAll(".node-tooltip").style("display", "none")});
+    .on("click", function() {
+        d3.selectAll(".node-tooltip").style("display", "none");
+        description.text("");
+    });
 
 // Append the svg object to the body of the page
 let svg = d3.select("#overview-chart").append("svg")
@@ -46,6 +43,11 @@ let sankey = d3.sankey()
     .nodeAlign(d3.sankeyLeft)
     .size([width, height])
     .nodeSort(null);
+
+// Add description
+let description = d3.selectAll("#overview")
+    .append("p")
+    .attr("id", "sector-description");
 
 // Append subtitle
 d3.selectAll("#overview")
@@ -126,29 +128,20 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .data(graph.nodes)
         .enter()
         .append("foreignObject")
-        .attr("x", d => Math.min(d.x1 + 6, 925))
+        .attr("x", d => d.x1 + 6)
         .attr("y", function(d) {
-            return d.x1 + 6 > 925 ? Math.min(d.y1 + 5, 650) : Math.min((d.y1 + d.y0) / 2, 650);
+            return Math.min((d.y1 + d.y0) / 2, 475);
         })
         .attr("class", "node-tooltip")
-        .attr("height", "150px")
-        .attr("width", "275px")
+        .attr("height", "125px")
+        .attr("width", "125px")
         .style("border-color", d => color(d))
         .style("display", "none")
         .html(function(d) {
-            let tooltipText = "";
-            // Add link to corresponding section if it exists
-            if (_.some(sections, function(sections) { return sections.name === d.name; })) {
-                let sectionId = _.find(sections, function (sections) { return sections.name === d.name}).id;
-                tooltipText += `<a class='tooltip-title' href="${document.location.href.toString().split('#')[0] + sectionId}">${d.name.toUpperCase()}</a>`;
-            } else {
-                tooltipText += "<a class='tooltip-title no-hover'>" + d.name.toUpperCase() + "</a>";
-            }
-
-            tooltipText += `<p class='tooltip-value' style='color:${color(d)}'>`+ format(d.value) + "%</p>" +
-                            "<p class='tooltip-value-subtitle'>of Total Global GHG Emissions</p>" +
-                            "<p class='tooltip-info'>"+ d.info + "</p>";
-            return tooltipText;
+            return "<div>" +
+                    `<p class='tooltip-value' style='color:${color(d)}'>`+ format(d.value) + "%</p>" +
+                    "<p class='tooltip-value-subtitle'>of Total Global GHG Emissions</p>"  +
+                    "</div>";
         });
 
     // Add mouseover functionality to nodes
@@ -208,14 +201,20 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
 
     // Show and hide tooltip on click
     function clickNode(event, d) {
-        // get correct tooltip object
+        // Get correct tooltip object
         let node = event.path[1].id.slice(4);
         let display = event.path[3].children[2].children[parseInt(node)].style.display;
-        // hide all other tooltips
+
+        // Update sector description
+        description.text((display === "none") ? d.info : "");
+
+        // Hide all other tooltips
         d3.selectAll(".node-tooltip")
             .style("display", "none");
-        // toggle display of tooltip
+
+        // Toggle display of tooltip
         event.path[3].children[2].children[parseInt(node)].style.display = (display === "none") ? "block" : "none";
+
         event.stopPropagation();
     }
 
