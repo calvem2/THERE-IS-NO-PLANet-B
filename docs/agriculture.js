@@ -241,13 +241,18 @@ d3.csv("data/foodData.csv").then(function(data) {
     ////////////////////////
 
     // Draw the initial graph
-    updateBarGraph("No_Diet", false);
+    updateBarGraph("No_Diet", false, "Total");
 
     // Updates the bar graph based on the diet filter
     // and selected sorting method
-    function updateBarGraph(dietName, doTransition) {
-      // Get the category to sort on
-      var sortCategory = d3.select("#dropdown-select").property("value");
+    function updateBarGraph(dietName, doTransition, sortCategory) {
+      // var sortCategory;
+      // // Get the category to sort on
+      // if (legendClicked) {
+      //   sortCategory = "Total";
+      // } else {
+      //   sortCategory = d3.select("#dropdown-select").property("value");
+      // }
       // Update the subtitle beneath the graph based on what we are sorting
       for (var i = 1; i < allSubGroups.length; i++) {
         // Display everything if total is selected
@@ -446,6 +451,10 @@ d3.csv("data/foodData.csv").then(function(data) {
         }
         return("#ccc");   
       });
+
+      // Get the sort selected in the drop down
+      var selectedSort = d3.select("#dropdown-select").property("value");
+      var selectedSortIsFilteredOut = false;
       // Update the subgroup list
       subgroups = [];
       // Loop through the map
@@ -459,11 +468,23 @@ d3.csv("data/foodData.csv").then(function(data) {
         } else {
           // Hide the subcategory from the dropdown
           document.getElementById(dropdownID).style.display = "none";
+          // If the selected sort is being filtered out
+          if (selectedSort == key) {
+            selectedSortIsFilteredOut = true;
+          }
         }
       }
 
-      // Update the graph
-      onchangeUpdateGraph(false);
+      // Change the dropdown selected to be Total
+      if (selectedSortIsFilteredOut) {
+        // Select total to be the selected drop down element
+        let element = document.getElementById("dropdown-select");
+        element.value = "Total";
+        // Sort the graph based on the total
+        onchangeUpdateGraph(true, "Total");
+      } else { // Keep the same sort
+        onchangeUpdateGraph(false, d3.select("#dropdown-select").property("value"));
+      }      
     }
     
 
@@ -474,11 +495,11 @@ d3.csv("data/foodData.csv").then(function(data) {
       // TODO: checked is not working
       // Listen for when the dropdown is updated
       d3.select("#dropdown-select").on("change", function(d) {
-        onchangeUpdateGraph(true);
+        onchangeUpdateGraph(true, d3.select("#dropdown-select").property("value"));
       })
 
       // Update the graph based on sorting and radio button clicked
-      function onchangeUpdateGraph(doTransition) {
+      function onchangeUpdateGraph(doTransition, sortCategory) {
         // See if there is a selected radio button
         var selectedDiet = "No_Diet";
         if (document.getElementById("pescatarian").checked) {
@@ -494,7 +515,7 @@ d3.csv("data/foodData.csv").then(function(data) {
         }
 
         // Update the graph based on filter and sorting
-        updateBarGraph(selectedDiet, doTransition);
+        updateBarGraph(selectedDiet, doTransition, sortCategory);
       }
 
 
@@ -506,28 +527,28 @@ d3.csv("data/foodData.csv").then(function(data) {
       d3.select("#no-diet").on("change", function(d) {
         document.getElementById("custom-select").disabled = true;
         document.getElementById("checkboxes").style.display = "none";
-        updateBarGraph("No_Diet", true);
+        updateBarGraph("No_Diet", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show pescatarian foods only
       d3.select("#pescatarian").on("change", function(d) {
         document.getElementById("custom-select").disabled = true;
         document.getElementById("checkboxes").style.display = "none";
-        updateBarGraph("Pescatarian", true);
+        updateBarGraph("Pescatarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegetarian foods only
       d3.select("#vegetarian").on("change", function(d) {
         document.getElementById("custom-select").disabled = true;
         document.getElementById("checkboxes").style.display = "none";
-        updateBarGraph("Vegetarian", true);
+        updateBarGraph("Vegetarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegan foods only
       d3.select("#vegan").on("change", function(d) {
         document.getElementById("custom-select").disabled = true;
         document.getElementById("checkboxes").style.display = "none";
-        updateBarGraph("Vegan", true);
+        updateBarGraph("Vegan", true, d3.select("#dropdown-select").property("value"));
       })
 
       // TODO: add functionality to this
