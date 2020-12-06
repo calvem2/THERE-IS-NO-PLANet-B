@@ -30,14 +30,14 @@ d3.csv("data/foodData.csv").then(function(data) {
 
     // // Create the color map for the bar chart
     var barColorMap = new Map();
-    barColorMap.set("Farm", "#ff4747");
-    barColorMap.set("Land_Use_Change", "#659b5e");
-    barColorMap.set("Animal_Feed", "#ffb140");
-    barColorMap.set("Processing", "#8cb1ab");
-    barColorMap.set("Transport", "#37515f");
-    barColorMap.set("Packaging", "#8c5383");
-    barColorMap.set("Retail", "#ad7b5c");
-  
+    barColorMap.set("Farm", "#c5596e");
+    barColorMap.set("Land_Use_Change", "#52b79c");
+    barColorMap.set("Animal_Feed", "#b7d175");
+    barColorMap.set("Processing", "#4d8993");
+    barColorMap.set("Transport", "#476585");
+    barColorMap.set("Packaging", "#8e6994");
+    barColorMap.set("Retail", "#A78683");
+
     // List of food groups
     var groups = d3.map(data, function(d){
       return(d.Food_Product);
@@ -184,7 +184,7 @@ d3.csv("data/foodData.csv").then(function(data) {
 
     // Create the color map
     var color = d3.scaleOrdinal()
-      .range(["#ff4747", "#659b5e", "#ffb140", "#8cb1ab", "#37515f", "#8c5383", "#ad7b5c"])
+      .range(["#c5596e", "#52b79c", "#b7d175", "#4d8993", "#476585", "#8e6994", "#A78683"])
       .domain(subgroups);
 
     //stack the data? --> stack per subgroup
@@ -196,7 +196,7 @@ d3.csv("data/foodData.csv").then(function(data) {
     // ----------------
     // Create a tooltip
     // ----------------
-    var tooltip = d3.select("#agriculture_graph")//.select("svg")
+    var tooltip = d3.select("#agriculture_graph")
       .append("div")
       .style("opacity", 0)
       .attr("class", "ag-bar-tooltip")
@@ -207,7 +207,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       .style("padding", "10px");
     
     // Show the tooltip on mouse over
-    var mouseover = function(d) {
+    var mouseover = function(event, d) {
       // Get name of current food hovered over
       var foodName = d3.select(this).datum().data["Food_Product"];
       // Get the name of the hovered sub category of the bar
@@ -225,10 +225,15 @@ d3.csv("data/foodData.csv").then(function(data) {
             + `<p class='ag-tooltip-value' style='color:${colorOfBar}'>` + subgroupValue +  " kgCo2</p>"
             + "<br><p class='ag-tooltip-value'>Total: " + totalValue + " kgCo2</p>")
           .style("opacity", 1)
-          .style("left", (850) + "px")
-          .style("top", (875) + "px");
+          .style("left", (event.pageX - 300) + "px")
+          .style("top", (event.pageY - 1250) + "px");
     }
 
+    var mousemove = function(event, d) {
+      tooltip
+          .style("left", (event.pageX - 300) + "px")
+          .style("top", (event.pageY - 1250) + "px");
+    }
 
     // Make the tooltip disappear when mouse leaves
     var mouseleave = function(d) {
@@ -373,6 +378,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       // Create tool tip for the bar graph
       svg.selectAll("g.layer").selectAll("rect")
         .on('mouseover', mouseover)
+        .on('mousemove', mousemove)
         .on('mouseleave', mouseleave);
     }
 
@@ -518,10 +524,6 @@ d3.csv("data/foodData.csv").then(function(data) {
           selectedDiet = "Vegetarian";
         } else if (document.getElementById("vegan").checked) {
           selectedDiet = "Vegan";
-        } else if (document.getElementById("custom").checked) {
-          // TODO: add functionality to this
-          // selectedDiet = "Custom";
-          document.getElementById("custom-select").disabled = false;
         }
 
         // Update the graph based on filter and sorting
@@ -535,38 +537,22 @@ d3.csv("data/foodData.csv").then(function(data) {
 
       // Filter the graph to show omnivorous foods only
       d3.select("#no-diet").on("change", function(d) {
-        document.getElementById("custom-select").disabled = true;
-        document.getElementById("checkboxes").style.display = "none";
         updateBarGraph("No_Diet", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show pescatarian foods only
       d3.select("#pescatarian").on("change", function(d) {
-        document.getElementById("custom-select").disabled = true;
-        document.getElementById("checkboxes").style.display = "none";
         updateBarGraph("Pescatarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegetarian foods only
       d3.select("#vegetarian").on("change", function(d) {
-        document.getElementById("custom-select").disabled = true;
-        document.getElementById("checkboxes").style.display = "none";
         updateBarGraph("Vegetarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegan foods only
       d3.select("#vegan").on("change", function(d) {
-        document.getElementById("custom-select").disabled = true;
-        document.getElementById("checkboxes").style.display = "none";
         updateBarGraph("Vegan", true, d3.select("#dropdown-select").property("value"));
-      })
-
-      // TODO: add functionality to this
-      // Filter the graph to show custom foods only
-      d3.select("#custom").on("change", function(d) {
-        document.getElementById("custom-select").disabled = false;
-        //document.getElementById("checkboxes").style.display = "none";
-        //updateBarGraph("Vegan", true);
       })
    })
 })
