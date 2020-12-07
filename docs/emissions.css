@@ -1,0 +1,51 @@
+/* Tooltip container */
+.node-tooltip {
+    cursor: default;
+    background: white;
+    border: 3px solid;
+    border-radius: 10px;
+    text-align: left;
+    display: table;
+}
+
+/* Tooltip text container */
+.node-tooltip div {
+    padding: 10px 10px;
+    width: 125px;
+    height: 125px;
+    display: table-cell;
+    vertical-align: middle;
+
+}
+
+/* Tooltip title */
+.node-tooltip .tooltip-title {
+    font-weight: bold;
+    margin: 0;
+    line-height: normal;
+    font-size: 9pt;
+    color: #7a7a7a;
+}
+
+
+/* Tooltip percentage value */
+.node-tooltip .tooltip-value {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Tooltip percentage value label */
+.node-tooltip .tooltip-value-subtitle {
+    margin: 0;
+    font-size: 8pt;
+    line-height: normal;
+}
+
+/* Sector description subtitle */
+#sector-description {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
