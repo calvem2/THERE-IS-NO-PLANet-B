@@ -1,69 +1,43 @@
 #overview {
-    font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
-    padding: 50px;
-    /*margin-top: 50px;*/
-    /*margin-left: 100px;*/
-}
-
-/* Chart title */
-.chart-title {
-    text-align: center;
-    font-size: 22pt;
-}
-
-/* Chart subtitles */
-.subtitle {
-    font-style: oblique;
-    text-align: center;
-    margin-top: 10px;
-}
-
-/* Tooltip container */
-.node-tooltip {
-    cursor: default;
-    background: white;
-    border: 3px solid;
-    border-radius: 10px;
     text-align: left;
-    display: table;
+    font-size: 10px;
 }
 
-.node-tooltip div {
-    padding: 10px 10px;
-    width: 125px;
-    height: 125px;
-    display: table-cell;
+/* Container for overview info */
+.flex {
+    display: flex;
+    flex-direction: row;
+    font-size: 10px;
+    align-items: center;
+    flex-basis: content;
+}
+
+.flex-child {
+    /*border: solid black 1px;*/
+    margin-left: 20px;
     vertical-align: middle;
-
 }
 
-/* Tooltip title */
-.node-tooltip .tooltip-title {
+/* GHG stat */
+.first-flex-child {
+    flex: 0 0 200px;
+}
+
+/* Total GHG number */
+.flex .big-number {
+    text-align: center;
+    color: #c50000;
+}
+
+/* Total GHG subtitle */
+.first-flex-child > span {
+    display: block;
     font-weight: bold;
-    margin: 0;
-    line-height: normal;
-    font-size: 9pt;
-    color: #7a7a7a;
-}
-
-
-/* Tooltip percentage value */
-.node-tooltip .tooltip-value {
-    font-size: 10pt;
-    font-weight: bold;
-    margin-bottom: 0;
-}
-
-/* Tooltip percentage value label */
-.node-tooltip .tooltip-value-subtitle {
-    margin: 0;
-    font-size: 8pt;
-    line-height: normal;
-}
-
-#sector-description {
-    font-weight: bold;
+    color: #c50000;
     font-size: 14px;
-    margin-bottom: 10px;
+    text-align: center;
 }
 
+a {
+    color: #45489a;
+}
