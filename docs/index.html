@@ -24,7 +24,9 @@ http://www.templatemo.com/tm-518-sentra
         <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
 <!---->
+        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="overview.css">
+        <link rel="stylesheet" href="emissions.css">
         <link rel="stylesheet" href="agriculture.css">
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
@@ -35,9 +37,6 @@ http://www.templatemo.com/tm-518-sentra
         <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
         <style>
 
-body {
-  background-color:#f0f8ff;
-}
 .sidebar-navigation {
     width: 22.5%;
     float: left;
@@ -82,9 +81,10 @@ body {
       <div id="main-nav" class="collapse navbar-collapse">
           <nav>
               <ul class="nav navbar-nav">
-                  <li><a href="#top">Overview</a></li>
-                  <li><a href="#featured">Food Supply Chain</a></li>
-                  <li><a href="#projects">Building Energy Use</a></li>
+                  <li><a href="#overview">Overview</a></li>
+                  <li><a href="#emissions-section">Emissions by Sector</a></li>
+                  <li><a href="#food">Food Supply Chain</a></li>
+                  <li><a href="#projects">Energy Use</a></li>
                   <li><a href="#video">Transportation</a></li>
                   <li><a href="#blog">Our Work</a></li>
                   <li><a href="#contact">About Us</a></li>
@@ -102,14 +102,21 @@ body {
       <nav>
           <ul>
               <li>
-                  <a href="#top">
+                  <a href="#overview">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Overview
                   </a>
               </li>
               <li>
-                  <a href="#featured">
+                  <a href="#emissions-section">
+                      <span class="rect"></span>
+                      <span class="circle"></span>
+                      Emissions by Sector
+                  </a>
+              </li>
+              <li>
+                  <a href="#food">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Food Supply Chain
@@ -119,7 +126,7 @@ body {
                   <a href="#projects">
                       <span class="rect"></span>
                       <span class="circle"></span>
-                      Building Energy Use
+                      Energy Use
                   </a>
               </li>
               <li>
@@ -147,23 +154,75 @@ body {
       </nav>
   </div>
 
-    <div class="page-content">
-      <!-- Overview -->
-      <div class="content-section" id="top">
+  <div class="page-content">
+    <!-- Overview -->
+      <section class="content-section section" id="overview">
+          <div class="section-heading">
+              <h1><em>Greenhouse Gas Emissions</em></h1><h2>Why do we care?</h2>
+          </div>
+          <div class="section-content">
+              <div id="emissions-info">
+                  <div class="flex">
+                      <div class="flex-child first-flex-child">
+                          <div class="big-number" id="total-ghg"></div>
+                          <span>billion tonnes CO<sub>2</sub> eq.</span>
+                      </div>
+                      <div class="flex-child second-flex-child">
+                          <p>
+                              <b>Greenhouse gases</b> let sunlight pass through the atmosphere, but prevent heat from leaving the atmosphere.
+                              Without greenhouse gases, out planet would be too cold. However, human activities are adding to much of these gases to the atmosphere.
+                              An abundance of greenhouse gases causes the atmosphere to trap more and more heat, resulting in the Earth warming up. In 2016, global ghg
+                              emissions were 49.4 billion tonnes of CO<sub>2</sub> equivalents.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flex">
+                      <div class="flex-child first-flex-child">
+                          <div class="big-number" id="temp-num"></div>
+                          <span>estimated temperature increase by the year 2100</span>
+                      </div>
+                      <div class="flex-child second-flex-child">
+                          <p>
+                              <b>Earth's warming</b> has many negative effects. Warmer temperatures can lead to a chain reaction of negative
+                              impacts on people and the environment including lost crops, water and electricity shortages, heat waves, wildfires,
+                              pollution, increased spread of diseases, and the extinction of plants and animals. If humans continue adding ghg to the
+                              atmosphere at the current rate, the average global temperature could increase by 4-12 degrees by the year 2100.
+                          </p>
+                      </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="flex">
+                      <p class="flex-child">
+                          <b>How do human activities contribute to GHG emissions?</b> Explore the following sections to understand how humans contribute to
+                          greenhouse emissions. The <a href="#emissions-section">Emissions by Sector</a> section provides on overview of where emissions come from.
+                          The <a href="#food">Food Supply Chain</a>, <a href="#projects">Energy Use</a>, and <a href="#video">Transportation</a> take a closer
+                          look at a few of the emission sectors.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
 
-        
-          <section id="overview">
-            <h2>Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
-              <br><br><br>
-              <div id="overview-chart"></div>
-          </section>
-      </div>
+  <div class="page-content">
+    <!-- Emissions -->
+    <div class="content-section section" id="emissions-section">
+        <div class="section-heading">
+            <h1><em>Emissions by Sector</em></h1><h2>Where do emissions come from?</h2>
+        </div>
+        <div class="section-content" id="emissions">
+          <h2 class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
+          <br><br><br>
+          <div id="emissions-chart"></div>
+        </div>
+    </div>
   </div>
 
 
   <div class="page-content">
       <!-- Food Production -->
-      <section id="featured" class="content-section">
+      <section id="food" class="content-section section">
           <div class="section-heading">
               <h1><em>You are what you eat..</em></h1><h2>How does your everyday diet affect the planet?</h2>
           </div>
@@ -368,6 +427,7 @@ body {
   <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
   <script src="overview.js"></script>
+  <script src="emissions.js"></script>
   <script src="agriculture.js"></script>
   <script src="js/elizabeth.js"></script>
 
