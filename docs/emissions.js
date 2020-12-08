@@ -53,7 +53,7 @@ let description = d3.selectAll("#emissions")
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .text("Explore the breakdown of emission by hovering over sectors. Click sectors to view (and hide) more information.");
+    .text("Explore the breakdown of emission by hovering over sectors. Click sectors to view more information.");
 
 // Append subtitle for data info
 d3.selectAll("#emissions")
@@ -89,6 +89,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .enter().append("g")
         .attr("class", "node")
         .attr("id", d => "node" + d.node)
+        .attr("cursor", "pointer")
         .on("mouseover", mouseoverNode)
         .on("mouseout", mouseoutNode);
 
@@ -98,6 +99,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("y", d => d.y0 - 5)
         .attr("height", 12)
         .attr("width", nodeWidth)
+        .attr("cursor", "pointer")
         .style("opacity", 0)
         .attr("stroke", "none");
 
@@ -119,12 +121,12 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("text-anchor", "start")
         .attr("class", "node-label")
         .attr("font-weight", "normal")
-        .style("cursor", "default")
+        .style("cursor", "pointer")
         .text(d => d.name)
         .on("click", clickNode);
 
     // Add tooltips
-    let tooltips = svg.append("g").selectAll(".node-tooltip")
+    svg.append("g").selectAll(".node-tooltip")
         .data(graph.nodes)
         .enter()
         .append("foreignObject")
@@ -133,8 +135,16 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             return Math.min((d.y1 + d.y0) / 2, 475);
         })
         .attr("class", "node-tooltip")
+        .attr("id", function(d) {
+            return "tooltip" + d.node;
+        })
         .attr("height", "125px")
         .attr("width", "125px")
+        .on("mouseover", function(event, d) {
+            mouseoverNode(event, d);
+            this.style.display = "block";
+        })
+        .on("mouseout", mouseoutNode)
         .style("border-color", d => color(d))
         .style("display", "none")
         .html(function(d) {
@@ -148,7 +158,19 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
     // Add mouseover functionality to nodes
     function mouseoverNode(event, d) {
         // get this node
-        let node = event["path"][1]["__data__"];
+        let node;
+        let nodeId = "node";
+        if (event["path"][1].className.baseVal === "node") {
+            node = event["path"][1]["__data__"];
+        } else {
+            for (let i = 0; i < event["path"].length; i++) {
+                if (event["path"][i].id.startsWith("tooltip")) {
+                    nodeId += event["path"][i].id.slice(7);
+                    break;
+                }
+            }
+            node = document.getElementById(nodeId)["__data__"];
+        }
 
         // Transition all links to be more transparent
         d3.selectAll(".link")
@@ -162,6 +184,8 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             d3.select("#" + this.id + " .node-label")
                 .attr("font-weight", "bold");
         }
+
+        description.text(d.info);
 
         // Highlight all links for this node
         highlightLinks(node.sourceLinks, "sourceLinks");
@@ -198,6 +222,13 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         // Reset font weight
         d3.select("#" + this.id + " .node-label")
             .attr("font-weight", "normal");
+
+        // Hide tooltips
+        d3.selectAll(".node-tooltip")
+            .style("display", "none");
+
+        // Update sector description
+        description.text("");
     }
 
     // Show and hide tooltip on click
