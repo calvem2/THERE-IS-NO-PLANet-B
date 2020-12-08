@@ -1,0 +1,31 @@
+/* GENERAL STYLING */
+body {
+    background-color: white;
+}
+
+/* Chart titles */
+.chart-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Chart subtitles */
+.subtitle {
+    font-style: oblique;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Section layout */
+.section {
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 80px;
+}
+
+/* Big static numbers */
+.big-number {
+    font-size: 72px;
+}

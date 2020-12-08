@@ -12,11 +12,6 @@ d3.csv("data/foodData.csv").then(function(data) {
       .append("svg")
         .attr("width", agWidth + agMargin.left + agMargin.right)
         .attr("height", agHeight + agMargin.top + agMargin.bottom)
-        // .call(d3.zoom()
-        //   .scaleExtent([1, 10])
-        //   .translateExtent([[margin.left, margin.top], [width - margin.right, height - margin.top]])
-        //   .extent([[margin.left, margin.top], [width - margin.right, height - margin.top]])
-        //   .on("zoom", zoom))
       .append("g")
         .attr("transform",
               "translate(" + agMargin.left + "," + agMargin.top + ")");      
@@ -34,15 +29,15 @@ d3.csv("data/foodData.csv").then(function(data) {
     subgroupMap.set("Retail", 1);
 
     // // Create the color map for the bar chart
-    // var barColorMap = new Map();
-    // barColorMap.set("Farm", "#0d3b66");
-    // barColorMap.set("Land_Use_Change", "#faf0ca");
-    // barColorMap.set("Animal_Feed", "#f4d35e");
-    // barColorMap.set("Processing", "#ee964b");
-    // barColorMap.set("Transport", "#f95738");
-    // barColorMap.set("Packaging", "#7b886b");
-    // barColorMap.set("Retail", "#a41623");
-  
+    var barColorMap = new Map();
+    barColorMap.set("Farm", "#c5596e");
+    barColorMap.set("Land_Use_Change", "#52b79c");
+    barColorMap.set("Animal_Feed", "#b7d175");
+    barColorMap.set("Processing", "#4d8993");
+    barColorMap.set("Transport", "#476585");
+    barColorMap.set("Packaging", "#8e6994");
+    barColorMap.set("Retail", "#A78683");
+
     // List of food groups
     var groups = d3.map(data, function(d){
       return(d.Food_Product);
@@ -62,7 +57,23 @@ d3.csv("data/foodData.csv").then(function(data) {
       .attr("x", 375)    // moves the text left and right from the x-axis
       .attr("y",  530)
       .text(function (d) { return "Sort Descending: " + d.replaceAll("_", " "); }) // text showed in the menu
+      .attr("id", function (d) { return "dropdown-" + d; })
       .attr("value", function (d) { return d; }); // corresponding value returned by the dropdown
+
+    // Adds all of the check boxes to the custom drop down
+    var testAddCheckbox = d3.select("#checkboxes")
+      .selectAll('myOptions')
+      .data(data)
+      .enter()
+      .append('label')
+        .attr('for', function(d) {return d.Food_Product; })
+        //.attr('id', function(d) {return d.Food_Product; }) // set the id of the 
+        .text(function(d) {return d.Food_Product})
+      .append('input')
+        .attr('type', 'checkbox')
+        .attr('id', function(d) {return d.Food_Product; }) // set the id of the 
+        .text(function(d) {return d.Food_Product});
+
 
     // X axis title
     svg.append("text")
@@ -85,7 +96,62 @@ d3.csv("data/foodData.csv").then(function(data) {
         .attr("transform", "rotate(-90)")
         .style("fill", "black") // color of title
         .text("Greenhouse Gas Emissions (kgCO2 per kg Food Product)"); 
+
+    ///////////////
+    // Subtitles //
+    ///////////////
+
+    // Append retail subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Retail")
+      .text("Retail – emissions from retail processes (e.g. energy used in refrigeration of food products)");
   
+    // Append packaging subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Packaging")
+      .text("Packaging – emissions from production of packaging materials, transport of packaging, and disposal of packaging");
+
+    // Append transport subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Transport")
+      .text("Transport – emissions from energy use in the transport of food");
+
+    // Append processing subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Processing")
+      .text("Processing – emissions from energy use in the process of converting " + 
+            "raw agricultural products into final food products");
+
+    // Append animal feed subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Animal_Feed")
+      .text("Animal Feed – emissions from crop production and its processing into " +
+            "feed for livestock (the Vegan diet does not contain this category)");
+
+    // Append land use change subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Land_Use_Change")
+      .text(" Land Use Change – emissions from deforestation and underground changes in soil carbon");
+    
+    // Append farm subtitle
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "ag-subtitle")
+      .attr("id", "Farm")
+      .text("Farm – emissions from farm machinery, fertilizers, cows, manure, and rice");
+
     // Add X axis
     var x = d3.scaleBand()
         .domain(data.sort(function(a, b) { 
@@ -115,84 +181,102 @@ d3.csv("data/foodData.csv").then(function(data) {
       .range([ agHeight, 0 ]);
     var yAxis = svg.append("g")
       .call(d3.axisLeft(y));
-  
-    // color palette = one color per subgroup
-    // var color = d3.scaleOrdinal()
-    //   .domain(subgroups)
-    // TODO: change the colors to bucket into
+
     // Create the color map
     var color = d3.scaleOrdinal()
-      .range(["#ff4747", "#659b5e", "#ffb140", "#8cb1ab", "#37515f", "#8c5383", "#ad7b5c"])
-      .domain(subgroups);
-
-    var barColor = d3.scaleOrdinal()
-      .range(["#ff4747", "#659b5e", "#ffb140", "#8cb1ab", "#37515f", "#8c5383", "#ad7b5c"])
+      .range(["#c5596e", "#52b79c", "#b7d175", "#4d8993", "#476585", "#8e6994", "#A78683"])
       .domain(subgroups);
 
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
       .keys(subgroups)
-      (data)
+      (data);
   
     // TODO: make the tooltip follow the mouse
     // ----------------
     // Create a tooltip
     // ----------------
-    var tooltip = d3.select("#agriculture_graph")//.select("svg")
+    var tooltip = d3.select("#agriculture_graph")
       .append("div")
       .style("opacity", 0)
       .attr("class", "ag-bar-tooltip")
       .style("background-color", "white")
       .style("border", "solid")
-      .style("border-width", "1px")
+      .style("border-width", "3px")
       .style("border-radius", "5px")
       .style("padding", "10px");
     
     // Show the tooltip on mouse over
-    var mouseover = function(d) {
+    var mouseover = function(event, d) {
       // Get name of current food hovered over
       var foodName = d3.select(this).datum().data["Food_Product"];
       // Get the name of the hovered sub category of the bar
-      var subgroupName = d3.select(this.parentNode).datum().key.replaceAll("_", " ");
+      var subgroupName = d3.select(this.parentNode).datum().key;
       // Get the value of the hovered category of the bar
       var subgroupValue = d3.select(this).datum().data[subgroupName];
       // Get the total for the bar graph
       var totalValue = d3.select(this).datum().data["Total"];
+      // Color of the hovered over bar
+      var colorOfBar = barColorMap.get(subgroupName);
       tooltip
-          .html("<b>" + foodName 
-            + "</b><br>Subgroup: " + subgroupName 
-            + "<br>Value: " + subgroupValue + " kgCo2"
-            + "<br><br>Total: " + totalValue + " kgCo2")
+          .style("border-color", colorOfBar)
+          .html("<p class='ag-tooltip-title' >" + foodName.toUpperCase() + "</p>"
+            + `<p class='ag-tooltip-subcategory'>` + subgroupName.replaceAll("_", " ") + ": </p>"
+            + `<p class='ag-tooltip-value' style='color:${colorOfBar}'>` + subgroupValue +  " kgCo2</p>"
+            + "<br><p class='ag-tooltip-value'>Total: " + totalValue + " kgCo2</p>")
           .style("opacity", 1)
-          .style("left", (d.clientX + 30) + "px")
-          .style("top", (d.clientY + 200) + "px");
+          .style("left", (event.pageX - 300) + "px")
+          .style("top", (event.pageY - 1250) + "px");
     }
 
-    // Place tooltip on mouse move
-    var mousemove = function(d) {
+    var mousemove = function(event, d) {
       tooltip
-        .style("left", (d.clientX + 30) + "px")
-        .style("top", (d.clientY + 200) + "px")
+          .style("left", (event.pageX - 300) + "px")
+          .style("top", (event.pageY - 1250) + "px");
     }
+
     // Make the tooltip disappear when mouse leaves
     var mouseleave = function(d) {
       tooltip
         .style("opacity", 0)
     }
 
-    // ////////////////////////
-    // // Draw the bar chart //
-    // ////////////////////////
+    ////////////////////////
+    // Draw the bar chart //
+    ////////////////////////
 
     // Draw the initial graph
-    updateBarGraph("No_Diet", false);
+    updateBarGraph("No_Diet", false, "Total");
 
     // Updates the bar graph based on the diet filter
     // and selected sorting method
-    function updateBarGraph(dietName, doTransition) {
-      // Get the category to sort on
-      var sortCategory = d3.select("#dropdown-select").property("value");
-      
+    function updateBarGraph(dietName, doTransition, sortCategory) {
+      // Update the subtitle beneath the graph based on what we are sorting
+      for (var i = 1; i < allSubGroups.length; i++) {
+        // Display everything if total is selected
+        if (sortCategory == "Total") {
+          // Make everything not bold
+          document.getElementById(allSubGroups[i]).style.fontWeight = "10";
+          if (subgroupMap.get(allSubGroups[i]) == 1) {
+            document.getElementById(allSubGroups[i]).style.display = "block";
+          } else {
+            document.getElementById(allSubGroups[i]).style.display = "none";
+          }
+        } else {
+          // Display the subtitle text
+          if (subgroupMap.get(allSubGroups[i]) == 1) {
+            document.getElementById(allSubGroups[i]).style.display = "block";
+            if (sortCategory == allSubGroups[i]) {
+              document.getElementById(allSubGroups[i]).style.fontWeight = "800";
+            } else {
+              document.getElementById(allSubGroups[i]).style.fontWeight = "10";
+            }
+          } else { // Don't display the subtitle text 
+            document.getElementById(allSubGroups[i]).style.display = "none";
+          }
+        }
+      }
+ 
       // Sort the data based on the category to sort on 
       // and filter the data based on the diet name and the subgroup selected
       var filteredDietData = data.sort(function(a, b) { 
@@ -207,6 +291,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       })).range([0, agWidth])
       .padding([0.2]);
 
+      // Transition for the x axis
       xAxis.transition().duration(1000).call(d3.axisBottom(x))
       .selectAll("text")
         .style("text-anchor", "end")
@@ -250,39 +335,15 @@ d3.csv("data/foodData.csv").then(function(data) {
         // Enter in the stack data = loop key per key = group per group
         .data(stackedDietData);
     
-      //** attempt to update the colors did not work **//
-
-      // TODO: works correctly in getting the current colors needed
-      // but does not do the correct thing
-      // var colorRange = [];
-      // // Update the color range
-      // for (let [key, value] of subgroupMap) {
-      //   if (subgroupMap.get(key) == 1) {
-      //     colorRange.push(barColorMap.get(key));
-      //   }
-      // }
-
-      // // TODO: see if this works
-      // barColor.range(colorRange)
-      //   .domain(subgroups);
-    
       barGroup.exit().remove();
-      
-      // .attr("fill", function(d) { 
-      //   // Color the subsections of the bars
-      //   //return(colorMap.get(d.key))
-      //   return barColor(d.index);
-      // });
 
-      // TODO: this is not working - have colors stay the same
-      //TODO: does not update correctly 
       barGroup.enter().append("g")
-        .classed("layer", true)
-        .attr("fill", function(d) { 
-          // Color the subsections of the bars
-          //return(colorMap.get(d.key))
-          return barColor(d.index);
-        });
+        .classed("layer", true);
+
+      // Update the color of the bar chart
+      svg.selectAll("g.layer").attr("fill", function(d) { 
+        return barColorMap.get(d.key);
+      });
 
       // Show the bars
       var bars = svg.selectAll("g.layer").selectAll("rect")
@@ -294,7 +355,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       // If we want the sorting animation to happen then do the transition
       if (doTransition) {
         bars.enter().append("rect")
-        .attr("width", 16)//x.bandwidth())
+        .attr("width", 16)// TODO: doesnt work well
         .merge(bars)
         .attr("class", "bar")
         .attr("y", function(d) { return y(d[1]); })
@@ -305,7 +366,7 @@ d3.csv("data/foodData.csv").then(function(data) {
           return x(d.data.Food_Product); })
       } else {
         bars.enter().append("rect")
-        .attr("width", 16)//x.bandwidth())
+        .attr("width", 16) // TODO: doesnt work well
         .merge(bars)
         .attr("class", "bar")
         .attr("y", function(d) { return y(d[1]); })
@@ -345,7 +406,7 @@ d3.csv("data/foodData.csv").then(function(data) {
         .attr("width", size)
         .attr("height", size)
         .style("fill", function(d) { return color(d); })//colorMap.get(d.key); })
-        //.on("click", function(e, d) { legendClicked(d); })
+        .on("click", function(e, d) { legendClicked(d); })
     // Add the text to the legend
     var legendTitles = svg.selectAll("mylabels")
       .data(color.domain().slice().reverse())
@@ -357,74 +418,90 @@ d3.csv("data/foodData.csv").then(function(data) {
         .text(function(d){ return d.replaceAll("_", " ") })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
-        //.on("click", function(e, d) { legendClicked(d); })
+        .on("click", function(e, d) { legendClicked(d); })
     
-    // // Update the legend and graph when it is clicked
-    // function legendClicked(subCategoryClicked) {
-    //   // TODO: update the color domain: 
-    //   // Does not work
-    //   // color.range(["red", "green", "yellow", "black", "#a05d56", "#d0743c", "#ff8c00"])
-    //   // .domain(subgroups);
+    // Update the legend and graph when it is clicked
+    function legendClicked(subCategoryClicked) {
+      // Update the map to toggle the category clicked
+      if (subgroupMap.get(subCategoryClicked) == 1) {
+        // Toggle off the sub group
+        subgroupMap.set(subCategoryClicked, 0);
+      } else {
+        // Toggle on the sub group
+        subgroupMap.set(subCategoryClicked, 1);
+      }
+      // Update the legend title colors
+      legendTitles.style("fill", function(d) {
+        var currSubCategory = d;
+        // If the subcategory is selected in the legend
+        if (subgroupMap.get(currSubCategory) == 1) {
+          return("black");
+        }
+        return("#ccc");   
+      });
 
-    //   // Update the map to toggle the category clicked
-    //   if (subgroupMap.get(subCategoryClicked) == 1) {
-    //     // Toggle off the sub group
-    //     subgroupMap.set(subCategoryClicked, 0);
-    //   } else {
-    //     // Toggle on the sub group
-    //     subgroupMap.set(subCategoryClicked, 1);
-    //   }
-    //   // Update the legend title colors
-    //   legendTitles.style("fill", function(d) {
-    //     var currSubCategory = d;
-    //     // If the subcategory is selected in the legend
-    //     if (subgroupMap.get(currSubCategory) == 1) {
-    //       return("black");
-    //     }
-    //     return("#ccc");   
-    //   });
+      // Update the legend square colors
+      legendSquares.style("fill", function(d) { 
+        var currSubCategory = d;
+        // If the subcategory is selected in the legend
+        if (subgroupMap.get(currSubCategory) == 1) {
+          return color(d);
+          //return(colorMap.get(d.key));
+        }
+        return("#ccc");   
+      });
 
-    //   // Update the legend square colors
-    //   legendSquares.style("fill", function(d) { 
-    //     var currSubCategory = d;
-    //     // If the subcategory is selected in the legend
-    //     if (subgroupMap.get(currSubCategory) == 1) {
-    //       return color(d);
-    //       //return(colorMap.get(d.key));
-    //     }
-    //     return("#ccc");   
-    //   });
-    //   // Update the subgroup list
-    //   subgroups = [];
+      // Get the sort selected in the drop down
+      var selectedSort = d3.select("#dropdown-select").property("value");
+      var selectedSortIsFilteredOut = false;
+      // Update the subgroup list
+      subgroups = [];
+      // Loop through the map
+      for (let [key, value] of subgroupMap) {
+        var dropdownID = "dropdown-" + key;
+        // Add the sub group to the list if it needs to be displayed
+        if (value == 1) {
+          subgroups.push(key);
+          // Make the subcategory shown in the dropdown
+          document.getElementById(dropdownID).style.display = "block";
+        } else {
+          // Hide the subcategory from the dropdown
+          document.getElementById(dropdownID).style.display = "none";
+          // If the selected sort is being filtered out
+          if (selectedSort == key) {
+            selectedSortIsFilteredOut = true;
+          }
+        }
+      }
       
-    //   //var allGroups = ["Total"];
-    //   // Loop through the map
-    //   for (let [key, value] of subgroupMap) {
-    //     // Add the sub group to the list if it needs to be displayed
-    //     if (value == 1) {
-    //       //allGroups.push(key);
-    //       subgroups.push(key);
-    //     }
-    //   }
+      // Update the .csv files with the new total values
+      updateCSVTotals(subgroups);
 
-    //   // d3.select("#dropdown-select")
-    //   // .selectAll('myOptions')
-    //  	// .data(allGroups) // TODO: get the names of the subcategories here
-    //   // .enter()
-    //   // .append('option')
-    //   // .attr("x", 375)    // moves the text left and right from the x-axis
-    //   // .attr("y",  530)
-    //   // .text(function (d) { return "Sort Descending: " + d.replaceAll("_", " "); }) // text showed in the menu
-    //   // .attr("value", function (d) { return d; });
+      // Change the dropdown selected to be Total
+      if (selectedSortIsFilteredOut) {
+        // Select total to be the selected drop down element
+        let element = document.getElementById("dropdown-select");
+        element.value = "Total";
+        // Sort the graph based on the total
+        onchangeUpdateGraph(true, "Total");
+      } else { // Keep the same sort
+        onchangeUpdateGraph(true, d3.select("#dropdown-select").property("value"));
+      }    
+    }
 
-    //   // dropdownSelect.data(allGroups) 
-    //   // .enter()
-    //   // .text(function (d) { return "Sort Descending: \"" + d.replaceAll("_", " ") + "\""; }) // text showed in the menu
-    //   // .attr("value", function (d) { return d; });
-
-    //   // Update the graph
-    //   onchangeUpdateGraph(false);
-    // }
+    // Update the csv Total column with the new totals
+    // based on the current sub groups filtered
+    function updateCSVTotals(currSubGroups) { 
+      data.forEach(function(d) {
+        var newTotal = 0;
+        // Get the total based on what is filtered in the legend
+        for (var i = 0; i < currSubGroups.length; i++) {
+          newTotal += parseFloat(d[currSubGroups[i]]); 
+        }
+        // Make update the total in the data
+        d.Total = Math.round(newTotal * 100) / 100;
+      });
+    }
     
 
       /////////////////////////////////////////
@@ -434,11 +511,11 @@ d3.csv("data/foodData.csv").then(function(data) {
       // TODO: checked is not working
       // Listen for when the dropdown is updated
       d3.select("#dropdown-select").on("change", function(d) {
-        onchangeUpdateGraph(true);
+        onchangeUpdateGraph(true, d3.select("#dropdown-select").property("value"));
       })
 
       // Update the graph based on sorting and radio button clicked
-      function onchangeUpdateGraph(doTransition) {
+      function onchangeUpdateGraph(doTransition, sortCategory) {
         // See if there is a selected radio button
         var selectedDiet = "No_Diet";
         if (document.getElementById("pescatarian").checked) {
@@ -450,7 +527,7 @@ d3.csv("data/foodData.csv").then(function(data) {
         }
 
         // Update the graph based on filter and sorting
-        updateBarGraph(selectedDiet, doTransition);
+        updateBarGraph(selectedDiet, doTransition, sortCategory);
       }
 
 
@@ -460,37 +537,22 @@ d3.csv("data/foodData.csv").then(function(data) {
 
       // Filter the graph to show omnivorous foods only
       d3.select("#no-diet").on("change", function(d) {
-        updateBarGraph("No_Diet", true);
+        updateBarGraph("No_Diet", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show pescatarian foods only
       d3.select("#pescatarian").on("change", function(d) {
-          updateBarGraph("Pescatarian", true);
+        updateBarGraph("Pescatarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegetarian foods only
       d3.select("#vegetarian").on("change", function(d) {
-        updateBarGraph("Vegetarian", true);
+        updateBarGraph("Vegetarian", true, d3.select("#dropdown-select").property("value"));
       })
 
       // Filter the graph to show vegan foods only
       d3.select("#vegan").on("change", function(d) {
-       updateBarGraph("Vegan", true);
+        updateBarGraph("Vegan", true, d3.select("#dropdown-select").property("value"));
       })
-
-      // TODO: attempt to implement a zooming function for the bar graph
-      // function zoom(eventTest) { 
-      //   //window.alert("test");
-      //   // x.range([margin.left, width - margin.right].map(function(d){  return 30; }));//return eventTest.transform.__proto__.rescaleX(d); }));
-      //   //  xAxis.call(d3.axisBottom(x))
-      //   // .selectAll("text")
-      //   //   .style("text-anchor", "end")
-      //   //   .attr("dx", "-.8em")
-      //   //   .attr("dy", ".15em")
-      //   //   .attr("transform", "rotate(-65)");
-      //   // svg.selectAll("g.layer").selectAll("rect")
-      //   //   .attr("x", d => x(d.Food_Product))
-      //   //   .attr("width", x.bandwidth());
-      // }
    })
 })
