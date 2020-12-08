@@ -1,7 +1,7 @@
 var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%Y");
-// var parseDate = d3.timeParse("%m/%d/%y");
+var formatDate = d3.timeFormat("%b %Y");
+var parseDate = d3.timeParse("%m/%d/%y");
 
 var startDate = new Date("1965-01-01"),
     endDate = new Date("2019-12-30");
@@ -9,7 +9,7 @@ var liz_margin = {top:0, right:100, bottom:0, left:50},
     w = 960 - liz_margin.left - liz_margin.right,
     h = 200 - liz_margin.top - liz_margin.bottom;
 
-// slider
+
 var svgSlider = d3.select("#slider")
     .append("svg")
     .attr("width", w + liz_margin.left + liz_margin.right)
@@ -17,7 +17,7 @@ var svgSlider = d3.select("#slider")
     
 var x = d3.scaleTime()
     .domain([startDate, endDate])
-    .rangeRound([0, w])
+    .range([0, w])
     .clamp(true);
 
 var slider = svgSlider.append("g")
@@ -38,9 +38,9 @@ slider.append("line")
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
-    .attr("transform", "translate(0," + 10 + ")")
+    .attr("transform", "translate(0," + 18 + ")")
   .selectAll("text")
-    .data(x.ticks(15))
+    .data(x.ticks(10))
     .enter()
     .append("text")
     .attr("x", x)
@@ -50,13 +50,14 @@ slider.insert("g", ".track-overlay")
 
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
-    .attr("r", 10);
+    .attr("r", 9);
 
 var label = slider.append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .text(formatDate(startDate))
     .attr("transform", "translate(0," + (-25) + ")")
+
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -159,7 +160,7 @@ function ready(topo, year) {
     
             // set the color of each country
             .attr("fill", function (d) {
-            d.total = country_map.get(d.id) || 0;
+                d.total = country_map.get(d.id) || 0;
                 return colorScale(d.total);
             })
             .style("stroke", "transparent")
