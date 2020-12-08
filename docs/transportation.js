@@ -13,8 +13,8 @@ var t_margin = {
     bottom: 30, 
     left: 60
 },
-    t_width = 460 - t_margin.left - t_margin.right,
-    t_height = 400 - t_margin.top - t_margin.bottom;
+    t_width = (460 - t_margin.left - t_margin.right) + 100,
+    t_height = (400 - t_margin.top - t_margin.bottom);
 
 // parse Dates
 var parseTime = d3.timeParse("%Y");
@@ -39,8 +39,8 @@ var line = d3.line()
 // create the svg element that the line chart will attach to
 var t_svg = d3.select("#t_line_chart")
     .append('svg')
-    .attr("width", t_width + t_margin.left + t_margin.right)
-    .attr("height", t_height + t_margin.top + t_margin.bottom)
+    .attr("width", t_width + t_margin.left + t_margin.right + 300)
+    .attr("height", t_height + t_margin.top + t_margin.bottom + 200)
     .append("g")
     .attr("transform", "translate(" + t_margin.left + "," + t_margin.top + ")");
 
@@ -88,6 +88,23 @@ d3.csv("transportation.csv",
         t_svg.append("g")
             .call(d3.axisLeft(y));
 
+        // add axes titles
+        t_svg.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "end")
+            .attr("x", t_width - 225)
+            .attr("y", t_height + 50)
+            .text("Year");
+
+        t_svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("y", -55)
+            .attr("x", -125)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Amount of CO2");
+
         // color palette
         var res = groupData.map(function(d) { return d.key});
         console.log(res);
@@ -98,6 +115,7 @@ d3.csv("transportation.csv",
         // draw line
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "red")
             .attr("stroke-width", 3)
@@ -108,8 +126,9 @@ d3.csv("transportation.csv",
             
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "orange")
+            .attr("stroke", "rgb(114, 119, 119)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -118,8 +137,9 @@ d3.csv("transportation.csv",
 
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            .attr("stroke", "pink")
             .attr("stroke-width",3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -128,8 +148,9 @@ d3.csv("transportation.csv",
             
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "green")
+            .attr("stroke", "rgb(58, 88, 116)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -138,8 +159,9 @@ d3.csv("transportation.csv",
 
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "purple")
+            .attr("stroke", "rgb(84, 42, 125)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -148,13 +170,90 @@ d3.csv("transportation.csv",
 
         // draw title
         d3.select("#t_line_chart #t_line_chart_title")
-        .text("Transport sector CO2 emissions by mode in the Sustainable Development Scenario, 2000-2030");
+        .text("CO2 emissions by mode in the Sustainable Development Scenario, 2000-2030");
 
         // draw legend
-        var legend = t_svg.selectAll('g.legend')
-            .append('g')
-            .attr('class', 'legend');
 
+        // passenger freight vehicles
+        t_svg.append("rect")
+            .attr("x", 575)
+            .attr("y", 92)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "red")
+
+        t_svg.append("text")
+            .attr("x", 600)
+            .attr("y", 100)
+            .text("Road Passenger Vehicles")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // road freight vehicles
+        t_svg.append("rect")
+            .attr("x", 575)
+            .attr("y", 122)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "pink")
+
+        t_svg.append("text")
+            .attr("x", 600)
+            .attr("y", 130)
+            .text("Road Freight Vehicles")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // aviation
+        t_svg.append("rect")
+            .attr("x", 575)
+            .attr("y", 152)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(114, 119, 119)")
+
+        t_svg.append("text")
+            .attr("x", 600)
+            .attr("y", 160)
+            .text("Aviation")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        
+        // shipping
+        t_svg.append("rect")
+            .attr("x", 575)
+            .attr("y", 182)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(58, 88, 116)")
+
+        t_svg.append("text")
+            .attr("x", 600)
+            .attr("y", 190)
+            .text("Shipping")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // other
+        t_svg.append("rect")
+            .attr("x", 575)
+            .attr("y", 212)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(84, 42, 125)")
+        
+        t_svg.append("text")
+            .attr("x", 600)
+            .attr("y", 220)
+            .text("Other")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
 
         // mouseover tooltip
 
@@ -174,7 +273,7 @@ d3.csv("transportation.csv",
 
         // a g for each circle and text on the line
         var mousePerLine = mouseG.selectAll(".mouse-per-line")
-            .data(data)
+            .data(lines)
             .enter()
             .append("g")
             .attr("class", "mouse-per-line");
@@ -228,9 +327,9 @@ d3.csv("transportation.csv",
         d3.selectAll(".mouse-per-line")
             .attr("transform", function(d, i) {
             console.log(t_width/mouse[0])
-            var xDate = x.invert(mouse[0]),
-                bisect = d3.bisector(function(d) { return d.Other; }).right;
-                idx = bisect(d.values, xDate);
+            // var xDate = x.invert(mouse[0]),
+            //     bisect = d3.bisector(function(d) { return d.Other; }).right;
+            //     idx = bisect(d.values, xDate);
 
             console.log("xData: ");
 
@@ -261,5 +360,62 @@ d3.csv("transportation.csv",
             return "translate(" + mouse[0] + "," + pos.y +")";
             });
         });
-    })
+
+    }
+
+    // function(d) {
+    //     return { 
+    //         Year : d3.timeParse("%Y")(d.Year), 
+    //         Sector : d.Sector,
+    //         CO2 : d.CO2, 
+    //     }
+    // },
+
+    // function(data) {
+    //     console.log("data: ", data);
+
+    //     var groupedData = d3.nest()
+    //         .key(function(d) { return d.Sector })
+    //         .entries(data);
+
+    //     console.log("grouped data: ", groupedData);
+        
+    //     // add x axis
+    //     var x = d3.scaleTime()
+    //         .domain(d3.extent(data, function(d) { return d.Year; }))
+    //         .range([0, t_width]);
+    //     t_svg.append("g")
+    //         .attr("transform", "translate(0," + t_height + ")")
+    //         .call(d3.axisBottom(x));
+
+    //     // add y axis
+    //     var y = d3.scaleLinear()
+    //         .domain([0, d3.max(data, function(d) { return d.CO2 })])
+    //         .range([t_height, 0]);
+    //     t_svg.append("g")
+    //         .call(d3.axisLeft(y));
+
+    //     // color palette
+    //     var res = groupedData.map(function(d){ return d.key }) // list of group names
+    //     var color = d3.scaleOrdinal()
+    //         .domain(res)
+    //         .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00'])
+
+    //     // Draw the line
+    //     t_svg.selectAll(".line")
+    //     .data(groupedData)
+    //     .enter()
+    //     .append("path")
+    //       .attr("fill", "none")
+    //       .attr("stroke", function(d){ return color(d.key) })
+    //       .attr("stroke-width", 1.5)
+    //       .attr("d", function(d){
+    //           console.log();
+    //         return d3.line()
+    //           .x(function(d) { return x(d.year); })
+    //           .y(function(d) { return y(d.CO2); })
+    //           .curve(d3.curveBasis);
+    //       });
+    // }
+)
 
