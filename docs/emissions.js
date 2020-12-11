@@ -53,13 +53,13 @@ let description = d3.selectAll("#emissions")
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .text("Explore the breakdown of emission by hovering over sectors. Click sectors to view more information.");
+    .text("Explore the breakdown of emission by hovering over sectors. Click on a sector to view its percentage of total emissions.");
 
 // Append subtitle for data info
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .text("Source: Climate Watch and the World Resources Institute's  latest breakdown of global emissions by sector.");
+    .html("<a href='https://www.climatewatchdata.org/ghg-emissions'>Source</a>: Climate Watch and the World Resources Institute's breakdown of global emissions by sector.");
 
 // Load data and draw diagram
 d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
@@ -78,10 +78,59 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
         .attr("id", d => "link-" + d.index)
         .attr("d", d3.sankeyLinkHorizontal())
         .attr("fill", "none")
-        .attr("stroke-opacity", .4)
+        .attr("stroke-opacity", 0)
         .attr("stroke", d => color(d.target))
         .attr("stroke-width", d => Math.max(1, d.width))
         .sort(function(a, b) { return b.dy - a.dy; });
+
+
+    // Animate links
+    new ScrollMagic.Scene({
+            triggerElement: '#emissions',
+            triggerHook: 0.5,
+            duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
+            offset: 50, // move trigger to center of element
+            reverse: true
+        })
+        .on('enter', (e) => {
+            // if (e.scrollDirection == "FORWARD" && startpin.progress() < 0.37) {
+                d3.selectAll(".link").each(function(d, i) {
+                    var pathLength = d3.select("#link-" + i).node().getTotalLength();
+                    if (i >= 33) {
+                        d3.selectAll("#link-" + i)
+                            .attr("stroke-dasharray", pathLength + " " + pathLength)
+                            .attr("stroke-dashoffset", pathLength)
+                            .attr("stroke-opacity", .4)
+                            .transition("sankey")
+                            .delay(500)
+                            .duration(1000)
+                            .ease(d3.easeLinear)
+                            .attr("stroke-dashoffset", 0)
+                    } else if (i <= 16) {
+                        d3.selectAll("#link-" + i)
+                            .attr("stroke-dasharray", pathLength + " " + pathLength)
+                            .attr("stroke-dashoffset", pathLength)
+                            .attr("stroke-opacity", .4)
+                            .transition("sankey")
+                            .delay(1500)
+                            .duration(1000)
+                            .ease(d3.easeLinear)
+                            .attr("stroke-dashoffset", 0)
+                    } else {
+                        d3.selectAll("#link-" + i)
+                            .attr("stroke-dasharray", pathLength + " " + pathLength)
+                            .attr("stroke-dashoffset", pathLength)
+                            .attr("stroke-opacity", .4)
+                            .transition("sankey")
+                            .delay(2500)
+                            .duration(1000)
+                            .ease(d3.easeLinear)
+                            .attr("stroke-dashoffset", 0)
+                    }
+                })
+            // }
+        })
+        .addTo(controller);
 
     // Add nodes
     let nodes = svg.append("g").selectAll(".node")

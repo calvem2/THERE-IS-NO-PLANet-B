@@ -77,7 +77,7 @@ d3.csv("data/foodData.csv").then(function(data) {
 
     // X axis title
     svg.append("text")
-        .attr("class", "x label")
+        .attr("class", "x label axis-title")
         .attr("text-anchor", "middle")
         .attr("font-size", 18)
         .attr("x", 350)    // moves the text left and right from the x-axis
@@ -87,7 +87,7 @@ d3.csv("data/foodData.csv").then(function(data) {
 
     // Y axis title
     svg.append("text")
-        .attr("class", "y label")
+        .attr("class", "y label axis-title")
         .attr("text-anchor", "middle")
         .attr("font-size", 16)
         .attr("y", -50)     // moves the text left and right from the y-axis
