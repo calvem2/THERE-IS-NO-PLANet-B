@@ -22,7 +22,7 @@ var x = d3.scaleTime()
 
 var slider = svgSlider.append("g")
     .attr("class", "slider")
-    .attr("transform", "translate(" + liz_margin.left + "," + h / 2 + ")");
+    .attr("transform", "translate(" + liz_margin.left + "," + h / 2 + ")"); // y position of the slider
 
 slider.append("line")
     .attr("class", "track")
@@ -34,7 +34,7 @@ slider.append("line")
     .attr("class", "track-overlay")
     .call(d3.drag()
         .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() { update(x.invert(event.x)); }));
+        .on("drag", dragged));
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
@@ -48,15 +48,17 @@ slider.insert("g", ".track-overlay")
     .attr("text-anchor", "middle")
     .text(function(d) { return formatDateIntoYear(d); });
 
+// Circle for the slider
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
     .attr("r", 9);
 
+// Label above the circle slider
 var label = slider.append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
-    .text(formatDate(startDate))
-    .attr("transform", "translate(0," + (-25) + ")")
+    .text(formatDate(startDate)) // Get the year 
+    .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
 
 
 // The svg
@@ -115,7 +117,9 @@ function drawMap() {
 drawMap();
 var country_map = new Map();
 
-function update(h) {
+// On the drag of the slider's handle
+function dragged(event, d) {
+    var h = x.invert(event.x);
     country_map.clear();
     // update position and text of label according to slider scale
     handle.attr("cx", x(h));
@@ -127,7 +131,7 @@ function update(h) {
 
 
 function ready(topo, year) {
-    console.log(year);
+    //console.log(year);
     d3.csv("energy.csv").then(function(d) {
         for (var i = 0; i < d.length; i++) {
             if (d[i].year == year) 

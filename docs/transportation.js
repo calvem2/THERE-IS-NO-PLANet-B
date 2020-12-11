@@ -103,7 +103,7 @@ d3.csv("transportation.csv",
         d3.select("#t_line_chart")
             .append("p")
             .attr("class", "subtitle")
-            .html("<a href='https://www.iea.org/reports/world-energy-model/sustainable-development-scenario'>IEA's Sustainable Development Scenario</a>" +
+            .html("<a href='https://www.iea.org/reports/world-energy-model/sustainable-development-scenario' target='_blank'>IEA's Sustainable Development Scenario</a>" +
                 " shows how the world can change course to meet three main " +
                 "energy-related Sustainable Development Goals: achieve universal access to energy (SDG 7), " +
                 "reduce the severe health impacts of air pollution (part of SDG 3), and tackle climate change (SDG 13) ");

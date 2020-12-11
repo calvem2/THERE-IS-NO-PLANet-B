@@ -152,6 +152,13 @@ d3.csv("data/foodData.csv").then(function(data) {
       .attr("id", "Farm")
       .text("Farm – emissions from farm machinery, fertilizers, cows, manure, and rice");
 
+    // Append subtitle for data source info
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "subtitle")
+      .html("<a href='https://ourworldindata.org/environmental-impacts-of-food' target='_blank'>Source</a>: " +
+       "Environmental impacts of food production.");
+
     // Add X axis
     var x = d3.scaleBand()
         .domain(data.sort(function(a, b) { 
@@ -218,6 +225,17 @@ d3.csv("data/foodData.csv").then(function(data) {
       var totalValue = d3.select(this).datum().data["Total"];
       // Color of the hovered over bar
       var colorOfBar = barColorMap.get(subgroupName);
+      // console.log(event.path[0]);
+      // // Get the height of the bar
+      // console.log("height " + event.path[0].height.animVal.value);
+      // // Get the x value of the bar
+      // console.log("X " + event.path[0].x.animVal.value);
+      // //Get the Y value of the bar
+      // console.log("Y " + event.path[0].y.animVal.value);
+      // console.log("page x: " + (event.pageX));
+      // console.log("page y: " + (event.pageY));
+      // console.log("Here is the wanted x: " + (event.pageX - 300));
+      // console.log("Here is the wanted y: " + (event.pageY - 1250));
       tooltip
           .style("border-color", colorOfBar)
           .html("<p class='ag-tooltip-title' >" + foodName.toUpperCase() + "</p>"
@@ -225,14 +243,15 @@ d3.csv("data/foodData.csv").then(function(data) {
             + `<p class='ag-tooltip-value' style='color:${colorOfBar}'>` + subgroupValue +  " kgCo2</p>"
             + "<br><p class='ag-tooltip-value'>Total: " + totalValue + " kgCo2</p>")
           .style("opacity", 1)
-          .style("left", (event.pageX - 300) + "px")
-          .style("top", (event.pageY - 1250) + "px");
+          .style("left", (event.pageX - 250) + "px")
+          .style("top", (event.pageY - 1750) + "px");
     }
 
+    //Update the positioning of the tooltip on mouse move
     var mousemove = function(event, d) {
       tooltip
-          .style("left", (event.pageX - 300) + "px")
-          .style("top", (event.pageY - 1250) + "px");
+          .style("left", (event.pageX - 250) + "px")
+          .style("top", (event.pageY - 1750) + "px");
     }
 
     // Make the tooltip disappear when mouse leaves

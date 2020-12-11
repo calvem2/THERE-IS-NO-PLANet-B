@@ -11,6 +11,7 @@ input[name="diet"] {
 .ag-bar-tooltip {
   position: absolute;
   border-radius: 0px;
+  display: block;
 }
 
 /* Style the value of the tooltip */
