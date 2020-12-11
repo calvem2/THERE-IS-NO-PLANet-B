@@ -275,7 +275,7 @@ d3.csv("transportation.csv",
 
         // Draw lines on reveal
         new ScrollMagic.Scene({
-            triggerElement: '#transportation',
+            triggerElement: '#transportation-section',
             triggerHook: 0.5,
             duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
             offset: 50, // move trigger to center of element
