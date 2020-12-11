@@ -1,6 +1,5 @@
 var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%b %Y");
 var parseDate = d3.timeParse("%m/%d/%y");
 
 var startDate = new Date("1965-01-01"),
@@ -57,9 +56,8 @@ var handle = slider.insert("circle", ".track-overlay")
 var label = slider.append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
-    .text(formatDate(startDate)) // Get the year 
+    .text(formatDateIntoYear(startDate)) // Get the year 
     .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
-
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -125,7 +123,7 @@ function dragged(event, d) {
     handle.attr("cx", x(h));
     label
         .attr("x", x(h))
-        .text(formatDate(h));
+        .text(formatDateIntoYear(h));
     ready(topo, formatDateIntoYear(h));
 }
 
