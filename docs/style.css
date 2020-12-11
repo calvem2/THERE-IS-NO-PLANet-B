@@ -3,15 +3,32 @@ body {
     background-color: white;
 }
 
+h2 {
+    margin-bottom: 50px;
+}
+
+/* TODO: add to narrative text */
+/* Body text */
+.body-text {
+    color: #7a7a7a;
+    font-size: 15px;
+    line-height: 24px;
+    text-align: left;
+}
+
+/* TODO: add to chart titles */
 /* Chart titles */
 .chart-title {
+    font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
 }
 
+/* TODO: add to chart subtitles */
 /* Chart subtitles */
 .subtitle {
+    font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
     font-style: oblique;
     text-align: center;
     margin-top: 10px;
@@ -28,4 +45,76 @@ body {
 /* Big static numbers */
 .big-number {
     font-size: 72px;
+}
+
+/* TODO: add this to chart axes */
+/* Chart axes */
+.axis-title {
+    font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
+    font-size: 14px;
+}
+
+#overview {
+    text-align: left;
+    font-size: 10px;
+}
+
+/* Container for overview info */
+.flex {
+    display: flex;
+    flex-direction: row;
+    font-size: 10px;
+    align-items: center;
+    flex-basis: content;
+}
+
+.flex-child {
+    /*border: solid black 1px;*/
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+/* GHG stat */
+.first-flex-child {
+    flex: 0 0 200px;
+}
+
+/* Total GHG number */
+.flex .big-number {
+    text-align: center;
+    color: #c50000;
+}
+
+/* Total GHG subtitle */
+.first-flex-child > span {
+    display: block;
+    font-weight: bold;
+    color: #c50000;
+    font-size: 14px;
+    text-align: center;
+}
+
+a {
+    color: #45489a;
+}
+
+blockquote {
+    font-family: "Sentinel SSm A";
+    font-style: italic;
+    background: #f9f9f9;
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+blockquote p {
+    display: inline;
 }

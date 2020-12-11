@@ -13,8 +13,8 @@ var t_margin = {
     bottom: 30, 
     left: 60
 },
-    t_width = (460 - t_margin.left - t_margin.right) + 100,
-    t_height = (400 - t_margin.top - t_margin.bottom);
+    t_width = (700 - t_margin.left - t_margin.right) + 100,
+    t_height = (450 - t_margin.top - t_margin.bottom);
 
 // parse Dates
 var parseTime = d3.timeParse("%Y");
@@ -39,8 +39,8 @@ var line = d3.line()
 // create the svg element that the line chart will attach to
 var t_svg = d3.select("#t_line_chart")
     .append('svg')
-    .attr("width", t_width + t_margin.left + t_margin.right + 300)
-    .attr("height", t_height + t_margin.top + t_margin.bottom + 200)
+    .attr("width", t_width + t_margin.left + t_margin.right)
+    .attr("height", t_height + t_margin.top + t_margin.bottom + 25)
     .append("g")
     .attr("transform", "translate(" + t_margin.left + "," + t_margin.top + ")");
 
@@ -90,20 +90,29 @@ d3.csv("transportation.csv",
 
         // add axes titles
         t_svg.append("text")
-            .attr("class", "x label")
+            .attr("class", "x label axis-title")
             .attr("text-anchor", "end")
-            .attr("x", t_width - 225)
+            .attr("x", t_width / 2)
             .attr("y", t_height + 50)
             .text("Year");
 
         t_svg.append("text")
-            .attr("class", "y label")
+            .attr("class", "y label axis-title")
             .attr("text-anchor", "end")
             .attr("y", -55)
             .attr("x", -125)
             .attr("dy", ".75em")
             .attr("transform", "rotate(-90)")
-            .text("Amount of CO2");
+            .text("Amount of CO2 (gigatonnes)");
+
+        // add subtitle
+        d3.select("#t_line_chart")
+            .append("p")
+            .attr("class", "subtitle")
+            .html("<a href='https://www.iea.org/reports/world-energy-model/sustainable-development-scenario'>IEA's Sustainable Development Scenario</a>" +
+                " shows how the world can change course to meet three main " +
+                "energy-related Sustainable Development Goals: achieve universal access to energy (SDG 7), " +
+                "reduce the severe health impacts of air pollution (part of SDG 3), and tackle climate change (SDG 13) ");
 
         // color palette
         var res = groupData.map(function(d) { return d.key});
@@ -112,8 +121,19 @@ d3.csv("transportation.csv",
             .domain(res)
             .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']);
 
+        // draw vertical line at 2020
+        t_svg.append("line")
+            .attr("x1", x(new Date("2020")))
+            .attr("y1", 0)
+            .attr("x2", x(new Date("2020")))
+            .attr("y2", t_height)
+            .style("stroke-dasharray", ("3, 3"))
+            .style("stroke-width", 2)
+            .style("stroke", "lightgrey")
+            .style("fill", "none");
+
         // draw line
-        t_svg.append("path")
+        var path = t_svg.append("path")
             .datum(data)
             .attr("class", "line")
             .attr("fill", "none")
@@ -122,7 +142,10 @@ d3.csv("transportation.csv",
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
             .y(function(d) { return y(d.Passenger_road_vehicles) })
-            )  
+            )
+
+        var totalLength = path.node().getTotalLength();
+
             
         t_svg.append("path")
             .datum(data)
@@ -166,57 +189,60 @@ d3.csv("transportation.csv",
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
             .y(function(d) { return y(d.Other) })
-            )  
+            )
 
         // draw title
-        d3.select("#t_line_chart #t_line_chart_title")
-        .text("CO2 emissions by mode in the Sustainable Development Scenario, 2000-2030");
+        d3.select("#t_line_chart_title")
+        .text("CO2 Emissions by Mode: Sustainable Development Scenario");
 
         // draw legend
+        var legend = d3.select("#t_line_chart_legend")
+            .append("svg").attr("height", t_height + t_margin.top + t_margin.bottom + 25)
+            .attr("width", 225);
 
         // passenger freight vehicles
-        t_svg.append("rect")
-            .attr("x", 575)
+        legend.append("rect")
+            .attr("x", 5)
             .attr("y", 92)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
             .style("fill", "red")
 
-        t_svg.append("text")
-            .attr("x", 600)
+        legend.append("text")
+            .attr("x", 30)
             .attr("y", 100)
             .text("Road Passenger Vehicles")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
 
         // road freight vehicles
-        t_svg.append("rect")
-            .attr("x", 575)
+        legend.append("rect")
+            .attr("x", 5)
             .attr("y", 122)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
             .style("fill", "pink")
 
-        t_svg.append("text")
-            .attr("x", 600)
+        legend.append("text")
+            .attr("x", 30)
             .attr("y", 130)
             .text("Road Freight Vehicles")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
 
         // aviation
-        t_svg.append("rect")
-            .attr("x", 575)
+        legend.append("rect")
+            .attr("x", 5)
             .attr("y", 152)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
             .style("fill", "rgb(114, 119, 119)")
 
-        t_svg.append("text")
-            .attr("x", 600)
+        legend.append("text")
+            .attr("x", 30)
             .attr("y", 160)
             .text("Aviation")
             .style("font-size", "15px")
@@ -224,36 +250,62 @@ d3.csv("transportation.csv",
 
         
         // shipping
-        t_svg.append("rect")
-            .attr("x", 575)
+        legend.append("rect")
+            .attr("x", 5)
             .attr("y", 182)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
             .style("fill", "rgb(58, 88, 116)")
 
-        t_svg.append("text")
-            .attr("x", 600)
+        legend.append("text")
+            .attr("x", 30)
             .attr("y", 190)
             .text("Shipping")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
 
         // other
-        t_svg.append("rect")
-            .attr("x", 575)
+        legend.append("rect")
+            .attr("x", 5)
             .attr("y", 212)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
             .style("fill", "rgb(84, 42, 125)")
-        
-        t_svg.append("text")
-            .attr("x", 600)
+
+        legend.append("text")
+            .attr("x", 30)
             .attr("y", 220)
             .text("Other")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
+
+        function animateLine() {
+            d3.selectAll(".line")
+                .attr("stroke-dasharray", totalLength + " " + totalLength)
+                .attr("stroke-dashoffset", totalLength)
+                .transition()
+                .duration(3000)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0)
+                .on("end", repeat);
+        }
+        // animateLine();
+
+        // var drawLines = new ScrollMagic.Scene({triggerElement: '#t_line_chart', reverse: false})
+        //     .on('enter', (e) => {
+        //         d3.selectAll(".line")
+        //             .attr("stroke-dasharray", totalLength + " " + totalLength)
+        //             .attr("stroke-dashoffset", totalLength)
+        //             .transition()
+        //             .duration(3000)
+        //             .ease(d3.easeLinear)
+        //             .attr("stroke-dashoffset", 0)
+        //             .on("end", repeat);
+        //     })
+        //     .triggerHook(1.8)
+        //     .addTo(controller);
 
         // mouseover tooltip
 

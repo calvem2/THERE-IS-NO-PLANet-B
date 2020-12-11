@@ -53,13 +53,13 @@ let description = d3.selectAll("#emissions")
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .text("Explore the breakdown of emission by hovering over sectors. Click sectors to view more information.");
+    .text("Explore the breakdown of emission by hovering over sectors. Click on a sector to view its percentage of total emissions.");
 
 // Append subtitle for data info
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .text("Source: Climate Watch and the World Resources Institute's  latest breakdown of global emissions by sector.");
+    .html("<a href='https://www.climatewatchdata.org/ghg-emissions'>Source</a>: Climate Watch and the World Resources Institute's breakdown of global emissions by sector.");
 
 // Load data and draw diagram
 d3.json("Global-GHG-Emissions.json").then(function(ghgData) {

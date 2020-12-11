@@ -16,18 +16,20 @@ http://www.templatemo.com/tm-518-sentra
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="stylesheet" href="css/elizabeth.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/fontAwesome.css">
         <link rel="stylesheet" href="css/light-box.css">
         <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
-<!---->
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="overview.css">
+
         <link rel="stylesheet" href="emissions.css">
         <link rel="stylesheet" href="agriculture.css">
+        <link rel="stylesheet" href="css/elizabeth.css">
+        <link rel="stylesheet" href="style.css">
+
+        <!---->
+
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -168,7 +170,7 @@ http://www.templatemo.com/tm-518-sentra
                   </a>
               </li>
               <li>
-                  <a href="#video">
+                  <a href="#video" id="transportation-link">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Transportation
@@ -196,7 +198,7 @@ http://www.templatemo.com/tm-518-sentra
     <!-- Overview -->
       <section class="content-section section" id="overview">
           <div class="section-heading">
-              <center><br><br><br><h1><em>Greenhouse Gas Emissions</em></h1> </center><h2>Why do we care?</h2>
+              <center><br><br><br><h1><em>Greenhouse Gas Emissions</em></h1></center><h2>Why do we care?</h2>
           </div>
           <div class="section-content">
               <div id="emissions-info">
@@ -206,9 +208,9 @@ http://www.templatemo.com/tm-518-sentra
                           <span>billion tonnes CO<sub>2</sub> eq.</span>
                       </div>
                       <div class="flex-child second-flex-child">
-                          <p>
-                              <b>Greenhouse gases</b> let sunlight pass through the atmosphere, but prevent heat from leaving the atmosphere.
-                              Without greenhouse gases, out planet would be too cold. However, human activities are adding too much of these gases to the atmosphere.
+                          <p class="body-text">
+                              <b>Greenhouse gases</b> let sunlight pass through the atmosphere and prevent heat from leaving the atmosphere.
+                              Without greenhouse gases, our planet would be too cold. However, <b>human activities are adding too much of these gases to the atmosphere</b>.
                               An abundance of greenhouse gases causes the atmosphere to trap more and more heat, resulting in the Earth warming up. In 2016, global ghg
                               emissions were 49.4 billion tonnes of CO<sub>2</sub> equivalents.
                           </p>
@@ -220,18 +222,18 @@ http://www.templatemo.com/tm-518-sentra
                           <span>estimated temperature increase by the year 2100</span>
                       </div>
                       <div class="flex-child second-flex-child">
-                          <p>
-                              <b>Earth's warming</b> has many negative effects. Warmer temperatures can lead to a chain reaction of negative
-                              impacts on people and the environment including lost crops, water and electricity shortages, heat waves, wildfires,
+                          <p class="body-text">
+                              <b>Earth's warming has many negative effects</b>. Warmer temperatures can lead to a <b>chain reaction of negative
+                              impacts on people and the environment</b> including lost crops, water and electricity shortages, heat waves, wildfires,
                               pollution, increased spread of diseases, and the extinction of plants and animals. If humans continue adding ghg to the
-                              atmosphere at the current rate, the average global temperature could increase by 4-12 degrees by the year 2100.
+                              atmosphere at the current rate, <b>the average global temperature could increase by 4-12 degrees by the year 2100</b>.
                           </p>
                       </div>
                   </div>
                   <br>
                   <br>
                   <div class="flex">
-                      <p class="flex-child">
+                      <p class="flex-child body-text">
                           <b>How do human activities contribute to GHG emissions?</b> Explore the following sections to understand how humans contribute to
                           greenhouse emissions. The <a href="#emissions-section">Emissions by Sector</a> section provides on overview of where emissions come from.
                           The <a href="#food">Food Supply Chain</a>, <a href="#projects">Energy Use</a>, and <a href="#video">Transportation</a> take a closer
@@ -250,9 +252,9 @@ http://www.templatemo.com/tm-518-sentra
             <h1><em>Emissions by Sector</em></h1><h2>Where do emissions come from?</h2>
         </div>
         <div class="section-content" id="emissions">
-          <h2 class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
-          <br><br><br>
-          <div id="emissions-chart"></div>
+            <h2 class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
+            <br><br><br>
+            <div id="emissions-chart"></div>
         </div>
     </div>
   </div>
@@ -265,17 +267,20 @@ http://www.templatemo.com/tm-518-sentra
               <h1><em>You are what you eat...</em></h1>
               <h2>How does your everyday diet affect the planet?</h2>
           </div>
-          
-          <p>
-            Whether you are a vegan, carnivore, or anything in between, we all have a substantial
-            carbon footprint from the food supply chain.
-            <br><br> Food does not magically appear in your local grocery store or farmers market, there
-            are many processes in which the food you eat everyday from farm to table.
-            <br><br> In the graph below, you can explore the amount of emissions produced by different foods 
-            and diet choices based on the supply chain processes that get the food to your table.</p>
-            <br><br>
 
           <div class="section-content" id="ag-graph-outer">
+            <div class="flex">
+              <div class="flex-child" style="width: 500px;">
+                  <img src="img/field.png" width="100%"/>
+              </div>
+              <p class="flex-child"style="text-align: left">
+                  Whether you are a vegan, carnivore, or anything in between, <b>we all have a substantial
+                  carbon footprint from the food supply chain</b>. Food does not magically appear in your local grocery
+                  store or farmers market. <b>There are many processes responsible for bringing the food you eat everyday
+                  from farm to table</b>. In the graph below, you can <b>explore the amount of emissions produced by different foods
+                  and diet choices based on the supply chain processes that get the food to your table</b>.
+              </p>
+            </div>
             <div id="agriculture_graph">
               <h3 class="agriculture-title"><b>Food Group Supply Chain Emissions</b></h3>
               <div class="ag-option-container">
@@ -305,55 +310,68 @@ http://www.templatemo.com/tm-518-sentra
             <h2>How much energy do we consume every year?</h2>
           </div>
           <div class="section-content">
-            <img src="kwh.png" width="30%" style="float:left; margin: 1.5em; border: 2px solid black;"/>
-
             <div class="section-heading">
-
-                <p>
-                    Breaking down global energy consumption between countries, we investigate that the average US resdient consumes 10 more times energy than a resident in India
-                        and 4-5 times more than a person in Brazil and 3 times of that of a person living in China. Seeing the disparity between low-income, less developed countries, 
-                        we investigate to understand a year-by-year comparison. 
-        
-                        Through our heat map, we see that each year global average per capita energy consumption increases in various magnitude in varying countries. For example, China's
-                        energy use per capita has increased by 250% since the beginning of this century and developing countries like India has increased by over 50% in the past 20 years.
-                </p>
+                <div class="flex">
+                    <div class="flex-child" style="display: flex; flex-direction: column; width: 275px;">
+                        <img src="kwh.png" width="100%" style="display: block; border: 1px solid black;"/>
+                        <div class="subtitle" style="color: gray; font-size: 12px;">
+                            Energy in the chart is measure in kilowatt-hours. The infographic above shows the kWh consumption
+                            for some common appliances.
+                        </div>
+                    </div>
+                    <div class="flex-child">
+                        <p>
+                            Breaking down global energy consumption by country, <b>the average U.S. resident consumes 10 more
+                            times energy than a resident in India</b>, 4-5 times more than a person in Brazil, and 3 times of that of
+                            a person living in China. How do other countries compare?
+                            <br><br>
+                            Below we <b>investigate the disparities in energy usage across the globe</b>. In the heat map we see that
+                            each year, the average per capita energy consumption increases by varying magnitudes in different
+                            countries. For example, China's energy use per capita has increased by 250% since the beginning of
+                            this century, and developing countries like India have seen an increase of over 50% in the past 20 years.
+                        </p>
+                    </div>
+                </div>
             </div>
-           
+
 
             <div id="slider"></div>
-            <h5>Explore country energy consumption by hovering over map</h5>
-            <h7 style="color:#45489a;"><b>Energy consumption per capita (kWh)</b></h7>
+            <h7 class="chart-title"><b>Energy Consumption Per Capita (kWh)</b></h7>
             <br><br>
-            
             <svg id="my_dataviz" width="1000" height="600"></svg>
+              <h5 class="subtitle">Explore country energy consumption by hovering over map</h5>
             <br>
           </div>
       </section>
       <!-- Transportation -->
       <section id="video" class="content-section">
-        <div class="section-heading" style="margin-bottom: 150px;">
-            <h1 style="font-size: 40px;">Transportation <br> <em>Effect</em></h1>
-            <p>
-                The entire transport sector accounts for 21% of total emissions, and 
-                road transport accounts for three-quarters of transport emissions, so road 
-                transport accounts for 15% of total CO2 emissions. How can we expect the secotr's CO2
-                emissions to change in the future? Major technological innovations can help -- such
-                as the rise of electric vehicles. Especially if the majority comes from road vehicles,
-                then energy efficient vehicles will definitely help offset the increase in transport emissions.
-            </p>
-        </div>
+      <div class="section-heading">
+          <h1><em>Transportation</em></h1>
+          <h2>Where do CO2 emissions from transport come from?</h2>
+      </div>
         <div class="section-content">
-            <div class="pre-info">
-                <p style="margin-right: 20px"> 
-                    "Transport accounts for around one-fifth of global carbon dioxide (CO2) emissions 
-                    [24% if we only consider CO2 emissions from energy]." </p>
+            <div class="flex">
+                <div class="flex-child">
+                    <img src="img/emission.png" width="100%"/>
+                </div>
+                <p class="flex-child"style="text-align: left">
+                    The entire <b>transport sector accounted for 16.2% of total emissions in 2016</b>, and
+                    road transport accounted for 11.9%. <b>How can we expect the sector's CO2
+                    emissions to change in the future?</b> Major technological innovations – such
+                    as the rise of electric vehicles – can help. As the majority of CO2 comes from road vehicles,
+                    energy efficient vehicles can help offset the increase in road transportation. <b>If the entire road
+                    transportation sector transitioned to a decarbonized electricity mix, emissions could significantly reduced</b>.
+                </p>
             </div>
-            <center><div id="t_line_chart" style="width: 60%;">
-            
-                <h2 id="t_line_chart_title" style="width: 75%;"> </h2>
-          </div>  
-        </center>
-        </div> 
+            <div class="flex">
+                <div id="t_line_chart">
+                    <h2 class="chart-title" id="t_line_chart_title"> </h2>
+                </div>
+                <div id="t_line_chart_legend"></div>
+            </div>
+            <div id="t_subtitle"></div>
+
+        </div>
       </section>
       <!-- Our Work -->
       <section id="blog" class="content-section">
