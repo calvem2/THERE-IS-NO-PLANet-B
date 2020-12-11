@@ -59,7 +59,7 @@ d3.selectAll("#emissions")
 d3.selectAll("#emissions")
     .append("p")
     .attr("class", "subtitle")
-    .html("<a href='https://www.climatewatchdata.org/ghg-emissions'>Source</a>: Climate Watch and the World Resources Institute's breakdown of global emissions by sector.");
+    .html("<a href='https://www.climatewatchdata.org/ghg-emissions' target='_blank'>Source</a>: Climate Watch and the World Resources Institute's breakdown of global emissions by sector.");
 
 // Load data and draw diagram
 d3.json("Global-GHG-Emissions.json").then(function(ghgData) {

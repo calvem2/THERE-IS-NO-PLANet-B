@@ -131,7 +131,7 @@ function dragged(event, d) {
 
 
 function ready(topo, year) {
-    console.log(year);
+    //console.log(year);
     d3.csv("energy.csv").then(function(d) {
         for (var i = 0; i < d.length; i++) {
             if (d[i].year == year) 
