@@ -405,7 +405,7 @@ d3.csv("data/foodData.csv").then(function(data) {
     ////////////
     // Legend //
     ////////////
-     // X axis title
+     // Legend title
      svg.append("text")
      .attr("class", "legend_title")
       .attr("text-anchor", "left")

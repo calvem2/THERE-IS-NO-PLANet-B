@@ -86,7 +86,7 @@ var s_svg = d3.select("#my_dataviz"),
   var colorScale = d3.scaleThreshold()
     .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
     .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
-  
+
 var topo = [];
 function drawMap() {
   // Load external data and boot
@@ -166,7 +166,12 @@ function ready(topo, year) {
             // set the color of each country
             .attr("fill", function (d) {
                 d.total = country_map.get(d.id) || 0;
-                return colorScale(d.total);
+                // Color the map accordingly
+                if (d.total != 0) {
+                    return colorScale(d.total);
+                }
+                // Color grey if value is not in the data
+                return "#6e6b6c";
             })
             .style("stroke", "transparent")
             .attr("class", function(d){ return d.properties.name; } )
