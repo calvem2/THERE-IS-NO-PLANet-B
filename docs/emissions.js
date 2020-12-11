@@ -90,7 +90,7 @@ d3.json("Global-GHG-Emissions.json").then(function(ghgData) {
             triggerHook: 0.5,
             duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
             offset: 50, // move trigger to center of element
-            reverse: true
+            reverse: false
         })
         .on('enter', (e) => {
             // if (e.scrollDirection == "FORWARD" && startpin.progress() < 0.37) {
