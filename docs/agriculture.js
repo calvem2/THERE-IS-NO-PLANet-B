@@ -237,14 +237,14 @@ d3.csv("data/foodData.csv").then(function(data) {
             + "<br><p class='ag-tooltip-value'>Total: " + totalValue + " kgCo2</p>")
           .style("opacity", 1)
           .style("left", (event.pageX - 250) + "px")
-          .style("top", (event.pageY - 1150) + "px");
+          .style("top", (event.pageY - 1750) + "px");
     }
 
     //Update the positioning of the tooltip on mouse move
     var mousemove = function(event, d) {
       tooltip
           .style("left", (event.pageX - 250) + "px")
-          .style("top", (event.pageY - 1150) + "px");
+          .style("top", (event.pageY - 1750) + "px");
     }
 
     // Make the tooltip disappear when mouse leaves
