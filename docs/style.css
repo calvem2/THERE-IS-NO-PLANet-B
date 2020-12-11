@@ -4,10 +4,9 @@ body {
 }
 
 h2 {
-    margin-bottom: 50px;
+    /*margin-bottom: 50px;*/
 }
 
-/* TODO: add to narrative text */
 /* Body text */
 .body-text {
     color: #7a7a7a;
@@ -16,16 +15,15 @@ h2 {
     text-align: left;
 }
 
-/* TODO: add to chart titles */
 /* Chart titles */
 .chart-title {
+    margin: 25px 0px 10px;
     font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
 }
 
-/* TODO: add to chart subtitles */
 /* Chart subtitles */
 .subtitle {
     font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
