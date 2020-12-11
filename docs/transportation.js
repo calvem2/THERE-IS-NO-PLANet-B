@@ -1,10 +1,4 @@
-d3.csv("transportation.csv", function(data) {
-    console.log(data);
-});
-
-
-// TODO: make the functions that are needed to extract data
-
+const controller = new ScrollMagic.Controller();
 
 // start drawing the line
 var t_margin = {
@@ -116,7 +110,6 @@ d3.csv("transportation.csv",
 
         // color palette
         var res = groupData.map(function(d) { return d.key});
-        console.log(res);
         var color = d3.scaleOrdinal()
             .domain(res)
             .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']);
@@ -281,31 +274,20 @@ d3.csv("transportation.csv",
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
 
-        function animateLine() {
-            d3.selectAll(".line")
-                .attr("stroke-dasharray", totalLength + " " + totalLength)
-                .attr("stroke-dashoffset", totalLength)
-                .transition()
-                .duration(3000)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", 0)
-                .on("end", repeat);
-        }
-        // animateLine();
-
-        // var drawLines = new ScrollMagic.Scene({triggerElement: '#t_line_chart', reverse: false})
-        //     .on('enter', (e) => {
-        //         d3.selectAll(".line")
-        //             .attr("stroke-dasharray", totalLength + " " + totalLength)
-        //             .attr("stroke-dashoffset", totalLength)
-        //             .transition()
-        //             .duration(3000)
-        //             .ease(d3.easeLinear)
-        //             .attr("stroke-dashoffset", 0)
-        //             .on("end", repeat);
-        //     })
-        //     .triggerHook(1.8)
-        //     .addTo(controller);
+        // Draw lines on reveal
+        new ScrollMagic.Scene({triggerElement: '#t_line_chart', reverse: false})
+            .on('enter', (e) => {
+                d3.selectAll(".line")
+                    .attr("stroke-dasharray", totalLength + " " + totalLength)
+                    .attr("stroke-dashoffset", totalLength)
+                    .transition()
+                    .duration(3000)
+                    .ease(d3.easeLinear)
+                    .attr("stroke-dashoffset", 0)
+                    .on("end", repeat);
+            })
+            .triggerHook(1.8)
+            .addTo(controller);
 
         // mouseover tooltip
 
@@ -378,7 +360,6 @@ d3.csv("transportation.csv",
         // position the circle and text
         d3.selectAll(".mouse-per-line")
             .attr("transform", function(d, i) {
-            console.log(t_width/mouse[0])
             // var xDate = x.invert(mouse[0]),
             //     bisect = d3.bisector(function(d) { return d.Other; }).right;
             //     idx = bisect(d.values, xDate);
