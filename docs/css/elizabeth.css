@@ -1,13 +1,16 @@
 div.tooltip {	
   position: absolute;	
   text-align: left;	
-  width: 7.8em;	
-  height: 4em;			
+  width: 8em;	
+  height: 5em;			
   padding: 0.8em;				
   font: 12px sans-serif;		
   background: white;
   border: 1px solid black;		
   pointer-events: none;			
+  position: absolute;
+  border-radius: 0px;
+  font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;
 }
 
 .ticks {

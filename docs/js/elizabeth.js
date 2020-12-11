@@ -74,15 +74,18 @@ var s_svg = d3.select("#my_dataviz"),
   // Define the div for the tooltip
   var div = d3.select("body").append("div")	
               .attr("class", "tooltip")				
-              .style("opacity", 0);
+            //   .style("opacity", 0);
+            //   .attr("class", "ag-bar-tooltip")
+              .style("background-color", "white")
+              .style("border", "solid")
+              .style("border-width", "3px")
+              .style("border-radius", "5px")
+              .style("padding", "10px");
 
   // Data and color scale
   var colorScale = d3.scaleThreshold()
     .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
-    .range(d3.schemeBlues[7]);
-
-
-
+    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
   
 var topo = [];
 function drawMap() {
