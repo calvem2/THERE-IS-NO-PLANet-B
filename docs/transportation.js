@@ -279,7 +279,7 @@ d3.csv("transportation.csv",
             triggerHook: 0.5,
             duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
             offset: 50, // move trigger to center of element
-            reverse: true
+            reverse: false
         })
             .on('enter', (e) => {
                 d3.selectAll(".line")
