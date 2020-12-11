@@ -152,6 +152,13 @@ d3.csv("data/foodData.csv").then(function(data) {
       .attr("id", "Farm")
       .text("Farm – emissions from farm machinery, fertilizers, cows, manure, and rice");
 
+    // Append subtitle for data source info
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "subtitle")
+      .html("<a href='https://ourworldindata.org/environmental-impacts-of-food' target='_blank'>Source</a>: " +
+       "Environmental impacts of food production.");
+
     // Add X axis
     var x = d3.scaleBand()
         .domain(data.sort(function(a, b) { 
