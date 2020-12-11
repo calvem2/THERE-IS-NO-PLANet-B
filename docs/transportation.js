@@ -3,12 +3,12 @@ const controller = new ScrollMagic.Controller();
 // start drawing the line
 var t_margin = {
     top: 10, 
-    right: 30, 
+    right: 40,
     bottom: 30, 
     left: 60
 },
-    t_width = (700 - t_margin.left - t_margin.right) + 100,
-    t_height = (450 - t_margin.top - t_margin.bottom);
+    t_width = (650 - t_margin.left - t_margin.right) + 100,
+    t_height = (550 - t_margin.top - t_margin.bottom);
 
 // parse Dates
 var parseTime = d3.timeParse("%Y");
@@ -138,7 +138,6 @@ d3.csv("transportation.csv",
             )
 
         var totalLength = path.node().getTotalLength();
-
             
         t_svg.append("path")
             .datum(data)
@@ -275,7 +274,13 @@ d3.csv("transportation.csv",
             .attr("alignment-baseline","middle")
 
         // Draw lines on reveal
-        new ScrollMagic.Scene({triggerElement: '#t_line_chart', reverse: false})
+        new ScrollMagic.Scene({
+            triggerElement: '#transportation',
+            triggerHook: 0.5,
+            duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
+            offset: 50, // move trigger to center of element
+            reverse: true
+        })
             .on('enter', (e) => {
                 d3.selectAll(".line")
                     .attr("stroke-dasharray", totalLength + " " + totalLength)
@@ -283,10 +288,8 @@ d3.csv("transportation.csv",
                     .transition()
                     .duration(3000)
                     .ease(d3.easeLinear)
-                    .attr("stroke-dashoffset", 0)
-                    .on("end", repeat);
+                    .attr("stroke-dashoffset", 0);
             })
-            .triggerHook(1.8)
             .addTo(controller);
 
         // mouseover tooltip
@@ -363,8 +366,6 @@ d3.csv("transportation.csv",
             // var xDate = x.invert(mouse[0]),
             //     bisect = d3.bisector(function(d) { return d.Other; }).right;
             //     idx = bisect(d.values, xDate);
-
-            console.log("xData: ");
 
             // since we are use curve fitting we can't relay on finding the points like I had done in my last answer
             // this conducts a search using some SVG path functions
