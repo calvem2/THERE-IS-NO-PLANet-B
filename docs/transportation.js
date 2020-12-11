@@ -1,20 +1,14 @@
-d3.csv("transportation.csv", function(data) {
-    console.log(data);
-});
-
-
-// TODO: make the functions that are needed to extract data
-
+const controller = new ScrollMagic.Controller();
 
 // start drawing the line
 var t_margin = {
     top: 10, 
-    right: 30, 
+    right: 40,
     bottom: 30, 
     left: 60
 },
-    t_width = 460 - t_margin.left - t_margin.right,
-    t_height = 400 - t_margin.top - t_margin.bottom;
+    t_width = (650 - t_margin.left - t_margin.right) + 100,
+    t_height = (550 - t_margin.top - t_margin.bottom);
 
 // parse Dates
 var parseTime = d3.timeParse("%Y");
@@ -40,7 +34,7 @@ var line = d3.line()
 var t_svg = d3.select("#t_line_chart")
     .append('svg')
     .attr("width", t_width + t_margin.left + t_margin.right)
-    .attr("height", t_height + t_margin.top + t_margin.bottom)
+    .attr("height", t_height + t_margin.top + t_margin.bottom + 25)
     .append("g")
     .attr("transform", "translate(" + t_margin.left + "," + t_margin.top + ")");
 
@@ -88,28 +82,68 @@ d3.csv("transportation.csv",
         t_svg.append("g")
             .call(d3.axisLeft(y));
 
+        // add axes titles
+        t_svg.append("text")
+            .attr("class", "x label axis-title")
+            .attr("text-anchor", "end")
+            .attr("x", t_width / 2)
+            .attr("y", t_height + 50)
+            .text("Year");
+
+        t_svg.append("text")
+            .attr("class", "y label axis-title")
+            .attr("text-anchor", "end")
+            .attr("y", -55)
+            .attr("x", -125)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Amount of CO2 (gigatonnes)");
+
+        // add subtitle
+        d3.select("#t_line_chart")
+            .append("p")
+            .attr("class", "subtitle")
+            .html("<a href='https://www.iea.org/reports/world-energy-model/sustainable-development-scenario'>IEA's Sustainable Development Scenario</a>" +
+                " shows how the world can change course to meet three main " +
+                "energy-related Sustainable Development Goals: achieve universal access to energy (SDG 7), " +
+                "reduce the severe health impacts of air pollution (part of SDG 3), and tackle climate change (SDG 13) ");
+
         // color palette
         var res = groupData.map(function(d) { return d.key});
-        console.log(res);
         var color = d3.scaleOrdinal()
             .domain(res)
             .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00']);
 
+        // draw vertical line at 2020
+        t_svg.append("line")
+            .attr("x1", x(new Date("2020")))
+            .attr("y1", 0)
+            .attr("x2", x(new Date("2020")))
+            .attr("y2", t_height)
+            .style("stroke-dasharray", ("3, 3"))
+            .style("stroke-width", 2)
+            .style("stroke", "lightgrey")
+            .style("fill", "none");
+
         // draw line
-        t_svg.append("path")
+        var path = t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "red")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
             .y(function(d) { return y(d.Passenger_road_vehicles) })
-            )  
+            )
+
+        var totalLength = path.node().getTotalLength();
             
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "orange")
+            .attr("stroke", "rgb(114, 119, 119)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -118,8 +152,9 @@ d3.csv("transportation.csv",
 
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            .attr("stroke", "pink")
             .attr("stroke-width",3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -128,8 +163,9 @@ d3.csv("transportation.csv",
             
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "green")
+            .attr("stroke", "rgb(58, 88, 116)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
@@ -138,23 +174,123 @@ d3.csv("transportation.csv",
 
         t_svg.append("path")
             .datum(data)
+            .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "purple")
+            .attr("stroke", "rgb(84, 42, 125)")
             .attr("stroke-width", 3)
             .attr("d", d3.line()
             .x(function(d) { return x(d.Year) })
             .y(function(d) { return y(d.Other) })
-            )  
+            )
 
         // draw title
-        d3.select("#t_line_chart #t_line_chart_title")
-        .text("Transport sector CO2 emissions by mode in the Sustainable Development Scenario, 2000-2030");
+        d3.select("#t_line_chart_title")
+        .text("CO2 Emissions by Mode: Sustainable Development Scenario");
 
         // draw legend
-        var legend = t_svg.selectAll('g.legend')
-            .append('g')
-            .attr('class', 'legend');
+        var legend = d3.select("#t_line_chart_legend")
+            .append("svg").attr("height", t_height + t_margin.top + t_margin.bottom + 25)
+            .attr("width", 225);
 
+        // passenger freight vehicles
+        legend.append("rect")
+            .attr("x", 5)
+            .attr("y", 92)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "red")
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 100)
+            .text("Road Passenger Vehicles")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // road freight vehicles
+        legend.append("rect")
+            .attr("x", 5)
+            .attr("y", 122)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "pink")
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 130)
+            .text("Road Freight Vehicles")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // aviation
+        legend.append("rect")
+            .attr("x", 5)
+            .attr("y", 152)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(114, 119, 119)")
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 160)
+            .text("Aviation")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        
+        // shipping
+        legend.append("rect")
+            .attr("x", 5)
+            .attr("y", 182)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(58, 88, 116)")
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 190)
+            .text("Shipping")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // other
+        legend.append("rect")
+            .attr("x", 5)
+            .attr("y", 212)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("r", 6)
+            .style("fill", "rgb(84, 42, 125)")
+
+        legend.append("text")
+            .attr("x", 30)
+            .attr("y", 220)
+            .text("Other")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle")
+
+        // Draw lines on reveal
+        new ScrollMagic.Scene({
+            triggerElement: '#transportation',
+            triggerHook: 0.5,
+            duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
+            offset: 50, // move trigger to center of element
+            reverse: false
+        })
+            .on('enter', (e) => {
+                d3.selectAll(".line")
+                    .attr("stroke-dasharray", totalLength + " " + totalLength)
+                    .attr("stroke-dashoffset", totalLength)
+                    .transition()
+                    .duration(3000)
+                    .ease(d3.easeLinear)
+                    .attr("stroke-dashoffset", 0);
+            })
+            .addTo(controller);
 
         // mouseover tooltip
 
@@ -174,7 +310,7 @@ d3.csv("transportation.csv",
 
         // a g for each circle and text on the line
         var mousePerLine = mouseG.selectAll(".mouse-per-line")
-            .data(data)
+            .data(lines)
             .enter()
             .append("g")
             .attr("class", "mouse-per-line");
@@ -227,12 +363,9 @@ d3.csv("transportation.csv",
         // position the circle and text
         d3.selectAll(".mouse-per-line")
             .attr("transform", function(d, i) {
-            console.log(t_width/mouse[0])
-            var xDate = x.invert(mouse[0]),
-                bisect = d3.bisector(function(d) { return d.Other; }).right;
-                idx = bisect(d.values, xDate);
-
-            console.log("xData: ");
+            // var xDate = x.invert(mouse[0]),
+            //     bisect = d3.bisector(function(d) { return d.Other; }).right;
+            //     idx = bisect(d.values, xDate);
 
             // since we are use curve fitting we can't relay on finding the points like I had done in my last answer
             // this conducts a search using some SVG path functions
@@ -261,5 +394,62 @@ d3.csv("transportation.csv",
             return "translate(" + mouse[0] + "," + pos.y +")";
             });
         });
-    })
+
+    }
+
+    // function(d) {
+    //     return { 
+    //         Year : d3.timeParse("%Y")(d.Year), 
+    //         Sector : d.Sector,
+    //         CO2 : d.CO2, 
+    //     }
+    // },
+
+    // function(data) {
+    //     console.log("data: ", data);
+
+    //     var groupedData = d3.nest()
+    //         .key(function(d) { return d.Sector })
+    //         .entries(data);
+
+    //     console.log("grouped data: ", groupedData);
+        
+    //     // add x axis
+    //     var x = d3.scaleTime()
+    //         .domain(d3.extent(data, function(d) { return d.Year; }))
+    //         .range([0, t_width]);
+    //     t_svg.append("g")
+    //         .attr("transform", "translate(0," + t_height + ")")
+    //         .call(d3.axisBottom(x));
+
+    //     // add y axis
+    //     var y = d3.scaleLinear()
+    //         .domain([0, d3.max(data, function(d) { return d.CO2 })])
+    //         .range([t_height, 0]);
+    //     t_svg.append("g")
+    //         .call(d3.axisLeft(y));
+
+    //     // color palette
+    //     var res = groupedData.map(function(d){ return d.key }) // list of group names
+    //     var color = d3.scaleOrdinal()
+    //         .domain(res)
+    //         .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00'])
+
+    //     // Draw the line
+    //     t_svg.selectAll(".line")
+    //     .data(groupedData)
+    //     .enter()
+    //     .append("path")
+    //       .attr("fill", "none")
+    //       .attr("stroke", function(d){ return color(d.key) })
+    //       .attr("stroke-width", 1.5)
+    //       .attr("d", function(d){
+    //           console.log();
+    //         return d3.line()
+    //           .x(function(d) { return x(d.year); })
+    //           .y(function(d) { return y(d.CO2); })
+    //           .curve(d3.curveBasis);
+    //       });
+    // }
+)
 

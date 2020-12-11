@@ -22,7 +22,7 @@ p {
 }
 
 .content-section {
-  padding-top: 80px;
+  /* padding-top: 80px; */
   position: relative;
   width: 100%;
   display: inline-block;
@@ -39,7 +39,7 @@ p {
 .section-heading {
   text-align: left;
   position: relative;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 
 .section-heading h1 {
@@ -618,6 +618,22 @@ header {
 }
 
 /* Transportation Style */
+/*   style="float: left; width: 20%; margin-top: 150px;" */
+.pre-info {
+  width: 20%;
+  margin-top: 150px;
+  /* position: relative;
+  top: 0;
+  left: 0; */
+  float: left;
+}
+
+.t_line_chart {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 20%;
+}
 
 #transportation {
   padding-left: 60px;
@@ -641,13 +657,16 @@ header {
   opacity: 0.5;
 }
 
+.video section-heading {
+  margin-bottom: 10px;
+}
+
 
 /* Video Presentation Style */
 
 #video {
     padding-left: 60px;
     padding-right: 60px;
-    padding-bottom: 50px;
 }
 
 /* #video {
@@ -942,7 +961,7 @@ header {
 /* Footer Style */
 
 .footer {
-  background-color: rgba(12,12,12,0.9);
+  background-color:white;
   height: 80px;
   line-height: 80px;
   display: inline-block;
@@ -951,6 +970,7 @@ header {
 }
 
 .footer p {
+  margin-top: 200px;
   margin-bottom: 0px;
   font-size: 13px;
   line-height: 80px;
@@ -966,26 +986,20 @@ header {
 }
 
 /* About Us Style */
-.profilePics {
-  display: flex;
-} 
 
-.claire, .megan, .anne {
-  width: 20%;
-  height: 20%;
-  padding: 4px;
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
 }
 
-.liz {
-  width: 20%;
-  height: 100%;
+/* Clear floats after the columns */
+.t_row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
-
-.info {
-  display: inline;
-  margin: 30px;
-}
-
 /* Responsive Style */
 
 @media (max-width: 992px) {

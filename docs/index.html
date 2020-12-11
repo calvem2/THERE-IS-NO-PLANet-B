@@ -16,16 +16,21 @@ http://www.templatemo.com/tm-518-sentra
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="stylesheet" href="css/elizabeth.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/fontAwesome.css">
         <link rel="stylesheet" href="css/light-box.css">
         <link rel="stylesheet" href="css/owl-carousel.css">
         <link rel="stylesheet" href="css/templatemo-style.css">
-<!---->
-        <link rel="stylesheet" href="overview.css">
+
+        <link rel="stylesheet" href="emissions.css">
+        <link rel="stylesheet" href="transportation.css">
         <link rel="stylesheet" href="agriculture.css">
+        <link rel="stylesheet" href="css/elizabeth.css">
+        <link rel="stylesheet" href="style.css">
+
+        <!---->
+
 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -35,9 +40,6 @@ http://www.templatemo.com/tm-518-sentra
         <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
         <style>
 
-body {
-  background-color:#f0f8ff;
-}
 .sidebar-navigation {
     width: 22.5%;
     float: left;
@@ -57,7 +59,7 @@ body {
     text-align: center;
 }
 .footer {
-    background-color: #f0f8ff;
+    /* background-color: #f0f8ff; */
     height: 80px;
     line-height: 80px;
     display: inline-block;
@@ -120,9 +122,10 @@ body {
       <div id="main-nav" class="collapse navbar-collapse">
           <nav>
               <ul class="nav navbar-nav">
-                  <li><a href="#top">Overview</a></li>
-                  <li><a href="#featured">Food Supply Chain</a></li>
-                  <li><a href="#projects">Building Energy Use</a></li>
+                  <li><a href="#overview">Overview</a></li>
+                  <li><a href="#emissions-section">Emissions by Sector</a></li>
+                  <li><a href="#food">Food Supply Chain</a></li>
+                  <li><a href="#projects">Energy Use</a></li>
                   <li><a href="#video">Transportation</a></li>
                   <li><a href="#blog">Our Work</a></li>
                   <li><a href="#contact">About Us</a></li>
@@ -140,14 +143,21 @@ body {
       <nav>
           <ul>
               <li>
-                  <a href="#top">
+                  <a href="#overview">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Overview
                   </a>
               </li>
               <li>
-                  <a href="#featured">
+                  <a href="#emissions-section">
+                      <span class="rect"></span>
+                      <span class="circle"></span>
+                      Emissions by Sector
+                  </a>
+              </li>
+              <li>
+                  <a href="#food">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Food Supply Chain
@@ -157,11 +167,11 @@ body {
                   <a href="#projects">
                       <span class="rect"></span>
                       <span class="circle"></span>
-                      Building Energy Use
+                      Energy Use
                   </a>
               </li>
               <li>
-                  <a href="#video">
+                  <a href="#video" id="transportation-link">
                       <span class="rect"></span>
                       <span class="circle"></span>
                       Transportation
@@ -185,36 +195,93 @@ body {
       </nav>
   </div>
 
-    <div class="page-content">
-      <!-- Overview -->
-      <div class="content-section" id="top">
+  <div class="page-content">
+    <!-- Overview -->
+      <section class="content-section section" id="overview">
+          <div class="section-heading">
+              <center><br><br><br><h1><em>Greenhouse Gas Emissions</em></h1></center><h2>Why do we care?</h2>
+          </div>
+          <div class="section-content">
+              <div id="emissions-info">
+                  <div class="flex">
+                      <div class="flex-child first-flex-child">
+                          <div class="big-number" id="total-ghg"></div>
+                          <span>billion tonnes CO<sub>2</sub> eq.</span>
+                      </div>
+                      <div class="flex-child second-flex-child">
+                          <p class="body-text">
+                              <b>Greenhouse gases</b> let sunlight pass through the atmosphere and prevent heat from leaving the atmosphere.
+                              Without greenhouse gases, our planet would be too cold. However, <b>human activities are adding too much of these gases to the atmosphere</b>.
+                              An abundance of greenhouse gases causes the atmosphere to trap more and more heat, resulting in the Earth warming up. In 2016, global ghg
+                              emissions were 49.4 billion tonnes of CO<sub>2</sub> equivalents.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flex">
+                      <div class="flex-child first-flex-child">
+                          <div class="big-number" id="temp-num"></div>
+                          <span>estimated temperature increase by the year 2100</span>
+                      </div>
+                      <div class="flex-child second-flex-child">
+                          <p class="body-text">
+                              <b>Earth's warming has many negative effects</b>. Warmer temperatures can lead to a <b>chain reaction of negative
+                              impacts on people and the environment</b> including lost crops, water and electricity shortages, heat waves, wildfires,
+                              pollution, increased spread of diseases, and the extinction of plants and animals. If humans continue adding ghg to the
+                              atmosphere at the current rate, <b>the average global temperature could increase by 4-12 degrees by the year 2100</b>.
+                          </p>
+                      </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="flex">
+                      <p class="flex-child body-text">
+                          <b>How do human activities contribute to GHG emissions?</b> Explore the following sections to understand how humans contribute to
+                          greenhouse emissions. The <a href="#emissions-section">Emissions by Sector</a> section provides on overview of where emissions come from.
+                          The <a href="#food">Food Supply Chain</a>, <a href="#projects">Energy Use</a>, and <a href="#video">Transportation</a> take a closer
+                          look at a few of the emission sectors.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
 
-        
-          <section id="overview">
-            <h2>Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
-              <br><br><br>
-              <div id="overview-chart"></div>
-          </section>
-      </div>
+  <div class="page-content">
+    <!-- Emissions -->
+    <div class="content-section section" id="emissions-section">
+        <div class="section-heading">
+            <h1><em>Emissions by Sector</em></h1><h2>Where do emissions come from?</h2>
+        </div>
+        <div class="section-content" id="emissions">
+            <h2 class="chart-title">Global Green House Gas Emissions by Sector in 2016 (CO<sub>2</sub> eq.)</h2>
+            <br><br><br>
+            <div id="emissions-chart"></div>
+        </div>
+    </div>
   </div>
 
 
   <div class="page-content">
       <!-- Food Production -->
-      <section id="featured" class="content-section">
+      <section id="food" class="content-section section">
           <div class="section-heading">
               <h1><em>You are what you eat...</em></h1>
               <h2>How does your everyday diet affect the planet?</h2>
           </div>
-          <p>
-            Whether you are a vegan, carnivore, or anything in between, we all have a substantial
-            carbon footprint from the food supply chain.
-            <br><br> Food does not magically appear in your local grocery store or farmers market, there
-            are many processes in which the food you eat everyday from farm to table.
-            <br><br> In the graph below, you can explore the amount of emissions produced by different foods 
-            and diet choices based on the supply chain processes that get the food to your table.</p>
-            <br><br>
+
           <div class="section-content" id="ag-graph-outer">
+            <div class="flex">
+              <div class="flex-child" style="width: 500px;">
+                  <img src="img/field.png" width="100%"/>
+              </div>
+              <p class="flex-child"style="text-align: left">
+                  Whether you are a vegan, carnivore, or anything in between, <b>we all have a substantial
+                  carbon footprint from the food supply chain</b>. Food does not magically appear in your local grocery
+                  store or farmers market. <b>There are many processes responsible for bringing the food you eat everyday
+                  from farm to table</b>. In the graph below, you can <b>explore the amount of emissions produced by different foods
+                  and diet choices based on the supply chain processes that get the food to your table</b>.
+              </p>
+            </div>
             <div id="agriculture_graph">
               <h3 class="agriculture-title"><b>Food Group Supply Chain Emissions</b></h3>
               <div class="ag-option-container">
@@ -244,49 +311,86 @@ body {
             <h2>How much energy do we consume every year?</h2>
           </div>
           <div class="section-content">
-            <img src="kwh.png" width="30%" style="float:left; margin: 1.5em; border: 2px solid black;"/>
-            <p>Breaking down global energy consumption between countries, we investigate that the average US resdient consumes 10 more times energy than a resident in India
-                and 4-5 times more than a person in Brazil and 3 times of that of a person living in China. Seeing the disparity between low-income, less developed countries, 
-                we investigate to understand a year-by-year comparison. 
+            <div class="section-heading">
+                <div class="flex">
+                    <div class="flex-child" style="display: flex; flex-direction: column; width: 275px;">
+                        <img src="kwh.png" width="100%" style="display: block; border: 1px solid black;"/>
+                        <div class="subtitle" style="color: gray; font-size: 12px;">
+                            Energy in the chart is measure in kilowatt-hours. The infographic above shows the kWh consumption
+                            for some common appliances.
+                        </div>
+                    </div>
+                    <div class="flex-child">
+                        <p>
+                            Breaking down global energy consumption by country, <b>the average U.S. resident consumes 10 more
+                            times energy than a resident in India</b>, 4-5 times more than a person in Brazil, and 3 times of that of
+                            a person living in China. How do other countries compare?
+                            <br><br>
+                            Below we <b>investigate the disparities in energy usage across the globe</b>. In the heat map we see that
+                            each year, the average per capita energy consumption increases by varying magnitudes in different
+                            countries. For example, China's energy use per capita has increased by 250% since the beginning of
+                            this century, and developing countries like India have seen an increase of over 50% in the past 20 years.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                Through our heat map, we see that each year global average per capita energy consumption increases in various magnitude in varying countries. For example, China's
-                energy use per capita has increased by 250% since the beginning of this century and developing countries like India has increased by over 50% in the past 20 years.
-            </p>
+
             <div id="slider"></div>
-            <h5>Explore country energy consumption by hovering over map</h5>
-            <h7 style="color:#45489a;"><b>Energy consumption per capita (kWh)</b></h7>
+            <h7 class="chart-title"><b>Energy Consumption Per Capita (kWh)</b></h7>
             <br><br>
-            
             <svg id="my_dataviz" width="1000" height="600"></svg>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+              <h5 class="subtitle">Explore country energy consumption by hovering over map</h5>
+            <br>
           </div>
       </section>
       <!-- Transportation -->
       <section id="video" class="content-section">
-        <div class="section-heading">
-          <h1>Transportation<br><em>Effect</em></h1>
-          <p> ANNE'S SECTION </p>
+      <div class="section-heading">
+          <h1><em>Transportation</em></h1>
+          <h2>Where do CO2 emissions from transport come from?</h2>
+      </div>
+        <div class="section-content" id="transportation">
+            <div class="flex">
+                <div class="flex-child">
+                    <img src="img/emission.png" width="100%"/>
+                </div>
+                <p class="flex-child"style="text-align: left">
+                    The entire <b>transport sector accounted for 16.2% of total emissions in 2016</b>, and
+                    road transport accounted for 11.9%. <b>How can we expect the sector's CO2
+                    emissions to change in the future?</b> Major technological innovations – such
+                    as the rise of electric vehicles – can help. As the majority of CO2 comes from road vehicles,
+                    energy efficient vehicles can help offset the increase in road transportation. <b>If the entire road
+                    transportation sector transitioned to a decarbonized electricity mix, emissions could significantly reduced</b>.
+                </p>
+            </div>
+            <div class="flex">
+                <div id="t_line_chart">
+                    <h2 class="chart-title" id="t_line_chart_title"> </h2>
+                </div>
+                <div id="t_line_chart_legend"></div>
+            </div>
+            <div id="t_subtitle"></div>
+
         </div>
-        <div class="section-content">
-          <div id="t_line_chart">
-            <h2 id="t_line_chart_title"> hi </h2>
-          </div>  
-        </div> 
       </section>
       <!-- Our Work -->
       <section id="blog" class="content-section">
         <div class="row">
           <div class="col-md-12">
+              
               <div class="section-heading">
                   <h1>This is <em>our</em> planet.</h1>
-                  <br><br><br><br>
-                  <img src="blue.png" width="40%"/>
-                  <p>We need to make changes now.</p>
+        
+                  <img src="blue.png" width="40%" float="left"/>
+                  <!-- <p>Do your duty to keep our planet healthy by looking out for ways you can
+                      incorporate 
+                  </p> -->
+                  <!-- <br><br><br><br><br><br><br><br><br><br><br><br> -->
+
+                
               </div>
               <div class="text-content">
-
-
-
                 <!-- write up -->
                 <br><br>
               </div>
@@ -297,46 +401,43 @@ body {
 
           <div id="contact-content">
               <div class="section-heading">
-                  <h1>About<br><em>Us</em></h1>
-                  <p> Team Members:
-                  <br>Claire Beard, Megan Calverley, Elizabeth Lin, Anne Pham</p>
+                  <h1>Our<em> Team</em></h1>
               </div>
               <div class="section-content">
-                <div id="profilePics">
-                  <div class="info"> 
-                    <img src="img/claire.jpg" class="claire">
-                    <!-- Claire Beard
-                    Major: Computer Science
-                    Year:
-                    Fun Fact: -->
-                  </div>       
-                  <div class="info"> 
-                    <img src="img/megan.jpg" class="megan"> 
-                    <!-- Megan Calverley
-                    Major: Computer Science
-                    Year:
-                    Fun Fact: -->
+                <div class="t_row">
+                    <div class="column">
+                        <img src="img/claire.jpg" width="100%">
+                        <h3>Claire Beard</h3>
+                        <p style="font-size: 15px; line-height: 20px;"> Year: Senior <br>
+                            Major: Computer Science <br>
+                            Fun Fact: I got tiktok famous over quarantine</p>
+                    </div>
+                    <div class="column">
+                        <img src="img/megan.jpeg" width="100%">
+                        <h3>Megan Calverley</h3>
+                        <p style="font-size: 15px; line-height: 20px;"> Year: Senior <br>
+                            Major: Computer Science <br>
+                            Fun Fact: I have a lemon tree in my apartment</p>
+                    </div>
+                    <div class="column">
+                        <img src="img/elizabeth.jpg" width="100%">
+                        <h3>Elizabeth Lin</h3>
+                        <p style="font-size: 15px; line-height: 20px;"> Year: Senior <br>
+                            Major: Computer Science <br>
+                            Fun Fact: avocados are great</p>
+                    </div>
+                    <div class="column">
+                        <img src="img/anne.png" width="100%">
+                        <h3>Anne Pham</h3>
+                        <p style="font-size: 15px; line-height: 20px;"> Year: Senior <br>
+                            Major: Computer Science <br>
+                            Fun Fact: I have a song on Spotify!</p>
+                    </div>
                   </div>
-                  <div class="info"> 
-                    <img src="img/elizabeth.jpg" class="liz"> 
-                    <!-- Elizabeth Lin
-                    Major: Computer Science
-                    Year:
-                    Fun Fact: -->
-                  </div>
-                  <div class="info">
-                    <img src="img/anne.jpg" class="anne">
-                    <!-- Anne Pham
-                    Major: Computer Science
-                    Year:
-                    Fun Fact: -->
-                  </div>
-                </div>
               </div>
           </div>
       </section>
       <section class="footer">
-        <br>
           <p><a href="https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B">FP-THERE-IS-NO-PLANet-B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="https://courses.cs.washington.edu/courses/cse442/20au/">CSE 442 Data Visualization</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="http://www.washington.edu/">University of Washington</a></p>
@@ -409,14 +510,18 @@ body {
   </script>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-  <script src="https://d3js.org/d3.v6.min.js"></script>
+
   <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/ScrollMagic.js"></script>
   <script src="transportation.js"></script>
 
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+
   <script src="overview.js"></script>
+  <script src="emissions.js"></script>
   <script src="agriculture.js"></script>
   <script src="js/elizabeth.js"></script>
 

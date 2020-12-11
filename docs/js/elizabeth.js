@@ -1,7 +1,7 @@
 var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%Y");
-// var parseDate = d3.timeParse("%m/%d/%y");
+var formatDate = d3.timeFormat("%b %Y");
+var parseDate = d3.timeParse("%m/%d/%y");
 
 var startDate = new Date("1965-01-01"),
     endDate = new Date("2019-12-30");
@@ -9,7 +9,7 @@ var liz_margin = {top:0, right:100, bottom:0, left:50},
     w = 960 - liz_margin.left - liz_margin.right,
     h = 200 - liz_margin.top - liz_margin.bottom;
 
-// slider
+
 var svgSlider = d3.select("#slider")
     .append("svg")
     .attr("width", w + liz_margin.left + liz_margin.right)
@@ -17,7 +17,7 @@ var svgSlider = d3.select("#slider")
     
 var x = d3.scaleTime()
     .domain([startDate, endDate])
-    .rangeRound([0, w])
+    .range([0, w])
     .clamp(true);
 
 var slider = svgSlider.append("g")
@@ -38,9 +38,9 @@ slider.append("line")
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
-    .attr("transform", "translate(0," + 10 + ")")
+    .attr("transform", "translate(0," + 18 + ")")
   .selectAll("text")
-    .data(x.ticks(15))
+    .data(x.ticks(10))
     .enter()
     .append("text")
     .attr("x", x)
@@ -51,7 +51,7 @@ slider.insert("g", ".track-overlay")
 // Circle for the slider
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
-    .attr("r", 10);
+    .attr("r", 9);
 
 // Label above the circle slider
 var label = slider.append("text")  
@@ -59,6 +59,7 @@ var label = slider.append("text")
     .attr("text-anchor", "middle")
     .text(formatDate(startDate)) // Get the year 
     .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
+
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -75,15 +76,18 @@ var s_svg = d3.select("#my_dataviz"),
   // Define the div for the tooltip
   var div = d3.select("body").append("div")	
               .attr("class", "tooltip")				
-              .style("opacity", 0);
+            //   .style("opacity", 0);
+            //   .attr("class", "ag-bar-tooltip")
+              .style("background-color", "white")
+              .style("border", "solid")
+              .style("border-width", "3px")
+              .style("border-radius", "5px")
+              .style("padding", "10px");
 
   // Data and color scale
   var colorScale = d3.scaleThreshold()
     .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
-    .range(d3.schemeBlues[7]);
-
-
-
+    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
   
 var topo = [];
 function drawMap() {
@@ -163,7 +167,7 @@ function ready(topo, year) {
     
             // set the color of each country
             .attr("fill", function (d) {
-            d.total = country_map.get(d.id) || 0;
+                d.total = country_map.get(d.id) || 0;
                 return colorScale(d.total);
             })
             .style("stroke", "transparent")
@@ -173,7 +177,7 @@ function ready(topo, year) {
                 div.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                div	.html("<b>" + d.properties.name + "</b><br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
+                div	.html("<b>" + d.properties.name + "</b><br>Energy Consumption<br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
                     .style("left", (event.pageX) + "px")		
                     .style("top", (event.pageY - 28) + "px");	
                 })					
