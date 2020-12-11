@@ -179,11 +179,23 @@ function ready(topo, year) {
             .on("mouseover", function(event, d) {
                 div.transition()		
                     .duration(200)		
-                    .style("opacity", .9);		
-                div	.html("<b>" + d.properties.name + "</b><br>Energy Consumption<br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
-                    .style("left", (event.pageX) + "px")		
+                    .style("opacity", .9);
+                var currkWh = Math.floor(parseInt(country_map.get(d.id)));
+                // If there is no data don't print NaN
+                if (Number.isNaN(currkWh)) {
+                    div.html("<b>" + d.properties.name + "</b><br>No data for " + year + ".")	
+                        .style("left", (event.pageX) + "px")		
+                        .style("top", (event.pageY - 28) + "px");	
+                } else { // Regular style
+                    div.html("<b>" + d.properties.name + "</b><br>Energy Consumption:<br>" + currkWh + " kWh")	
+                        .style("left", (event.pageX + 90) + "px")		
+                        .style("top", (event.pageY - 28) + "px");	
+                }	
+            })
+            .on("mousemove", function(event, d) {
+                div.style("left", (event.pageX + 20) + "px")		
                     .style("top", (event.pageY - 28) + "px");	
-                })					
+            })				
             .on("mouseout", function(d) {		
                 div.transition()		
                     .duration(500)		
