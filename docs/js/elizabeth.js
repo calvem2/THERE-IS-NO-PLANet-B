@@ -173,7 +173,7 @@ function ready(topo, year) {
                 div.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                div	.html("<b>" + d.properties.name + "</b><br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
+                div	.html("<b>" + d.properties.name + "</b><br>Energy Consumption<br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
                     .style("left", (event.pageX) + "px")		
                     .style("top", (event.pageY - 28) + "px");	
                 })					
