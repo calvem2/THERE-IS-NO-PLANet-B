@@ -1,6 +1,5 @@
 var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%b %Y");
 var parseDate = d3.timeParse("%m/%d/%y");
 
 var startDate = new Date("1965-01-01"),
@@ -57,9 +56,8 @@ var handle = slider.insert("circle", ".track-overlay")
 var label = slider.append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
-    .text(formatDate(startDate)) // Get the year 
+    .text(formatDateIntoYear(startDate)) // Get the year 
     .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
-
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -88,7 +86,7 @@ var s_svg = d3.select("#my_dataviz"),
   var colorScale = d3.scaleThreshold()
     .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
     .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
-  
+
 var topo = [];
 function drawMap() {
   // Load external data and boot
@@ -125,7 +123,7 @@ function dragged(event, d) {
     handle.attr("cx", x(h));
     label
         .attr("x", x(h))
-        .text(formatDate(h));
+        .text(formatDateIntoYear(h));
     ready(topo, formatDateIntoYear(h));
 }
 
@@ -168,7 +166,12 @@ function ready(topo, year) {
             // set the color of each country
             .attr("fill", function (d) {
                 d.total = country_map.get(d.id) || 0;
-                return colorScale(d.total);
+                // Color the map accordingly
+                if (d.total != 0) {
+                    return colorScale(d.total);
+                }
+                // Color grey if value is not in the data
+                return "#6e6b6c";
             })
             .style("stroke", "transparent")
             .attr("class", function(d){ return d.properties.name; } )
@@ -176,11 +179,28 @@ function ready(topo, year) {
             .on("mouseover", function(event, d) {
                 div.transition()		
                     .duration(200)		
-                    .style("opacity", .9);		
-                div	.html("<b>" + d.properties.name + "</b><br>Energy Consumption<br>" + Math.floor(parseInt(country_map.get(d.id))) + " kWh")	
-                    .style("left", (event.pageX) + "px")		
+                    .style("opacity", .9);
+                var currkWh = Math.floor(parseInt(country_map.get(d.id)));
+                // If there is no data don't print NaN
+                if (Number.isNaN(currkWh)) {
+                    div.html("<p class='energy-tooltip-title' >" + d.properties.name + "</p>"
+                        + "<p class='energy-tooltip-subcategory'>No data for " + year + ".</p>")
+                        .style("border-color", "#6e6b6c");
+                } else { // Regular style
+                    var countryColor = colorScale(country_map.get(d.id));
+                    div.html(`<p class='energy-tooltip-title' >` + d.properties.name + `</p>` 
+                        + `<p class='energy-tooltip-subcategory'>` + year + `: ` 
+                        + `<a class='energy-tooltip-value' style='color:${countryColor}'>` 
+                        + numberWithCommas(currkWh) + ` kWh</a></p>`)
+                        .style("border-color", countryColor);
+                }	
+                div.style("left", (event.pageX) + "px")		
                     .style("top", (event.pageY - 28) + "px");	
-                })					
+            })
+            .on("mousemove", function(event, d) {
+                div.style("left", (event.pageX + 20) + "px")		
+                    .style("top", (event.pageY - 28) + "px");	
+            })				
             .on("mouseout", function(d) {		
                 div.transition()		
                     .duration(500)		
@@ -188,3 +208,8 @@ function ready(topo, year) {
             });
     });    
   }
+
+// Format the number to have comma separators
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
