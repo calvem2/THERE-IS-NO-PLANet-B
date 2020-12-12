@@ -36,7 +36,7 @@ h2 {
 /* Section layout */
 .section {
     padding-left: 60px;
-    padding-right: 60px;
+    padding-right: 90px;
     padding-bottom: 80px;
 }
 
@@ -45,7 +45,6 @@ h2 {
     font-size: 72px;
 }
 
-/* TODO: add this to chart axes */
 /* Chart axes */
 .axis-title {
     font-family: "Avenir", "Avenir Next", Helvetica Neue, Arial;

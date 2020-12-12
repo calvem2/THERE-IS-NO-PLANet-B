@@ -137,8 +137,17 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Passenger_road_vehicles) })
             )
 
-        var totalLength = path.node().getTotalLength();
-            
+        t_svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("fill", "none")
+            .attr("stroke", "pink")
+            .attr("stroke-width",3)
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.Year) })
+                .y(function(d) { return y(d.Road_freight_vehicles) })
+            )
+
         t_svg.append("path")
             .datum(data)
             .attr("class", "line")
@@ -150,17 +159,6 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Aviation) })
             )  
 
-        t_svg.append("path")
-            .datum(data)
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", "pink")
-            .attr("stroke-width",3)
-            .attr("d", d3.line()
-            .x(function(d) { return x(d.Year) })
-            .y(function(d) { return y(d.Road_freight_vehicles) })
-            )   
-            
         t_svg.append("path")
             .datum(data)
             .attr("class", "line")
@@ -183,6 +181,8 @@ d3.csv("transportation.csv",
             .y(function(d) { return y(d.Other) })
             )
 
+        var totalLength = path.node().getTotalLength();
+
         // draw title
         d3.select("#t_line_chart_title")
         .text("CO2 Emissions by Mode: Sustainable Development Scenario");
@@ -195,7 +195,7 @@ d3.csv("transportation.csv",
         // passenger freight vehicles
         legend.append("rect")
             .attr("x", 5)
-            .attr("y", 92)
+            .attr("y", 0)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
@@ -203,7 +203,7 @@ d3.csv("transportation.csv",
 
         legend.append("text")
             .attr("x", 30)
-            .attr("y", 100)
+            .attr("y", 8)
             .text("Road Passenger Vehicles")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
@@ -211,7 +211,7 @@ d3.csv("transportation.csv",
         // road freight vehicles
         legend.append("rect")
             .attr("x", 5)
-            .attr("y", 122)
+            .attr("y", 30)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
@@ -219,7 +219,7 @@ d3.csv("transportation.csv",
 
         legend.append("text")
             .attr("x", 30)
-            .attr("y", 130)
+            .attr("y", 38)
             .text("Road Freight Vehicles")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
@@ -227,7 +227,7 @@ d3.csv("transportation.csv",
         // aviation
         legend.append("rect")
             .attr("x", 5)
-            .attr("y", 152)
+            .attr("y", 60)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
@@ -235,7 +235,7 @@ d3.csv("transportation.csv",
 
         legend.append("text")
             .attr("x", 30)
-            .attr("y", 160)
+            .attr("y", 68)
             .text("Aviation")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
@@ -244,7 +244,7 @@ d3.csv("transportation.csv",
         // shipping
         legend.append("rect")
             .attr("x", 5)
-            .attr("y", 182)
+            .attr("y", 90)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
@@ -252,7 +252,7 @@ d3.csv("transportation.csv",
 
         legend.append("text")
             .attr("x", 30)
-            .attr("y", 190)
+            .attr("y", 98)
             .text("Shipping")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
@@ -260,7 +260,7 @@ d3.csv("transportation.csv",
         // other
         legend.append("rect")
             .attr("x", 5)
-            .attr("y", 212)
+            .attr("y", 120)
             .attr("width", 15)
             .attr("height", 15)
             .attr("r", 6)
@@ -268,14 +268,14 @@ d3.csv("transportation.csv",
 
         legend.append("text")
             .attr("x", 30)
-            .attr("y", 220)
+            .attr("y", 128)
             .text("Other")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle")
 
         // Draw lines on reveal
         new ScrollMagic.Scene({
-            triggerElement: '#transportation',
+            triggerElement: '#transportation-section',
             triggerHook: 0.5,
             duration: "80%", // hide 10% before exiting view (80% + 10% from bottom)
             offset: 50, // move trigger to center of element
@@ -316,16 +316,49 @@ d3.csv("transportation.csv",
             .attr("class", "mouse-per-line");
 
         // the circle
-        mousePerLine.append("circle")
+        var t_colors = ["red", "pink", "rgb(114, 119, 119)", "rgb(58, 88, 116)", "rgb(84, 42, 125)"];
+        var t_dot_colors = ["#db0000", "#e0a3ae", "#585d5d", "#1f405a", "#391162"];
+        var lineCircles = mousePerLine.append("circle")
             .attr("r", 7)
-            .style("stroke", "black")
+            .style("stroke", function(d, i) {
+                return t_dot_colors[i];
+            })
             .style("fill", "none")
-            .style("stroke-width", "1px")
+            // .style("fill", function(d, i) {
+            //     return t_colors[i];
+            // })
+            .style("stroke-width", "2px")
             .style("opacity", "0");
 
         // the text
-        mousePerLine.append("text")
-            .attr("transform", "translate(10, 3)");
+        // mousePerLine.append("text")
+        //     .attr("transform", "translate(10, 3)");
+
+        // tooltip
+        var t_tooltip = mouseG.append("foreignObject")
+            .attr("class", "t_tooltip")
+            .attr("width", 65)
+            .attr("height", 110)
+            .style("opacity", 0)
+            .style("background-color", "white");
+        t_tooltip.append("xhtml:p")
+            .text("EMISSIONS (Gt)");
+
+
+        for (var i = 0; i < lines.length; i++) {
+            var labelDiv = t_tooltip.append("xhtml:div")
+                .attr("class", "t_tooltip_label");
+            labelDiv.append("xhtml:div")
+                .attr("class", "t_tooltip_circle")
+                .style("background-color", t_colors[i]);
+            ;
+            labelDiv.append("xhtml:div")
+                .attr("class", "t_tooltip_value");
+        }
+
+        var tooltipValues = document.getElementsByClassName('t_tooltip_value')
+
+            // .style("opacity", "0");
 
         // rect to capture mouse movements
         mouseG.append('svg:rect')
@@ -340,6 +373,8 @@ d3.csv("transportation.csv",
                 .style("opacity", "0");
             d3.selectAll(".mouse-per-line text")
                 .style("opacity", "0");
+            d3.select(".t_tooltip")
+                .style("opacity", "0");
             })
             .on('mouseover', function() { // on mouse in show line, circles and text
             d3.select(".mouse-line")
@@ -348,52 +383,65 @@ d3.csv("transportation.csv",
                 .style("opacity", "1");
             d3.selectAll(".mouse-per-line text")
                 .style("opacity", "1");
+            d3.select(".t_tooltip")
+                .style("opacity", "1");
             })
             .on('mousemove', function() { // mouse moving over canvas
-            var mouse = d3.mouse(this);
+                var mouse = d3.mouse(this);
 
-        // move the vertical line
-        d3.select(".mouse-line")
-            .attr("d", function() {
-            var d = "M" + mouse[0] + "," + t_height;
-            d += " " + mouse[0] + "," + 0;
-            return d;
+                // move the vertical line
+                d3.select(".mouse-line")
+                    .attr("d", function() {
+                    var d = "M" + mouse[0] + "," + t_height;
+                    d += " " + mouse[0] + "," + 0;
+                    return d;
+                    });
+
+
+                // position the circle and text
+                d3.selectAll(".mouse-per-line")
+                    .attr("transform", function(d, i) {
+                        // var xDate = x.invert(mouse[0]),
+                        //     bisect = d3.bisector(function(d) { return d.Other; }).right;
+                        //     idx = bisect(d.values, xDate);
+
+                        // since we are use curve fitting we can't relay on finding the points like I had done in my last answer
+                        // this conducts a search using some SVG path functions
+                        // to find the correct position on the line
+                        // from http://bl.ocks.org/duopixel/3824661
+                        var beginning = 0,
+                            end = lines[i].getTotalLength(),
+                            target = null;
+
+                        while (true){
+                            target = Math.floor((beginning + end) / 2);
+                            pos = lines[i].getPointAtLength(target);
+                            if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                break;
+                            }
+                            if (pos.x > mouse[0])      end = target;
+                            else if (pos.x < mouse[0]) beginning = target;
+                            else break; //position found
+                        }
+
+                        // update the text with y value
+                        // d3.select(this).select('text')
+                        //     .text(y.invert(pos.y).toFixed(2));
+
+                        // update tooltip position
+                        var tooltipXPos = mouse[0] <= 606 ? mouse[0] + 15 : mouse[0] - 80; // offset from line
+                        var tooltipYPos = Math.min(mouse[1] - 10, 452);
+
+                        t_tooltip.attr("transform", "translate(" + tooltipXPos + "," + tooltipYPos +")");
+
+                        // update tooltip text
+                        tooltipValues[i].innerHTML = y.invert(pos.y).toFixed(2);
+
+
+                        // return position
+                        return "translate(" + mouse[0] + "," + pos.y +")";
+                    });
             });
-
-        // position the circle and text
-        d3.selectAll(".mouse-per-line")
-            .attr("transform", function(d, i) {
-            // var xDate = x.invert(mouse[0]),
-            //     bisect = d3.bisector(function(d) { return d.Other; }).right;
-            //     idx = bisect(d.values, xDate);
-
-            // since we are use curve fitting we can't relay on finding the points like I had done in my last answer
-            // this conducts a search using some SVG path functions
-            // to find the correct position on the line
-            // from http://bl.ocks.org/duopixel/3824661
-            var beginning = 0,
-                end = lines[i].getTotalLength(),
-                target = null;
-
-            while (true){
-                target = Math.floor((beginning + end) / 2);
-                pos = lines[i].getPointAtLength(target);
-                if ((target === end || target === beginning) && pos.x !== mouse[0]) {
-                    break;
-                }
-                if (pos.x > mouse[0])      end = target;
-                else if (pos.x < mouse[0]) beginning = target;
-                else break; //position found
-            }
-
-            // update the text with y value
-            d3.select(this).select('text')
-                .text(y.invert(pos.y).toFixed(2));
-
-            // return position
-            return "translate(" + mouse[0] + "," + pos.y +")";
-            });
-        });
 
     }
 
