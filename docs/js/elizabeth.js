@@ -183,14 +183,19 @@ function ready(topo, year) {
                 var currkWh = Math.floor(parseInt(country_map.get(d.id)));
                 // If there is no data don't print NaN
                 if (Number.isNaN(currkWh)) {
-                    div.html("<b>" + d.properties.name + "</b><br>No data for " + year + ".")	
-                        .style("left", (event.pageX) + "px")		
-                        .style("top", (event.pageY - 28) + "px");	
+                    div.html("<p class='energy-tooltip-title' >" + d.properties.name + "</p>"
+                        + "<p class='energy-tooltip-subcategory'>No data for " + year + ".</p>")
+                        .style("border-color", "#6e6b6c");
                 } else { // Regular style
-                    div.html("<b>" + d.properties.name + "</b><br>Energy Consumption:<br>" + currkWh + " kWh")	
-                        .style("left", (event.pageX + 90) + "px")		
-                        .style("top", (event.pageY - 28) + "px");	
+                    var countryColor = colorScale(country_map.get(d.id));
+                    div.html(`<p class='energy-tooltip-title' >` + d.properties.name + `</p>` 
+                        + `<p class='energy-tooltip-subcategory'>` + year + `: ` 
+                        + `<a class='energy-tooltip-value' style='color:${countryColor}'>` 
+                        + numberWithCommas(currkWh) + ` kWh</a></p>`)
+                        .style("border-color", countryColor);
                 }	
+                div.style("left", (event.pageX) + "px")		
+                    .style("top", (event.pageY - 28) + "px");	
             })
             .on("mousemove", function(event, d) {
                 div.style("left", (event.pageX + 20) + "px")		
@@ -203,3 +208,8 @@ function ready(topo, year) {
             });
     });    
   }
+
+// Format the number to have comma separators
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
