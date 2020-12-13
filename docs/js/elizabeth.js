@@ -149,6 +149,8 @@ function drawMap() {
         .attr("d", d3.geoPath()
             .projection(projection)
         )
+        // Initially draw the map as 1965
+        ready(topo, formatDateIntoYear(startDate));
   }).catch(err => {
     // Do something for an error here
     console.log("Error Reading data " + err);
@@ -169,7 +171,6 @@ function dragged(event, d) {
         .text(formatDateIntoYear(h));
     ready(topo, formatDateIntoYear(h));
 }
-
 
 function ready(topo, year) {
     //console.log(year);
