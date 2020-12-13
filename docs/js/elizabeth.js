@@ -222,7 +222,7 @@ function ready(topo, year) {
             .on("mouseover", function(event, d) {
                 div.transition()		
                     .duration(200)		
-                    .style("opacity", .85);
+                    .style("opacity", .9);
                 var currkWh = Math.floor(parseInt(country_map.get(d.id)));
                 // If there is no data don't print NaN
                 if (Number.isNaN(currkWh)) {
