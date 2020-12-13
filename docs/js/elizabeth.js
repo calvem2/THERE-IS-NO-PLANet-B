@@ -2,8 +2,9 @@ var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
 var parseDate = d3.timeParse("%m/%d/%y");
 
-var startDate = new Date("1965-01-01"),
-    endDate = new Date("2019-12-30");
+// Make the start date 
+var startDate = new Date("1965, 01, 01");
+var endDate = new Date("2019, 12, 30");
 var liz_margin = {top:0, right:100, bottom:0, left:50},
     w = 960 - liz_margin.left - liz_margin.right,
     h = 200 - liz_margin.top - liz_margin.bottom;
@@ -42,10 +43,11 @@ slider.insert("g", ".track-overlay")
     .data(x.ticks(10))
     .enter()
     .append("text")
-    .attr("x", x)
-    .attr("y", 10)
-    .attr("text-anchor", "middle")
-    .text(function(d) { return formatDateIntoYear(d); });
+        .attr("x", x)
+        .attr("y", 10)
+        .attr("text-anchor", "middle")
+        .style("font", "11px Avenir, Avenir Next, Helvetica Neue, Arial")
+        .text(function(d) { return formatDateIntoYear(d); });
 
 // Circle for the slider
 var handle = slider.insert("circle", ".track-overlay")
@@ -57,7 +59,9 @@ var label = slider.append("text")
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .text(formatDateIntoYear(startDate)) // Get the year 
-    .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
+    .attr("transform", "translate(0," + (-25) + ")") // y position of the text
+    .style("font", "14px Avenir, Avenir Next, Helvetica Neue, Arial")
+    .style("font-weight", "bold");
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -84,8 +88,47 @@ var s_svg = d3.select("#my_dataviz"),
 
   // Data and color scale
   var colorScale = d3.scaleThreshold()
-    .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
-    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
+    .domain([15000.0, 30000.0, 45000.0, 60000.0, 75000.0, 90000.0])
+    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#750d23', '#5c0b1c']);
+
+  // Values to get the colors for the legend from
+  var legendColorValues = [15000.0, 30000.0, 45000.0, 60000.0, 75000.0, 90000.0, 100000];
+  // Size for the legend rectangle colors
+  var energySquareSize = 20;
+  // Add the color rectangles for the legend
+  var legendSquares = svgSlider.selectAll("energy-squares")
+    .data(legendColorValues)
+    .enter()
+    .append("rect")
+      .attr("x", function(d,i){ return 70 + i * (5.4 * energySquareSize + 2)}) // move left and right
+      .attr("y", 160) // move up and down
+      .attr("width", (5.4 * energySquareSize)) // width of rectangles
+      .attr("height", energySquareSize) // height of rectangles
+      .style("opacity", .85)
+      .style("fill", function(d) { 
+        // Do (d - 1) since the range for the colors is not inclusive
+        return colorScale(d - 1);
+      });
+
+  // Labels for the legend
+  var legendLabels = ["< 15,000", "15,000 - 29,999", "30,000 - 44,999", 
+    "45,000 - 59,999", "60,000 - 74,999", "75,000 - 89,999", ">= 90,000"]
+
+  // Add the labels for the legend
+  var legendTitles = svgSlider.selectAll("mylabels")
+    .data(legendLabels)
+    .enter()
+    .append("text")
+      .attr("x", function(d,i){ return 122 + i * (5.4 * energySquareSize + 2)}) // move left and right
+      .attr("y", 195) // move up and down
+      .style("fill", "black") // color of legend text
+      .text(function(d) {
+          return d;
+      })
+      .attr("text-anchor", "middle")
+      .style("alignment-baseline", "middle")
+      .style("font", "14px Avenir, Avenir Next, Helvetica Neue, Arial")
+      .style("font-size", "12px");
 
 var topo = [];
 function drawMap() {
@@ -175,7 +218,7 @@ function ready(topo, year) {
             })
             .style("stroke", "transparent")
             .attr("class", function(d){ return d.properties.name; } )
-            .style("opacity", .8)
+            .style("opacity", .9)
             .on("mouseover", function(event, d) {
                 div.transition()		
                     .duration(200)		
