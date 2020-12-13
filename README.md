@@ -1,7 +1,7 @@
 
 # No PLANet B
-
-<img src="https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B/blob/master/docs/blue.png?raw=true" width="50%"/>
+ 
+<img src="https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B/blob/master/docs/blue.png?raw=true" width="50%" float="right"/>
 
 ### Link to Project:
 https://cse442-20f.github.io/FP-THERE-IS-NO-PLANet-B/
