@@ -1,7 +1,7 @@
 
 # No PLANet B
 
-![There is no PLANet B](https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B/blob/master/blue.jpg?raw=true)
+![There is no PLANet B](https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B/blob/master/docs/blue.png?raw=true)
 
 ### In our daily lives, there are so many habits we can change everyday such as being more aware of the foods we buy at the grocery store and where they comes from and taking more public transportation to reduce greenhouse gas emissions. In this project, we will explore the food supply, energy, and transportation sectors through data visualization in D# in order to inform our audience of how global warming impacts our communities and what we can do to combat it.
 
