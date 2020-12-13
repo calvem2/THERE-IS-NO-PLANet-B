@@ -2,8 +2,9 @@ var dataset = [];
 var formatDateIntoYear = d3.timeFormat("%Y");
 var parseDate = d3.timeParse("%m/%d/%y");
 
-var startDate = new Date("1965-01-01"),
-    endDate = new Date("2019-12-30");
+// Make the start date 
+var startDate = new Date("1965, 01, 01");
+var endDate = new Date("2019, 12, 30");
 var liz_margin = {top:0, right:100, bottom:0, left:50},
     w = 960 - liz_margin.left - liz_margin.right,
     h = 200 - liz_margin.top - liz_margin.bottom;
@@ -42,10 +43,11 @@ slider.insert("g", ".track-overlay")
     .data(x.ticks(10))
     .enter()
     .append("text")
-    .attr("x", x)
-    .attr("y", 10)
-    .attr("text-anchor", "middle")
-    .text(function(d) { return formatDateIntoYear(d); });
+        .attr("x", x)
+        .attr("y", 10)
+        .attr("text-anchor", "middle")
+        .style("font", "11px Avenir, Avenir Next, Helvetica Neue, Arial")
+        .text(function(d) { return formatDateIntoYear(d); });
 
 // Circle for the slider
 var handle = slider.insert("circle", ".track-overlay")
@@ -57,7 +59,9 @@ var label = slider.append("text")
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .text(formatDateIntoYear(startDate)) // Get the year 
-    .attr("transform", "translate(0," + (-25) + ")"); // y position of the text
+    .attr("transform", "translate(0," + (-25) + ")") // y position of the text
+    .style("font", "14px Avenir, Avenir Next, Helvetica Neue, Arial")
+    .style("font-weight", "bold");
 
 // The svg
 var s_svg = d3.select("#my_dataviz"),
@@ -107,12 +111,12 @@ var s_svg = d3.select("#my_dataviz"),
       });
 
   // Labels for the legend
-  var labels = ["< 15,000", "15,000 - 29,999", "30,000 - 44,999", 
+  var legendLabels = ["< 15,000", "15,000 - 29,999", "30,000 - 44,999", 
     "45,000 - 59,999", "60,000 - 74,999", "75,000 - 89,999", ">= 90,000"]
 
   // Add the labels for the legend
   var legendTitles = svgSlider.selectAll("mylabels")
-    .data(labels)
+    .data(legendLabels)
     .enter()
     .append("text")
       .attr("x", function(d,i){ return 122 + i * (5.4 * energySquareSize + 2)}) // move left and right
@@ -123,7 +127,8 @@ var s_svg = d3.select("#my_dataviz"),
       })
       .attr("text-anchor", "middle")
       .style("alignment-baseline", "middle")
-      .style("font-size", "11px");
+      .style("font", "14px Avenir, Avenir Next, Helvetica Neue, Arial")
+      .style("font-size", "12px");
 
 var topo = [];
 function drawMap() {
