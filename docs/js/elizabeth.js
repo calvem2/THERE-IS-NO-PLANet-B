@@ -84,8 +84,46 @@ var s_svg = d3.select("#my_dataviz"),
 
   // Data and color scale
   var colorScale = d3.scaleThreshold()
-    .domain([0, 5000.0, 10000.0, 20000.0, 30000.0, 70000.0, 100000.0])
-    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#bd1e3d','#821128']);
+    .domain([15000.0, 30000.0, 45000.0, 60000.0, 75000.0, 90000.0])
+    .range(['#ffbac8', '#e38d9e', '#cc6c7f','#c94962', '#ab243e', '#750d23', '#5c0b1c']);
+
+  // Values to get the colors for the legend from
+  var legendColorValues = [15000.0, 30000.0, 45000.0, 60000.0, 75000.0, 90000.0, 100000];
+  // Size for the legend rectangle colors
+  var energySquareSize = 20;
+  // Add the color rectangles for the legend
+  var legendSquares = svgSlider.selectAll("energy-squares")
+    .data(legendColorValues)
+    .enter()
+    .append("rect")
+      .attr("x", function(d,i){ return 70 + i * (5.4 * energySquareSize + 2)}) // move left and right
+      .attr("y", 160) // move up and down
+      .attr("width", (5.4 * energySquareSize)) // width of rectangles
+      .attr("height", energySquareSize) // height of rectangles
+      .style("opacity", .85)
+      .style("fill", function(d) { 
+        // Do (d - 1) since the range for the colors is not inclusive
+        return colorScale(d - 1);
+      });
+
+  // Labels for the legend
+  var labels = ["< 15,000", "15,000 - 29,999", "30,000 - 44,999", 
+    "45,000 - 59,999", "60,000 - 74,999", "75,000 - 89,999", ">= 90,000"]
+
+  // Add the labels for the legend
+  var legendTitles = svgSlider.selectAll("mylabels")
+    .data(labels)
+    .enter()
+    .append("text")
+      .attr("x", function(d,i){ return 122 + i * (5.4 * energySquareSize + 2)}) // move left and right
+      .attr("y", 195) // move up and down
+      .style("fill", "black") // color of legend text
+      .text(function(d) {
+          return d;
+      })
+      .attr("text-anchor", "middle")
+      .style("alignment-baseline", "middle")
+      .style("font-size", "11px");
 
 var topo = [];
 function drawMap() {
@@ -175,11 +213,11 @@ function ready(topo, year) {
             })
             .style("stroke", "transparent")
             .attr("class", function(d){ return d.properties.name; } )
-            .style("opacity", .8)
+            .style("opacity", .9)
             .on("mouseover", function(event, d) {
                 div.transition()		
                     .duration(200)		
-                    .style("opacity", .9);
+                    .style("opacity", .85);
                 var currkWh = Math.floor(parseInt(country_map.get(d.id)));
                 // If there is no data don't print NaN
                 if (Number.isNaN(currkWh)) {
