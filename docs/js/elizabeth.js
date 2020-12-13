@@ -13,7 +13,7 @@ var liz_margin = {top:0, right:100, bottom:0, left:50},
 var svgSlider = d3.select("#slider")
     .append("svg")
     .attr("width", w + liz_margin.left + liz_margin.right)
-    .attr("height", h);
+    .attr("height", 130);
     
 var x = d3.scaleTime()
     .domain([startDate, endDate])
@@ -22,7 +22,7 @@ var x = d3.scaleTime()
 
 var slider = svgSlider.append("g")
     .attr("class", "slider")
-    .attr("transform", "translate(" + liz_margin.left + "," + h / 2 + ")"); // y position of the slider
+    .attr("transform", "translate(" + liz_margin.left + "," + 35 + ")"); // y position of the slider
 
 slider.append("line")
     .attr("class", "track")
@@ -101,7 +101,7 @@ var s_svg = d3.select("#my_dataviz"),
     .enter()
     .append("rect")
       .attr("x", function(d,i){ return 70 + i * (5.4 * energySquareSize + 2)}) // move left and right
-      .attr("y", 160) // move up and down
+      .attr("y", 85) // move up and down
       .attr("width", (5.4 * energySquareSize)) // width of rectangles
       .attr("height", energySquareSize) // height of rectangles
       .style("opacity", .85)
@@ -120,7 +120,7 @@ var s_svg = d3.select("#my_dataviz"),
     .enter()
     .append("text")
       .attr("x", function(d,i){ return 122 + i * (5.4 * energySquareSize + 2)}) // move left and right
-      .attr("y", 195) // move up and down
+      .attr("y", 120) // move up and down
       .style("fill", "black") // color of legend text
       .text(function(d) {
           return d;
