@@ -156,6 +156,12 @@ d3.csv("data/foodData.csv").then(function(data) {
     d3.selectAll("#agriculture_graph")
       .append("p")
       .attr("class", "subtitle")
+      .html("<b>Click on elements in the legend to filter the visualization by specfic subcategories.</b>");
+
+    // Append subtitle for data source info
+    d3.selectAll("#agriculture_graph")
+      .append("p")
+      .attr("class", "subtitle")
       .html("<a href='https://ourworldindata.org/environmental-impacts-of-food' target='_blank'>Source</a>: " +
        "Environmental impacts of food production.");
 
@@ -420,6 +426,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       .data(color.domain().slice().reverse())
       .enter()
       .append("rect")
+        .attr("class", "ag-legend-rect")
         .attr("x", 700) // move left and right
         .attr("y", function(d,i){ return 50 + i*(size+5)}) // move up and down
         .attr("width", size)
@@ -431,6 +438,7 @@ d3.csv("data/foodData.csv").then(function(data) {
       .data(color.domain().slice().reverse())
       .enter()
       .append("text")
+        .attr("class", "ag-legend-text")
         .attr("x", 720)
         .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)+ 1}) // move up and down
         .style("fill", "black")

@@ -56,3 +56,9 @@ input[name="diet"] {
   font-size: 16px;
   margin-top: 10px;
 }
+
+/* Make the cursor a pointer for clickable 
+   elements in the food supply chain section*/
+input, select, label, .ag-legend-rect, .ag-legend-text, #sort-dropdown {
+  cursor: pointer;
+}

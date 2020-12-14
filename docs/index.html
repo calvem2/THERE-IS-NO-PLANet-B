@@ -67,43 +67,6 @@ http://www.templatemo.com/tm-518-sentra
     width: 100%;
 }
 
-/* Style for the custom diet drop down */
-.multiselect {
-  width: 200px;
-  position: absolute;
-}
-
-.selectBox {
-  position: relative;
-}
-
-.selectBox select {
-  width: 100%;
-  font-weight: bold;
-}
-
-.overSelect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
-#checkboxes {
-  display: none;
-  border: 1px #dadada solid;
-  background-color: white;
-}
-
-#checkboxes label {
-  display: block;
-}
-
-#checkboxes label:hover {
-  background-color: #1e90ff;
-}
-
 </style>
 
 <style>
@@ -278,8 +241,13 @@ http://www.templatemo.com/tm-518-sentra
                   Whether you are a vegan, carnivore, or anything in between, <b>we all have a substantial
                   carbon footprint from the food supply chain</b>. Food does not magically appear in your local grocery
                   store or farmers market. <b>There are many processes responsible for bringing the food you eat everyday
-                  from farm to table</b>. In the graph below, you can <b>explore the amount of emissions produced by different foods
-                  and diet choices based on the supply chain processes that get the food to your table</b>.
+                  from farm to table</b>. 
+                  <br><br>
+                  In the graph below, you can <b>explore the amount of emissions produced by different foods
+                  and diet choices based on the supply chain processes that get the food to your table</b>. The graph can be filtered
+                  based on the selected diet and what subcategories are selected in the legend - simply click on elements in the legend 
+                  to filter on and off specific subcategories. The stacked bars can be sorted based on the selected 
+                  subcategory in the dropdown.
               </p>
             </div>
             <div id="agriculture_graph">
@@ -338,9 +306,9 @@ http://www.templatemo.com/tm-518-sentra
             <h7 class="chart-title"><b>Energy Consumption Per Capita (kWh)</b></h7>
             <div id="slider"></div>
             <svg id="my_dataviz" width="1000" height="600"></svg>
-              <h5 class="subtitle">Explore country energy consumption by hovering over the map.<br><br>
+              <p class="subtitle">Explore country energy consumption by hovering over the map.<br>
                 <a href="https://www.kaggle.com/mannmann2/world-per-capita-energy-consumption" target="_blank">Source: </a>World Per Capita Energy Consumption.
-              </h5>
+              </p>
 
 
             <br>
