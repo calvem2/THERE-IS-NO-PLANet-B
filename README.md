@@ -13,7 +13,7 @@ We all have a role to play in order to take steps to combat global warming. We h
 
 ### Team Members:
 * Claire Beard  
-* Megan Calvery  
+* Megan Calverley  
 * Elizabeth Lin  
 * Anne Pham
 
