@@ -4,7 +4,7 @@
 <img src="https://github.com/cse442-20f/FP-THERE-IS-NO-PLANet-B/blob/master/docs/blue.png?raw=true" width="40%" align="right" style="margin: 5px;"/>
 
 ### Link to Project:
-https://cse442-20f.github.io/FP-THERE-IS-NO-PLANet-B/
+https://calvem2.github.io/THERE-IS-NO-PLANet-B/
 
 ### Project Description:
 In our daily lives, there are so many habits we can change everyday from being more aware of the foods we buy at the grocery store and where they come from to utilizing public transportation to reduce greenhouse gas emissions. When we explored the food supply, energy, and transportation sectors, we displayed various visualizations in order to help our audience craft a personalized understanding of how global warming impacts the planet.
